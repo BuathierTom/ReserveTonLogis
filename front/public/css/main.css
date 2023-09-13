@@ -49,10 +49,16 @@ p {
 }
 .header__h1 {
   font-weight: 500;
+  text-align: center;
 }
 
 :root {
-  --slider-height: 300px;
+  --slider-height: 30rem;
+}
+@media only screen and (min-width: 768px) {
+  :root {
+    --slider-height: 35rem;
+  }
 }
 
 *:before {
@@ -144,12 +150,27 @@ p {
   transform: rotate(180deg);
 }
 
+.slider::after {
+  content: "";
+  display: block;
+  margin: auto;
+  width: 60%;
+  height: 0.2rem;
+  background-color: #8F7666;
+  grid-column: 1/3;
+}
+@media only screen and (min-width: 768px) {
+  .slider::after {
+    width: 15rem;
+  }
+}
+
 .card {
   color: black;
   background: url("../../assets/img/img-room.jpg") no-repeat;
   background-size: cover;
   background-position: center;
-  width: 17rem;
+  width: 15rem;
   height: 20rem;
   color: #EEF4D4;
   position: relative;
@@ -170,7 +191,7 @@ p {
 }
 .card__content {
   position: relative;
-  top: 40%;
+  top: 35%;
   height: 220px;
   text-align: center;
   padding: 1rem;
@@ -214,7 +235,6 @@ p {
   padding-bottom: 40px;
   padding-top: 30px;
   font-size: 1.5rem;
-  font-weight: bold;
   margin: -0.9rem;
 }
 
@@ -278,16 +298,83 @@ p {
 .nav-bar__li {
   margin: 0;
   padding: 0.8rem;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
 }
 .nav-bar__img {
   width: 4rem;
   height: 4rem;
 }
 
+.presentation__title {
+  text-align: center;
+  padding: 1.5rem;
+  color: #8F7666;
+  font-weight: 400;
+  margin-top: 1rem;
+  font-size: 1.7rem;
+}
+.presentation__title::after {
+  content: "";
+  display: block;
+  margin: auto;
+  width: 60%;
+  height: 0.2rem;
+  background-color: #8F7666;
+  margin-top: 2.5rem;
+}
+@media only screen and (min-width: 768px) {
+  .presentation__title::after {
+    width: 15rem;
+  }
+}
+.presentation__content {
+  padding: 1.5rem;
+  padding-top: 0;
+}
+.presentation__content-title {
+  font-size: 1.7rem;
+  font-weight: 400;
+  color: #8F7666;
+  margin-bottom: 1.5rem;
+}
+.presentation__content-text {
+  font-size: 1rem;
+}
+.presentation__grid-icon {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem;
+  padding-bottom: 0;
+}
+.presentation__grid-icon::after {
+  content: "";
+  display: block;
+  margin: auto;
+  width: 60%;
+  height: 0.2rem;
+  background-color: #8F7666;
+  margin-top: 3rem;
+  grid-column: 1/3;
+}
+@media only screen and (min-width: 768px) {
+  .presentation__grid-icon::after {
+    width: 15rem;
+  }
+}
+.presentation__icon-content {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+.presentation__text {
+  font-size: 1rem;
+}
+
 .journey {
-  padding-top: 1.5rem;
-  background-color: #DEFCD3;
+  padding: 1.5rem;
 }
 .journey__container {
   display: flex;
@@ -295,6 +382,17 @@ p {
   justify-content: center;
   padding: 1.5rem;
   gap: 3rem;
+}
+.journey__span {
+  text-align: center;
+  color: #8F7666;
+  font-weight: 400;
+  font-size: 1.7rem;
+  width: 100%;
+}
+.journey__title {
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
 }
 
 /*# sourceMappingURL=main.css.map */

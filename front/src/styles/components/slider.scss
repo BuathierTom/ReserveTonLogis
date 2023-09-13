@@ -1,5 +1,8 @@
 :root {
-  --slider-height: 300px;
+  --slider-height: 30rem;
+   @include tablet {
+    --slider-height: 35rem;
+   }
 }
 
 
@@ -20,6 +23,8 @@
   position: relative;
   transform-style: preserve-3d;
   align-items: center;
+
+  
 }
 
 
@@ -96,4 +101,20 @@
 
 .icon-right {
   transform: rotate(180deg);
+}
+
+.slider {
+  &::after {
+    content: '';
+    display: block;
+    margin: auto;
+    width: 60%;
+    height: 0.2rem;
+    background-color: $secondary;
+    grid-column: 1 / 3;
+
+    @include tablet {
+        width: 15rem;
+    }
+}
 }

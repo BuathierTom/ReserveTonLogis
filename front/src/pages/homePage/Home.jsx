@@ -22,7 +22,6 @@ function Home () {
                             <p className="presentation__content-text">Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium nisi eget justo pellentesque volutpat. Nullam a ipsum odio. Vestibulum leo mi, gravida vitae leo non, viverra rutrum leo. Suspendisse sed rhoncus est, nec suscipit lorem. Maecenas quis consectetur ligula, 
                                 et molestie nisl. Nam congue maximus convallis. Aenean vulputate arcu fringilla dui ultricies, quis ultricies nibh dapibus. In malesuada laoreet arcu, non mattis elit mollis ac. Vestibulum vene
                                 natis placerat malesuada. Quisque sit amet felis non ex condimentum ullamcorper ac quis dui
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit Cras vel lectus non metus commodo elementum. Sed ut tristique mattis.
                             </p>
                         </div>
                         <div className="presentation__grid-icon">
@@ -50,7 +49,9 @@ function Home () {
             </section>
 
             <section class="journey">
-            <span class="title">Trajet</span>
+            <div class="journey__title">
+                <span class="journey__span">Les différentes chambres d'hôtes </span>
+            </div>
             <div class="journey__container"> 
                 <div class="card card-one"> 
                     <div class="card__content">
