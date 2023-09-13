@@ -1,0 +1,15 @@
+
+@import "./utils/mixins.scss";
+@import "./utils/breakpoints.scss";
+@import "./utils/palette.scss";
+
+@import "./bases/reset.scss";
+
+@import "./layout/header.scss";
+@import "./layout/footer.scss";
+
+@import "./components/slider.scss";
+@import "./components/card.scss";
+
+@import "./pages/home.scss"
+
