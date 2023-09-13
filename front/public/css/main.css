@@ -1,0 +1,222 @@
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  width: 100%;
+}
+
+*, ::after, ::before {
+  box-sizing: border-box;
+}
+
+li {
+  margin-bottom: 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+p {
+  margin: 0;
+}
+
+.header {
+  background-image: url("../../assets/img/img-accueil 1.png") !important;
+  background-attachment: scroll !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+}
+
+:root {
+  --slider-height: 300px;
+}
+
+*:before {
+  transition-duration: 400ms;
+}
+
+*:after {
+  transition-duration: 400ms;
+}
+
+.sliderDiv {
+  display: flex;
+  width: 100%;
+  height: var(--slider-height);
+  position: relative;
+  transform-style: preserve-3d;
+  align-items: center;
+}
+
+.leftArrow:hover {
+  background: white;
+  cursor: pointer;
+}
+
+.rightArrow:hover {
+  background: white;
+  cursor: pointer;
+}
+
+.mainSlide {
+  width: 60%;
+  height: 70%;
+  background: white;
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  border-radius: 3px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3), 0px 5px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.leftSlide {
+  width: 50%;
+  height: 60%;
+  background: white;
+  position: absolute;
+  top: 20%;
+  left: 15%;
+  border-radius: 3px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.8);
+  opacity: 0.5;
+}
+
+.rightSlide {
+  width: 50%;
+  height: 60%;
+  background: white;
+  position: absolute;
+  top: 20%;
+  left: 35%;
+  border-radius: 3px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.8);
+  opacity: 0.5;
+}
+
+.slide {
+  box-sizing: border-box;
+  padding: 0px;
+  transition-duration: 600ms;
+  text-align: center;
+  line-height: calc(var(--slider-height) * 0.7);
+  font-size: calc(var(--slider-height) * 0.09);
+  overflow: hidden;
+}
+
+.slide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide__arrow-position {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.icon-right {
+  transform: rotate(180deg);
+}
+
+.card {
+  color: black;
+  background: url("../../assets/img/img-room.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 17rem;
+  height: 20rem;
+  color: #EEF4D4;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 500ms ease;
+}
+.card:hover {
+  transform: scale(1.1);
+}
+.card-two {
+  background: url("../../assets/img/img-room2.jpg") no-repeat;
+  background-size: cover;
+}
+.card-three {
+  background: url("../../assets/img/img-room3.jpg") no-repeat;
+  background-size: cover;
+}
+.card__content {
+  position: relative;
+  top: 40%;
+  height: 220px;
+  text-align: center;
+  padding: 1rem;
+  padding-top: 0;
+  background: linear-gradient(hsla(0, 1%, 0%, 0), hsla(20, 0%, 0%, 0.5) 20%, hsl(0, 0%, 0%));
+  transform: translateY(65%);
+  transition: transform 500ms ease;
+}
+.card__title::after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  width: 70%;
+  background-color: #069D6B;
+  left: 15%;
+  bottom: 65%;
+  transform: scaleX(0);
+  transition: transform 3500ms ease;
+}
+
+.card:hover .card__content {
+  transform: translateY(0);
+  transition-delay: 500ms;
+}
+
+.card:hover .card__content > *:not(.card__title) {
+  opacity: 1;
+  transition-delay: 500ms;
+}
+
+.card__content > * :not(.card__title) {
+  opacity: 0;
+  transition: opacity 500ms linear;
+}
+
+.card:hover .card__title::after {
+  transform: scaleX(1);
+}
+
+.card__title {
+  padding-bottom: 40px;
+  padding-top: 30px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: -0.9rem;
+}
+
+.card__p {
+  padding-bottom: 20px;
+  color: rgba(238, 244, 212, 0.8352941176);
+}
+
+.card a {
+  padding-bottom: 10px;
+}
+
+.journey {
+  padding-top: 1.5rem;
+  background-color: #DEFCD3;
+}
+.journey__container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1.5rem;
+  gap: 3rem;
+}
+
+/*# sourceMappingURL=main.css.map */

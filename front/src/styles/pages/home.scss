@@ -1,0 +1,12 @@
+.journey {
+    padding-top: $l-pd;
+    background-color: $tertiary;
+
+    &__container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: $l-pd;
+        gap: 3rem;
+    }
+}
