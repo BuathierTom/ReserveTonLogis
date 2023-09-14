@@ -3,3 +3,19 @@
     align-items: center;
     justify-content: center;
 }
+
+@mixin grid-center {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin little-title {
+    margin-bottom: $l-pd;
+    margin-top: $xl-pd;
+    color: $secondary;
+    font-size: $l-sz;
+    @include desktop {
+        font-size: $xxl-sz;
+    }
+}

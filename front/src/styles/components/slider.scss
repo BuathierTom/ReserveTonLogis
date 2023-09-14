@@ -97,10 +97,16 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  margin: 0 2%;
 }
 
 .icon-right {
   transform: rotate(180deg);
+  height: 2rem;
+}
+
+.icon {
+  height: 2rem;
 }
 
 .slider {

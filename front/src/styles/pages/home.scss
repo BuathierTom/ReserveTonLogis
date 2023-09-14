@@ -1,12 +1,45 @@
+.App {
+    background-color: $primary;
+}
+
 .presentation {
+    &::after {
+        content: '';
+        display: block;
+        margin: auto;
+        width: 60%;
+        height: 0.2rem;
+        background-color: $secondary;
+        margin-top: $xxxl-pd;
+        grid-column: 1 / 3;
+
+        @include tablet {
+            width: 15rem;
+        }
+    }
+
+    @include tablet {
+        padding-left: $xxl-pd;
+        padding-right: $xxl-pd;
+    }
+
+    @include desktop {
+        padding-left: $big-pd;
+        padding-right: $big-pd;
+        font-size: $xxl-sz;
+    }
 
     &__title {
         text-align: center;
         padding: $l-pd;
         color: $secondary;
-        font-weight: 400;
+        font-weight: 100;
         margin-top:  $m-pd ;
         font-size: $l-sz;
+        font-family: 'Jacques Francois', serif;
+
+
+ 
 
         &::after {
             content: '';
@@ -22,21 +55,35 @@
             }
         }
     }
+
+    &__container {
+
+        @include tablet {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem;
+        align-items: center;
+        }
+    }
     
     &__content {
         padding: $l-pd;
         padding-top: 0;
+        @include tablet {
+            padding-left: 0;
+        }
+
     }
 
     &__content-title {
-        font-size: $l-sz;
-        font-weight: 400;
-        color: $secondary;
-        margin-bottom: $l-pd;
+        @include little-title;
+        font-weight: 200;
+        margin-bottom: 0;
     }
 
     &__content-text {
         font-size: $xs-sz;
+        text-align: justify;
     }
 
     &__grid-icon{
@@ -47,20 +94,6 @@
         padding: $l-pd;
         padding-bottom: 0;
 
-        &::after {
-            content: '';
-            display: block;
-            margin: auto;
-            width: 60%;
-            height: 0.2rem;
-            background-color: $secondary;
-            margin-top: $xxxl-pd;
-            grid-column: 1 / 3;
-
-            @include tablet {
-                width: 15rem;
-            }
-        }
     }
 
     &__icon-content {
@@ -80,6 +113,11 @@
 .journey {
     padding: $l-pd;
 
+    @include tablet {
+        padding-left: $xxl-pd;
+        padding-right: $xxl-pd;
+    }
+
     &__container {
         display: flex;
         flex-wrap: wrap;
@@ -88,16 +126,71 @@
         gap: 3rem;
     }
 
-    &__span {
-        text-align: center;
-        color: $secondary;
-        font-weight: 400;
-        font-size: $l-sz;
-        width: 100%;
+    &__title {
+        @include little-title;
+    }
+}
+
+.activity {
+    padding: $l-pd;
+    @include tablet {
+        padding-left: $xxl-pd;
+        padding-right: $xxl-pd;
     }
 
-    &__title {
-        margin-bottom: $l-pd;
-        margin-top: $xl-pd;
+    &__container {
+        @include grid-center;
+        gap: 3rem;
+
+ }
+
+ &__title {
+    @include little-title;
+ }
+
+ &__content {
+     width: 100%;
+     display: grid;
+     gap: 1rem;
+
+        @include tablet {
+            grid-template-columns: repeat(2, 1fr);
+            align-items: center;
+        }
+        &--reverse {
+            @include tablet {
+                direction: rtl;
+            }
+         }
+ }
+
+
+
+ &__content-text {
+
+    &--reverse {
+        @include tablet {
+            text-align: left;
+        }
     }
+ }
+
+ &__content-title {
+    text-align: center;
+    color: $secondary;
+    font-family: 'Jacques Francois', serif;
+    font-size: $s-sz;
+ }
+
+
+ &__img  {
+    width: 100%;
+
+    @include tablet {
+        width: 70%;
+        margin: auto;
+    }
+ }
+
+
 }
