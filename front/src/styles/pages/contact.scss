@@ -1,0 +1,150 @@
+.contact{
+    &__container{
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: $m-rad;
+        width: 80%;
+        margin-top: 5%;
+
+        @include tablet{
+            display: flex;
+            width: 50%;
+            height: 30rem;
+
+        }
+
+
+    }
+
+    &__picture{
+        width: 80%;
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        @include tablet{
+            width: 50%;
+        }
+
+    }
+
+    &__picture img{
+        width: 100%;
+        @include tablet{
+            height: 100%;
+        }
+    }
+
+    &__content{
+        background-color: $tertiary;
+        padding: $xxl-pd;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        @include tablet{
+            display: flex;
+            flex-direction: column; /* Ajoutez cette ligne pour empiler les éléments verticalement sur tablette */
+            align-items: center; /* Centre verticalement */
+            justify-content: center; /* Centre horizontalement */
+            width: 50%;
+            height: 30rem;
+        }
+    }
+
+    &__form{
+        display: flex;
+        flex-direction: column;
+        gap: $xxl-mg;
+        width: 100%;
+        @include tablet{
+        }
+
+    }
+
+    &__input{
+        border-radius: $l-rad;
+        border-color: $senary;
+        padding: $xs-pd;
+        font-family: 'Crimsom Text', serif;
+        @include tablet{
+            width: 100%;
+        }
+    }
+
+    &__input-submit{
+        border-radius: $m-rad;
+        background-color: $senary;
+        color: $quaternary;
+        border: none;
+        padding: $xs-pd;
+        padding-left: $l-pd;
+        padding-right: $l-pd;
+    }
+
+    &__form-input{
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+    }
+
+    &__button{
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    &__input-area{
+        border-radius: $m-rad;
+        border-color: $senary;
+        padding: $xs-pd;
+        padding-bottom: $xxxl-pd;
+        font-family: 'Crimsom Text', serif;
+        @include tablet{
+            width: 100%;
+        }
+    }
+
+
+}
+
+.reseaux{
+    @include tablet{
+        margin-top: $xxxl-mg;
+    }
+    &__title{
+        text-align: center;
+        padding: $l-pd;
+        color: $secondary;
+        font-weight: 400;
+        margin-top:  $xxxl-pd ;
+        font-size: $l-sz;
+    }
+
+    &__barre{
+        background-color: $secondary;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        height: 0.2rem;
+    }
+
+    &__container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: $xl-mg;
+        margin-top: $xxxl-mg;
+        @include tablet{
+            gap: $xxxl-mg;
+        }
+    }
+
+    &__icon {
+        width: 3rem;
+        height: 3rem;
+        margin: $l-pd;
+
+        @include tablet{
+            width: 4rem;
+            height: 4rem;
+        }
+    }
+}

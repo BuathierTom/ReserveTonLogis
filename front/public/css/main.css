@@ -395,4 +395,11 @@ p {
   margin-top: 2rem;
 }
 
+.contact__container {
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 5%;
+  margin-bottom: 10%;
+}
+
 /*# sourceMappingURL=main.css.map */
