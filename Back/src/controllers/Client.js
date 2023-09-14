@@ -1,8 +1,7 @@
 const crud = require('../services/crud.js')
-import {Request, Response, NextFunction } from 'express';
 
 // Fonction de création d'un utilisateur
-async function createClient(req : Request, res: Response, next: NextFunction) {
+async function createClient(req, res, next) {
     try {
         let test = await crud.insertOne('Clients', req.body)
         return res.send(test)
