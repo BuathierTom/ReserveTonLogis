@@ -4,7 +4,9 @@ const app = express();
 const port = 3000;
 const { db } = require("./services/connect.js");
 const { json } = require("body-parser");
+const clientRouter = require('./routes/Client.js');
 
+app.use('/client', clientRouter); 
 // Appelez ça dans tout vos fichiers pour accéder à l'instance de la BDD
 // const { db } = require("./services/connect.js");
 
