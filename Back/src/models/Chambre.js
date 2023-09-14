@@ -1,4 +1,4 @@
-class Chambres{constructor(nom, disponibilite, description, capacite, nb_lits, equipement, avis, mots_cles, Id_client, Id_reservation){             
+class Chambres{constructor(nom, disponibilite, description, capacite, nb_lits, equipement, avis, mots_cles, id_client, id_reservation){             
     this.nom = nom;
     this.disponibilite = disponibilite;
     this.description = description;
@@ -7,8 +7,8 @@ class Chambres{constructor(nom, disponibilite, description, capacite, nb_lits, e
     this.equipement = equipement;
     this.avis = avis;
     this.mots_cles = mots_cles;
-    this.Id_client = Id_client;
-    this.Id_reservation = Id_reservation;
+    this.id_client = id_client;
+    this.id_reservation = id_reservation;
     }    
 }
 
