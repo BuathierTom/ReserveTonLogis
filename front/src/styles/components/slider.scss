@@ -2,6 +2,12 @@
   --slider-height: 30rem;
    @include tablet {
     --slider-height: 35rem;
+    @include desktop {
+      --slider-height: 45rem;
+    }
+    @include big-desktop {
+      --slider-height: 55rem;
+    }
    }
 }
 

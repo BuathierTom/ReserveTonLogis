@@ -4,6 +4,11 @@
     justify-content: space-between;
     align-items: flex-end;
     padding: $m-pd;
+    @include desktop {
+        padding-left: $xxxl-pd;
+        padding-right: $xxxl-pd;
+        
+    }
 
     &__menu{
         display: flex;
@@ -36,6 +41,7 @@
         display: flex;
         margin: 0;
         padding: 0;
+        gap: 2rem;
         }
     }
 
@@ -55,6 +61,9 @@
         margin: 0;
         padding: $s-pd;
         font-size: $l-sz;
+        @include tablet {
+            font-size: $m-sz;
+        }
     }
 
     &__img {

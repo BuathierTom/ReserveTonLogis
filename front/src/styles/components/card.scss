@@ -10,6 +10,11 @@
     overflow: hidden;
     transition: transform 500ms ease;
 
+    @include desktop {
+        width: 25rem;
+        height: 30rem;
+    }
+
     &:hover {
         transform: scale(1.1);
     }
@@ -40,6 +45,10 @@
         );
         transform: translateY(65%);  
         transition: transform 500ms ease;
+
+        @include desktop {
+            top: 57%;
+                }
     }
 
     &__title::after {
@@ -91,8 +100,17 @@
 .card__p {
     padding-bottom: 20px;
     color: #eef4d4d5;
+    @include desktop {
+        padding-left: $xxxl-pd;
+        padding-right: $xxxl-pd;
+        }
 }
 
 .card a {
     padding-bottom: 10px;
+    &:hover {
+        color: #069D6B;
+        transition: color 500ms ease;
+
+  }
 }

@@ -9,7 +9,7 @@ import ImgActivity1 from "../../assets/img-activity/wine.png";
 import ImgActivity2 from "../../assets/img-activity/bike.png";
 import ImgActivity3 from "../../assets/img-activity/city.png";
 import ImgActivity4 from "../../assets/img-activity/visit.png";
-
+ 
 
 
 
@@ -27,7 +27,8 @@ function Home () {
                         <div className="presentation__content">
                             <p className="presentation__content-text">Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium nisi eget justo pellentesque volutpat. Nullam a ipsum odio. Vestibulum leo mi, gravida vitae leo non, viverra rutrum leo. Suspendisse sed rhoncus est, nec suscipit lorem. Maecenas quis consectetur ligula, 
                                 et molestie nisl. Nam congue maximus convallis. Aenean vulputate arcu fringilla dui ultricies, quis ultricies nibh dapibus. In malesuada laoreet arcu, non mattis elit mollis ac. Vestibulum vene
-                                natis placerat malesuada. Quisque sit amet felis non ex condimentum ullamcorper ac quis dui
+                                natis placerat malesuada. Quisque sit amet felis non ex condimentum ullamcorper ac quis dui. Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium nisi eget justo pellentesque volutpat. Nullam a ipsum odio. Vestibulum leo mi, gravida vitae leo non, viverra rutrum leo. Suspendisse sed rhoncus est, nec suscipit lorem. Maecenas quis consectetur ligula, 
+                                et molestie nisl. Nam congue maximus convallis.
                             </p>
                         </div>
                         <div className="presentation__grid-icon">
@@ -94,14 +95,14 @@ function Home () {
                     <div className="activity__content-img">
                         <img className="activity__img" src={ImgActivity1} alt="" />
                     </div>
-                    <div className="activity__content-text--reverse">
+                    <div className="activity__content-text activity__content-text--reverse">
                         <span className="activity__content-title">Caves Duhard</span>
                         <p className="activity__content-p">Situées à Tours, les Caves Duhard sont réputées pour leur sélection de vins de la vallée de la Loire, en particulier les vins de Touraine. Vous pouvez y déguster une grande variété de vins blancs, rouges et rosés
                         </p>
                     </div>
 
                 </div>
-                <div className="activity__content activity__content">
+                <div className="activity__content">
                     <div className="activity__content-img">
                         <img className="activity__img" src={ImgActivity2} alt="" />
                     </div>
@@ -116,7 +117,7 @@ function Home () {
                     <div className="activity__content-img">
                         <img className="activity__img" src={ImgActivity3} alt="" />
                     </div>
-                    <div className="activity__content-text--reverse">
+                    <div className="activity__content-text activity__content-text--reverse">
                     <span className="activity__content-title">Visite de la ville de Tours</span>
                     <p className="activity__content-p">Visiter le Vieux Tours est une expérience agréable pour découvrir l'histoire, l'architecture et la culture de cette charmante ville de la vallée de la Loire en France.
                     </p>
@@ -128,7 +129,7 @@ function Home () {
                     <div className="activity__content-img">
                         <img className="activity__img" src={ImgActivity4} alt="" />
                     </div>
-                    <div>
+                    <div className="activity__content-text">
                     <span className="activity__content-title">Visite des jardins de Villandry</span>
                     <p className="activity__content-p">Les jardins de Villandry sont l'un des plus beaux jardins de la vallée de la Loire en France. Ils sont situés dans le village de Villandry, à environ 15 kilomètres de Tours.
                     </p>
