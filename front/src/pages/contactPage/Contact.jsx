@@ -12,6 +12,9 @@ function Contact () {
             <NavBar />
             <section className="contact">
                 <div className="contact__container">
+                    <div className="contact__title">
+                        <span className="contact__span">Contactez-nous</span>
+                    </div>
                     <div className="contact__picture">
                         <img className="contact__icon" src={Outside} alt="" />
                     </div>

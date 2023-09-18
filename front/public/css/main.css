@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Jacques+Francois&display=swap");
 body {
@@ -200,6 +199,12 @@ p {
   overflow: hidden;
   transition: transform 500ms ease;
 }
+@media only screen and (min-width: 1024px) {
+  .card {
+    width: 25rem;
+    height: 30rem;
+  }
+}
 .card:hover {
   transform: scale(1.1);
 }
@@ -221,6 +226,11 @@ p {
   background: linear-gradient(hsla(0, 1%, 0%, 0), hsla(20, 0%, 0%, 0.5) 20%, hsl(0, 0%, 0%));
   transform: translateY(65%);
   transition: transform 500ms ease;
+}
+@media only screen and (min-width: 1024px) {
+  .card__content {
+    top: 57%;
+  }
 }
 .card__title::after {
   content: "";
@@ -265,9 +275,19 @@ p {
   padding-bottom: 20px;
   color: rgba(238, 244, 212, 0.8352941176);
 }
+@media only screen and (min-width: 1024px) {
+  .card__p {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
 
 .card a {
   padding-bottom: 10px;
+}
+.card a:hover {
+  color: #069D6B;
+  transition: color 500ms ease;
 }
 
 .nav-bar {
@@ -275,6 +295,12 @@ p {
   justify-content: space-between;
   align-items: flex-end;
   padding: 1rem;
+}
+@media only screen and (min-width: 1024px) {
+  .nav-bar {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
 }
 .nav-bar__menu {
   display: flex;
@@ -305,6 +331,7 @@ p {
     display: flex;
     margin: 0;
     padding: 0;
+    gap: 2rem;
   }
 }
 .nav-bar__close-cross {
@@ -322,6 +349,11 @@ p {
   margin: 0;
   padding: 0.8rem;
   font-size: 1.7rem;
+}
+@media only screen and (min-width: 768px) {
+  .nav-bar__li {
+    font-size: 1.5rem;
+  }
 }
 .nav-bar__img {
   width: 4rem;
@@ -439,6 +471,15 @@ p {
 .presentation__content-text {
   font-size: 1rem;
   text-align: justify;
+  max-height: 250px;
+  overflow-y: auto;
+  direction: rtl;
+  padding-left: 1rem;
+}
+@media only screen and (min-width: 1440px) {
+  .presentation__content-text {
+    font-size: 1.3rem;
+  }
 }
 .presentation__grid-icon {
   display: grid;
@@ -462,6 +503,11 @@ p {
 .presentation__text {
   font-size: 1rem;
 }
+@media only screen and (min-width: 1440px) {
+  .presentation__text {
+    padding: 0 2.5rem;
+  }
+}
 
 .journey {
   padding: 1.5rem;
@@ -478,6 +524,11 @@ p {
   justify-content: center;
   padding: 1.5rem;
   gap: 3rem;
+}
+@media only screen and (min-width: 1024px) {
+  .journey__container {
+    justify-content: space-around;
+  }
 }
 .journey__title {
   margin-bottom: 1.5rem;
@@ -566,56 +617,52 @@ p {
   margin-left: auto;
   margin-right: auto;
   border-radius: 0.6rem;
-  width: 80%;
+  width: 60%;
+  height: 80%;
   margin-top: 5%;
 }
 @media only screen and (min-width: 768px) {
   .contact__container {
     display: flex;
-    width: 50%;
-    height: 30rem;
+    width: 65%;
+    height: 40%;
   }
 }
 .contact__picture {
   width: 80%;
-  height: 100%;
   margin-left: auto;
   margin-right: auto;
+  display: none;
 }
 @media only screen and (min-width: 768px) {
   .contact__picture {
     width: 50%;
+    display: flex;
   }
 }
 .contact__picture img {
   width: 100%;
 }
-@media only screen and (min-width: 768px) {
-  .contact__picture img {
-    height: 100%;
-  }
-}
 .contact__content {
   background-color: #DEFCD3;
   padding: 2.5rem;
-  width: 80%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 @media only screen and (min-width: 768px) {
   .contact__content {
     display: flex;
-    flex-direction: column; /* Ajoutez cette ligne pour empiler les éléments verticalement sur tablette */
-    align-items: center; /* Centre verticalement */
-    justify-content: center; /* Centre horizontalement */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 50%;
-    height: 30rem;
   }
 }
 .contact__form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 3rem;
   width: 100%;
 }
 .contact__input {
@@ -642,6 +689,8 @@ p {
   margin-left: auto;
   margin-right: auto;
   width: 90%;
+  display: flex;
+  justify-content: center;
 }
 .contact__button {
   margin-left: auto;
@@ -672,6 +721,21 @@ p {
   font-weight: 400;
   margin-top: 3rem;
   font-size: 1.7rem;
+}
+.reseaux__title ::after {
+  content: "";
+  display: block;
+  margin: auto;
+  width: 60%;
+  height: 0.2rem;
+  background-color: #8F7666;
+  margin-top: 2.5rem;
+  grid-column: 1/3;
+}
+@media only screen and (min-width: 768px) {
+  .reseaux__title ::after {
+    width: 15rem;
+  }
 }
 .reseaux__barre {
   background-color: #8F7666;
