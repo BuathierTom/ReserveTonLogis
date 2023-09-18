@@ -1,0 +1,1 @@
+export { getClients } from './client.controller'
