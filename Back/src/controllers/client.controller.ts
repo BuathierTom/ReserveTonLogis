@@ -1,57 +1,3 @@
-//const { db, pgp } = require("../services/connect.js"); 
-// const pgp = require('pg-promise')();
-// const { db } = require('../services/connect.js'); 
-// Assurez-vous que 'pgp' et 'db' sont correctement configurés avant d'appeler la fonction 'getclient'.
-
-// const getclient = async (req, res, next) => {
-//     try {
-//         // console.log("1");
-//         const query = pgp.as.format('SELECT * FROM clients WHERE id_client = 2');
-//         // console.log("2");
-//         const response = await db.any(query);
-//         // console.log("3");
-//         res.status(200).json(response);
-//         //next();
-//         // res.status(200).json(response);
-//     } catch (e) {
-//         // console.log(`Erreur lors de l'exécution de la fonction getclient`);
-//         // console.error(e);
-//         // res.status(500).json({ message: 'Erreur serveur' });
-//         throw e;
-//     }
-// }
-
-
-// // Fonction de création d'un utilisateur
-// async function createClient(req, res, next) {
-//     try {
-//         // Récuperation des variables pour les utilisés dans la requête SQL
-//         const nom = req.body.nom;
-//         const prenom = req.body.prenom;
-//         const adresse = req.body.adresse;
-//         const telephone = req.body.telephone;
-//         const email = req.body.email;
-//         const motDePasse = req.body.motDePasse;
-//         // On fait la requête avec les variables récupérés
-//         const query = pgp.as.format('INSERT INTO clients (nom, prenom, adresse, telephone, email, motDePasse) VALUES ($1, $2, $3, $4, $5, $6)', 
-//                                     [nom, prenom, adresse, telephone, email, motDePasse])
-//         const reponse = await db.any(query)
-//         // On affiche la réponse
-//         console.log(reponse)
-//     } catch (e) {
-//         // Si il y a une erreur
-//         console.log(`Erreur lors de l'execution de la fonction createUser`);
-//         console.log(e);
-//         throw e;
-//     }
-// }
-
-// module.exports = {
-//     getclient,
-//     createClient
-// };
-
-
 import {Request, Response} from 'express'
 import { AppDataSource } from '../config/database-config';
 import { Client } from '../entity';
@@ -68,4 +14,101 @@ export const getClients = async (req: Request, res: Response) => {
         throw error;
     }
 
+}
+
+// Fonction pour insérer un client dans la base de données
+export const createClients = async (req: Request, res: Response) => {
+
+    try {
+        // On récupere les informations des clients
+        const { nom, prenom, adresse, telephone, email, password } = req.body;
+
+        // On verifie si le client existe deja avec email
+        const existingClient = await clientsRepository.findOne({
+            where:{email}
+        });
+
+        // On revoie l'erreur si un email est le même
+        if (existingClient) {
+            return res.status(400).json({ message: "Un client avec le même mail existe déjà." });
+        }
+        
+        // On créé un nouveau client
+        const client = new Client();
+        // On ajoute les données dans le clients
+        client.adresse = adresse;
+        client.email = email;
+        client.nom = nom;
+        client.prenom = prenom;
+        client.telephone = telephone;
+        client.password = password
+        // On renvoie les données dans la BDD
+        const result = await clientsRepository.save(client);
+        res.status(200).json(result);       
+    } catch (e) {
+        res.status(500).json(e);
+        throw e;
+    }
+
+}
+
+// Fonction pour delete un client dans la base de données
+export const deleteClient = async (req: Request, res: Response) => {
+    try {
+        const id_client = req.params.id; // On récupère l'id du client à supprimer depuis l'URL
+        
+        // On vérifie que le client existe bien en base de données
+        // const clientsRepository = getRepository(Client);
+
+        // On vérifie que le client existe bien en base de données
+        const clientToDelete = await clientsRepository.findOne({where:{id_client}});
+
+        // Si le client n'existe pas, on renvoie une erreur
+        if (!clientToDelete) {
+            return res.status(404).json({ message: "Client non trouvé." });
+        }
+
+        // Si le client existe, on le supprime
+        await clientsRepository.remove(clientToDelete);
+
+        return res.status(204).end(); // 204 signifie "No Content" pour une suppression réussie sans renvoi de données.
+    } catch (e) {
+        console.error(`Erreur lors de la suppression du client : ${e.message}`);
+        res.status(500).json({ message: "Erreur lors de la suppression du client." });
+    }
+};
+
+
+// Fonction pour update un client dans la base de données
+export const updateClient = async (req : Request, res : Response ) => {
+    try {
+        const { nom, prenom, adresse, telephone, email, password } = req.body; // On récupère l'id du client à supprimer depuis l'URL
+        const id = req.params.id
+        // On vérifie que le client existe bien en base de données
+        // const clientsRepository = getRepository(Client);
+
+        // On vérifie que le client existe bien en base de données
+        const clientToUpdate = await clientsRepository.findOne({where:{id_client : id}});
+
+        // Si le client n'existe pas, on renvoie une erreur
+        if (!clientToUpdate) {
+            return res.status(404).json({ message: "Client non trouvé." });
+        }
+        // On créé un nouveau client
+        const client = new Client();
+        client.adresse = adresse;
+        client.email = email;
+        client.nom = nom;
+        client.prenom = prenom;
+        client.telephone = telephone;
+        client.password = password
+        
+        // Si le client existe, on update
+        const result = await clientsRepository.update(clientToUpdate, client);
+        return res.status(200).send(result); 
+    }
+    catch (e) {
+        console.error(`Erreur lors de la suppression du client : ${e.message}`);
+        res.status(500).json({ message: "Erreur lors de la mise à jour du client." });
+    }
 }

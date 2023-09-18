@@ -4,25 +4,19 @@ import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 export class Reservation {
 
     @PrimaryGeneratedColumn('uuid')
-    id_reservation: string;
+    id_reservation: string
 
     @Column()
-    date_arrive : Date
+    date_arrive : string
 
     @Column()
-    date_depart : Date
+    date_depart : string
 
     @Column()
     nb_personnes : string
 
     @Column()
     prix_total : string
-
-    // @Column()
-    // id_client : string
-
-    // @Column()
-    // id_chambre : string
 
 }
 

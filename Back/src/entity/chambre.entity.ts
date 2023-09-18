@@ -30,8 +30,5 @@ export class Chambres {
     @Column()
     mots_cles : string
 
-    // @Column()
-    // id_hote : number
-
 }
 

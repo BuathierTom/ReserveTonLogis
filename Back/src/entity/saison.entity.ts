@@ -4,10 +4,10 @@ import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 export class Saison {
 
     @PrimaryGeneratedColumn('uuid')
-    id_saison: string;
+    id_saison: string
 
     @Column()
-    date_res : Date
+    date_res : string
 
     @Column()
     temperature : string
@@ -17,9 +17,6 @@ export class Saison {
 
     @Column()
     promotion : string
-
-    // @Column()
-    // id_chambre : string
 
 }
 
