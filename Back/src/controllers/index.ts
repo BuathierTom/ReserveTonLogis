@@ -1,1 +1,1 @@
-export { getClients } from './client.controller'
+export { getClients, createClients, deleteClient, updateClient } from './client.controller'
