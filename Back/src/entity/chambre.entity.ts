@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('chambres')
-export class Chambres {
+export class Chambre {
 
     @PrimaryGeneratedColumn('uuid')
     id_chambre : string
@@ -13,10 +13,10 @@ export class Chambres {
     description : string
 
     @Column()
-    capacite : number
+    capacite : string
 
     @Column()
-    prix : number
+    prix : string
 
     @Column()
     disponibilite : string
