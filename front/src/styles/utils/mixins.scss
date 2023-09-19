@@ -35,3 +35,15 @@
         width: 15rem;
     }
 }
+
+@mixin button{
+    border-radius: $m-rad;
+    background-color: $senary;
+    color: $quaternary;
+    border: none;
+    padding: $xs-pd;
+    padding-left: $l-pd;
+    padding-right: $l-pd;
+}
+
+
