@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from "typeorm";
+import { Reservation } from "./reservation.entity";
 
 @Entity('chambres')
 export class Chambre {
@@ -29,6 +30,10 @@ export class Chambre {
 
     @Column()
     mots_cles : string
+
+    @OneToOne(() => Reservation, (reservation) => reservation.chambre)
+    @JoinColumn()
+    reservation: Reservation;
 
 }
 

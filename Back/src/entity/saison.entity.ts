@@ -7,6 +7,9 @@ export class Saison {
     id_saison: string
 
     @Column()
+    nom : string
+
+    @Column()
     date_res : string
 
     @Column()

@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { createClients, getClients, updateClient, deleteClient } from '../controllers';
+import { createClients, getClients, updateClient, deleteClient, login } from '../controllers';
 
 
 
@@ -9,6 +9,7 @@ router.get("/get", getClients);
 router.post("/create", createClients);
 router.post("/delete/:id", deleteClient);
 router.put("/update/:id", updateClient);
+router.post("/login", login);
 // router.post("/create", updateClient);
 
 export default router;

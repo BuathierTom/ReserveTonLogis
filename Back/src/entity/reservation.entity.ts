@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToOne, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import { Client } from "./client.entity";
+import { Chambre } from "./chambre.entity";
 
 @Entity('reservations')
 export class Reservation {
@@ -18,5 +20,15 @@ export class Reservation {
     @Column()
     prix_total : string
 
+    // @ManyToOne(() => Client, (client) => client.reservations)
+    // client: Client;
+
+    @ManyToMany(() => Client, client => client.reservations)
+    @JoinTable()
+    client: Client[];
+
+    @OneToOne(() => Chambre, (chambre) => chambre.reservation)
+    @JoinColumn() 
+    chambre: Chambre;
 }
 

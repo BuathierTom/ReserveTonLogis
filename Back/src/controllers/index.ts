@@ -1,3 +1,5 @@
-export { getClients, createClients, deleteClient, updateClient } from './client.controller'
+export { getClients, createClients, deleteClient, updateClient, login } from './client.controller'
 export { getChambre, createChambres, updateChambre, deleteChambre } from './chambre.controller'
 export { getHote, createHote, updateHote, deleteHote } from './hote.controller'
+export { getSaison, createSaison, updateSaison, deleteSaison } from './saison.controller'
+export { getReservation, createReservation } from './reservation.controller'
