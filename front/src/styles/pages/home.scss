@@ -92,8 +92,8 @@
         @include tablet {
             padding-left: 0;
         }
-
-    }
+   
+        }
 
     &__content-text {
         font-size: $xs-sz;
@@ -173,6 +173,10 @@
         padding-left: $xxl-pd;
         padding-right: $xxl-pd;
     }
+    @include desktop {
+        padding-left: 10rem;
+        padding-right: 10rem;
+    }
 
     &__container {
         padding: $l-pd;
@@ -208,10 +212,16 @@
     align-items: center;
     gap: 1rem;
 
+    @include tablet {
+        text-align: justify;
+        direction: rtl;
+    }
+
     &--reverse {
    
         @include tablet {
             text-align: left;
+            direction: ltr;
        
         }
     }
@@ -222,6 +232,11 @@
     color: $secondary;
     font-family: 'Jacques Francois', serif;
     font-size: $s-sz;
+
+    @include tablet {
+        text-align: initial;
+        font-weight: 600;
+    }
  }
 
 

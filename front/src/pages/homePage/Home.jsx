@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../../layout/Header";
 import Slider from "../../components/Slider";
+import Map from "../../components/Map";
 import IconBed from "../../assets/img/imgIcon/icons8-lit-50.png";
 import IconWifi from "../../assets/img/imgIcon/icons8-wifi-48.png";
 import IconBath from "../../assets/img/imgIcon/icons8-baignoire-50 (1).png";
@@ -14,8 +15,8 @@ import ImgActivity4 from "../../assets/img-activity/visit.png";
 
 
 function Home () {
+    const giteLocation = [47.553903, 4.815041];
     return ( 
-
         <>
             <Header />    
             <section className="presentation">
@@ -139,6 +140,12 @@ function Home () {
                     
             </div>
         </section>
+
+        <section className="map">
+            <Map giteLocation={giteLocation} />
+        </section>
+
+        
 
     </>
     )}

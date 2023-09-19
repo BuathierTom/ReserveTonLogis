@@ -29,4 +29,11 @@
             font-size:$xxxl-sz ;
         }
     }
+
+    &__a {
+        font-size: $l-sz;
+        &:hover {
+            color: $primary;
+        }
+    }
 }
