@@ -8,7 +8,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 function ConnexionInscription () {
     return (
         <>
-            <div className="header__container-img">
+            <div className="container-img">
                 <NavBar />
                 <section className="connexion-inscription">
                     <div className="connexion-inscription__container">
@@ -22,12 +22,18 @@ function ConnexionInscription () {
                                 <div className="connexion-inscription__form-input">
                                     <input className="connexion-inscription__input" type="password" placeholder="Mot de passe" />
                                 </div>
+                                {/* <ReCAPTCHA
+                                    sitekey="6LcEeTUoAAAAABjZLGe1StYkQ4gIAGg2C4T_GugF"
+                                /> */}
                                 <div className="connexion-inscription__button">
                                     <input className="connexion-inscription__input-submit" type="submit" value="Se connecter" />
                                 </div>
-                                <a className="connexion-inscription__link" href="#">Mot de passe oublié ?</a>
-                                <a className="connexion-inscription__link" href="#">Besoin d'aide</a>
+                                <div className="connexion-inscription__link">
+                                    <a className="connexion-inscription__link" href="#">Mot de passe oublié ?</a>
+                                    <a className="connexion-inscription__link" href="#">Besoin d'aide</a>
+                                </div>
                             </form>
+
 
                         </div>
                         <div className="connexion-inscription__inscription">
@@ -69,27 +75,6 @@ function ConnexionInscription () {
                                     <input className="connexion-inscription__input-submit" type="submit" value="S'inscrire" />
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                </section>
-
-                <section className="reseaux">
-                    <div className="reseaux__title">
-                        <span className="reseaux__span">Retrouvez-nous</span>
-                    </div>
-                    <span className="reseaux__barre"></span>
-                    <div className="reseaux__container">
-                        <div className="reseaux__content">
-                            <a href="https://www.facebook.com/">
-                            </a>
-                        </div>
-                        <div className="reseaux__content">
-                            <a href="https://www.instagram.com/">
-                            </a>
-                        </div>
-                        <div className="reseaux__content">
-                            <a href="https://www.tiktok.com/fr">
-                            </a>
                         </div>
                     </div>
                 </section>

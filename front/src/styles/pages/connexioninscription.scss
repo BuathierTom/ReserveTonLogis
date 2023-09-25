@@ -1,12 +1,5 @@
-body{
-    background-image: url("../../assets/img/view-img.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
 .connexion-inscription{
     margin-top: 5%;
-    margin-bottom: 5%;
 
     &__container{
         margin-left: auto;
@@ -14,6 +7,7 @@ body{
         border-radius: $m-rad;
         width: 60%;
         height: 80%;
+        padding-bottom: 5%;
 
         @include desktop{
             display: flex;
@@ -35,6 +29,7 @@ body{
 
         @include desktop{
             width: 50%;
+            margin-top: 0;
         }
     }
 
@@ -71,9 +66,14 @@ body{
 
     &__input{
         border-radius: $l-rad;
+        border-style: solid;
         border-color: $senary;
         padding: $xs-pd;
         font-family: 'Crimsom Text', serif;
+
+        &:focus{
+            outline: none;
+        }
 
         @include tablet{
             display: flex;
@@ -120,6 +120,7 @@ body{
 
         @include desktop{
             width: 50%;
+            margin-top: 0;
         }
     }
 
@@ -143,6 +144,8 @@ body{
         color: $senary;
         font-size: $xxs-sz;
         font-weight: $regular;
+        display: flex;
+        flex-direction: column;
         @include desktop{
             font-size: $xs-sz;
         }
@@ -166,10 +169,11 @@ body{
     
 }
 
-.header__container-img{
+.container-img{
     background-image: url("../../assets/img/view-img.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    height: 100%;
 }
 
 
