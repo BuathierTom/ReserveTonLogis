@@ -11,6 +11,11 @@ body {
   box-sizing: border-box;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
+
 li {
   margin-bottom: 1rem;
   text-decoration: none;
@@ -63,6 +68,24 @@ p {
 }
 .header__a:hover {
   color: #FAF8F0;
+}
+
+.footer {
+  background-color: #4BAB77;
+}
+.footer__container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 1.5rem;
+  gap: 1rem;
+  text-align: center;
+  color: #FFFFFF;
+}
+.footer__contact {
+  display: grid;
+}
+.footer__li {
+  margin-bottom: 0;
 }
 
 :root {
@@ -368,13 +391,71 @@ p {
 }
 
 .map {
+  background: linear-gradient(to top, #4BAB77 0%, #4BAB77 40%, transparent 40%, transparent 100%);
+}
+@media only screen and (min-width: 768px) {
+  .map {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+}
+.map__container {
   padding: 3rem;
-  height: 50%;
+  padding-top: 1.5rem;
+}
+@media only screen and (min-width: 1024px) {
+  .map__container {
+    padding-right: 10rem;
+    padding-left: 10rem;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  .map__container {
+    padding-left: 20rem;
+    padding-right: 20rem;
+  }
+}
+.map__content {
+  height: 20rem;
+}
+@media only screen and (min-width: 768px) {
+  .map__content {
+    height: 30rem;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .map__content {
+    height: 40rem;
+  }
+}
+.map__title {
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+  color: #8F7666;
+  font-size: 1.7rem;
+  padding-left: 1.5rem;
+  padding-left: 3rem;
+  padding-right: 2.5rem;
+  font-weight: 100;
+}
+@media only screen and (min-width: 1024px) {
+  .map__title {
+    font-size: 2.5rem;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .map__title {
+    padding-left: 3rem;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .map__title {
+    padding-left: 10.5rem;
+  }
 }
 
 .leaflet-container {
   width: 100%;
-  height: 500px;
 }
 
 .leaflet-right .leaflet-control {
@@ -386,12 +467,18 @@ p {
 }
 
 .leaflet-routing-container {
-  background-color: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  margin: 0;
-  max-height: 40rem;
-  overflow: auto;
-  width: 50%;
+  display: none;
+}
+@media only screen and (min-width: 768px) {
+  .leaflet-routing-container {
+    display: block;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    margin: 0;
+    max-height: 40rem;
+    overflow: auto;
+    width: 50%;
+  }
 }
 
 .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
@@ -403,7 +490,7 @@ p {
 }
 
 td {
-  font-size: 0.5rem;
+  font-size: 0.8rem;
 }
 
 .App {
@@ -484,6 +571,7 @@ td {
     grid-template-columns: repeat(2, 1fr);
     gap: 3rem;
     align-items: center;
+    padding: 0 1.5rem;
   }
 }
 .presentation__content {
@@ -509,18 +597,16 @@ td {
     font-size: 2.5rem;
   }
 }
-@media only screen and (min-width: 768px) {
-  .presentation__content-title {
-    padding-left: 0;
-  }
-}
 .presentation__content-text {
   font-size: 1rem;
   text-align: justify;
   max-height: 250px;
   overflow-y: auto;
+  cursor: pointer;
+}
+.presentation__content-text::-webkit-scrollbar {
   direction: rtl;
-  padding-left: 1rem;
+  width: 0;
 }
 @media only screen and (min-width: 1440px) {
   .presentation__content-text {
@@ -586,6 +672,11 @@ td {
 @media only screen and (min-width: 1024px) {
   .journey__title {
     font-size: 2.5rem;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .journey__title {
+    padding-left: 10rem;
   }
 }
 
@@ -682,11 +773,16 @@ td {
   margin-left: auto;
   margin-right: auto;
   border-radius: 0.6rem;
-  width: 60%;
+  width: 80%;
   height: 80%;
   margin-top: 5%;
 }
 @media only screen and (min-width: 768px) {
+  .contact__container {
+    width: 60%;
+  }
+}
+@media only screen and (min-width: 1024px) {
   .contact__container {
     display: flex;
     width: 65%;
@@ -699,7 +795,7 @@ td {
   margin-right: auto;
   display: none;
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1024px) {
   .contact__picture {
     width: 50%;
     display: flex;
@@ -715,7 +811,7 @@ td {
   margin-left: auto;
   margin-right: auto;
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1024px) {
   .contact__content {
     display: flex;
     flex-direction: column;
@@ -735,8 +831,14 @@ td {
   border-color: #4BAB77;
   padding: 0.5rem;
   font-family: "Crimsom Text", serif;
+  width: 100%;
 }
 @media only screen and (min-width: 768px) {
+  .contact__input {
+    width: 80%;
+  }
+}
+@media only screen and (min-width: 1024px) {
   .contact__input {
     width: 100%;
   }
@@ -767,14 +869,54 @@ td {
   padding: 0.5rem;
   padding-bottom: 3rem;
   font-family: "Crimsom Text", serif;
+  width: 100%;
 }
 @media only screen and (min-width: 768px) {
+  .contact__input-area {
+    width: 80%;
+  }
+}
+@media only screen and (min-width: 1024px) {
   .contact__input-area {
     width: 100%;
   }
 }
-
+.contact__title {
+  text-align: center;
+  padding: 1.5rem;
+  color: #8F7666;
+  font-weight: 400;
+  margin-top: 3rem;
+  font-size: 1.7rem;
+}
+.contact__title ::after {
+  content: "";
+  display: block;
+  margin: auto;
+  width: 60%;
+  height: 0.2rem;
+  background-color: #8F7666;
+  margin-top: 2.5rem;
+  grid-column: 1/3;
+  margin-bottom: 3rem;
+  width: 75%;
+}
 @media only screen and (min-width: 768px) {
+  .contact__title ::after {
+    width: 15rem;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .contact__title {
+    display: none;
+  }
+}
+.contact__span {
+  color: #8F7666;
+  font-size: 1.7rem;
+}
+
+@media only screen and (min-width: 1024px) {
   .reseaux {
     margin-top: 2rem;
   }
@@ -831,6 +973,181 @@ td {
     width: 4rem;
     height: 4rem;
   }
+}
+
+body {
+  background-image: url("../../assets/img/view-img.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.connexion-inscription {
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+.connexion-inscription__container {
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 0.6rem;
+  width: 60%;
+  height: 80%;
+}
+@media only screen and (min-width: 1024px) {
+  .connexion-inscription__container {
+    display: flex;
+    width: 65%;
+    height: 40%;
+  }
+}
+.connexion-inscription__connexion {
+  background-color: rgba(250, 248, 240, 0.85);
+  padding: 2.5rem;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5%;
+}
+@media only screen and (min-width: 1024px) {
+  .connexion-inscription__connexion {
+    width: 50%;
+  }
+}
+.connexion-inscription__form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  padding: 2rem;
+  justify-content: center;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+@media only screen and (min-width: 1024px) {
+  .connexion-inscription__form {
+    padding: 0.5rem;
+  }
+}
+.connexion-inscription__form-input {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.connexion-inscription__button {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+}
+.connexion-inscription__input {
+  border-radius: 0.8rem;
+  border-color: #4BAB77;
+  padding: 0.5rem;
+  font-family: "Crimsom Text", serif;
+}
+@media only screen and (min-width: 768px) {
+  .connexion-inscription__input {
+    display: flex;
+    width: 100%;
+  }
+}
+.connexion-inscription__input-submit {
+  border-radius: 0.6rem;
+  background-color: #4BAB77;
+  color: #FFFFFF;
+  border: none;
+  padding: 0.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+.connexion-inscription__text {
+  margin-bottom: 1.5rem;
+  font-size: 0.8rem;
+}
+@media only screen and (min-width: 1024px) {
+  .connexion-inscription__text {
+    font-size: 1rem;
+  }
+}
+.connexion-inscription__title {
+  display: flex;
+  font-size: 1.3rem;
+  color: #4BAB77;
+  font-weight: 400;
+}
+@media only screen and (min-width: 1024px) {
+  .connexion-inscription__title {
+    font-size: 2rem;
+  }
+}
+.connexion-inscription__inscription {
+  background-color: rgba(223, 254, 212, 0.85);
+  padding: 2.5rem;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5%;
+}
+@media only screen and (min-width: 1024px) {
+  .connexion-inscription__inscription {
+    width: 50%;
+  }
+}
+.connexion-inscription__form-line {
+  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (min-width: 1024px) {
+  .connexion-inscription__form-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    gap: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+.connexion-inscription__link {
+  color: #4BAB77;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+@media only screen and (min-width: 1024px) {
+  .connexion-inscription__link {
+    font-size: 1rem;
+  }
+}
+.connexion-inscription__form-connexion {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 100%;
+  padding: 2rem;
+  justify-content: center;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+@media only screen and (min-width: 1024px) {
+  .connexion-inscription__form-connexion {
+    padding: 0.5rem;
+  }
+}
+
+.header__container-img {
+  background-image: url("../../assets/img/view-img.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 /*# sourceMappingURL=main.css.map */

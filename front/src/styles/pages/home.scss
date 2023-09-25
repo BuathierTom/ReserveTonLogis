@@ -44,8 +44,9 @@
         color: $secondary;
         font-weight: 100;
         margin-top:  $m-pd ;
-        font-size: $l-sz;
+        font-size: $xl-sz;
         font-family: 'Jacques Francois', serif;
+
 
         @include tablet {
             font-size: $xxl-sz;
@@ -73,6 +74,7 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 3rem;
         align-items: center;
+        padding: 0 $l-pd;
         }
     }
     
@@ -89,19 +91,21 @@
         @include little-title;
         font-weight: 200;
         padding-left: $l-pd;
-        @include tablet {
-            padding-left: 0;
-        }
    
         }
 
     &__content-text {
-        font-size: $xs-sz;
+        font-size: $s-sz;
         text-align: justify;
         max-height: 250px; 
         overflow-y: auto; 
-        direction: rtl;
-        padding-left: 1rem;
+        cursor: pointer;
+
+        &::-webkit-scrollbar{
+            direction: rtl;
+            width: 0;
+
+        }
 
         @include mid-desktop {
             font-size: $s-sz;
@@ -164,6 +168,9 @@
 
     &__title {
         @include little-title;
+        @include desktop {
+            padding-left: 10rem;
+        }
     }
 }
 
@@ -231,12 +238,19 @@
     text-align: center;
     color: $secondary;
     font-family: 'Jacques Francois', serif;
-    font-size: $s-sz;
+    font-size: $m-sz;
 
     @include tablet {
         text-align: initial;
         font-weight: 600;
     }
+ }
+
+ &__content-p {
+    font-size: $s-sz;
+    text-align: justify;
+    font-weight: 100;
+
  }
 
 

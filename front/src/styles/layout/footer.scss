@@ -1,0 +1,24 @@
+.footer {
+    background-color: $senary;
+
+    &__container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        padding: $l-pd;
+        gap: 1rem;
+        text-align: center;
+        color: $quaternary;
+        font-size: $xxs-sz;
+        align-items: center ;
+    
+    }
+
+    &__contact {
+        display: grid;
+        
+    }
+
+    &__li {
+        margin-bottom: 0;
+    }
+}
