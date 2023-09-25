@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../../layout/Header";
 import Slider from "../../components/Slider";
 import Map from "../../components/Map";
+import Footer from "../../layout/Footer";
 import IconBed from "../../assets/img/imgIcon/icons8-lit-50.png";
 import IconWifi from "../../assets/img/imgIcon/icons8-wifi-48.png";
 import IconBath from "../../assets/img/imgIcon/icons8-baignoire-50 (1).png";
@@ -144,6 +145,10 @@ function Home () {
         <section className="map">
             <Map giteLocation={giteLocation} />
         </section>
+
+        <footer className="footer">
+            <Footer />
+        </footer>
 
         
 

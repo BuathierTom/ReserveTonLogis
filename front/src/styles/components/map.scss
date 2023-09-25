@@ -1,16 +1,132 @@
 @import url( "~leaflet/dist/leaflet.css" );
 
 .map {
- 
-        padding: $xxxl-pd;
-        height: 50%
+  background: linear-gradient( to top,$senary 0%, $senary 40%, transparent 40%, transparent 100%);
+  @include tablet {
+    padding-right: $m-pd;
+    padding-left: $m-pd;
+    }
 
+  &__container {
+    padding: $xxxl-pd;
+    @include desktop {
+      padding-right: 10rem;
+      padding-left: 10rem;
+  
+    }
+    @include mid-desktop {
+      padding-left: 20rem;
+      padding-right: 20rem;
+    }
+  }
+
+  &__button-container {
+    padding-bottom: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+&__box {
+  height: auto;
+  float: left;
+  transition: .5s linear;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding: $l-pd;
+  text-align: center;
+  margin: 0 5px;
+  background: transparent;
+  font-weight: 900;
+  margin: 0;
+
+
+&:before {
+  position: absolute;
+  content: '';
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 100%;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid transparent;
+  box-sizing: border-box;
+  transform: translateX(100%);
+}
+
+&:after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  border-top: 4px solid transparent;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  transform: translateX(-100%);
+}
+
+&:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+&:hover:before {
+  border-color: $secondary;
+  height: 100%;
+  transform: translateX(0);
+  transition: .3s transform linear, .3s height linear .3s;
+}
+
+&:hover:after {
+  border-color: $secondary;
+  height: 100%;
+  transform: translateX(0);
+  transition: .3s transform linear, .3s height linear .5s;
+}
+}
+
+&__button {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  background-color: $tertiary;
+  color: $secondary;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+  &__content {
+    height: 20rem;
+    @include tablet {
+      height: 30rem;
+    }
+    @include desktop {
+      height: 40rem;
+    }
+  }
+
+  &__title {
+    @include little-title;
+    padding-left: $xxxl-pd;
+    padding-right: $xxl-pd;
+    font-weight: 100;
+
+    @include tablet {
+      padding-left: $xxxl-pd;
+    }
+    @include desktop {
+      padding-left: 10.5rem;
+    }
+  }
 }
 
 
 .leaflet-container {
   width: 100%;
-  height: 500px; // 500px is the default height of the map
+
 }
 
 .leaflet-right .leaflet-control {
@@ -22,12 +138,18 @@
 }
 
 .leaflet-routing-container {
+  display: none; 
+
+  @include tablet {
+    display: block;
   background-color: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
   margin: 0;
   max-height: 40rem;
   overflow: auto;
   width: 50%;
+} 
+
 }
 
 .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar  {
@@ -41,3 +163,4 @@
 td {
   font-size: $xxs-sz;
 }
+

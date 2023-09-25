@@ -3,16 +3,29 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-routing-machine";
 
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+});
+
 function Map({ giteLocation }) {
   const [userLocation, setUserLocation] = useState(null);
+  const [locationActivated, setLocationActivated] = useState(false);
 
   // Fonction pour activer la localisation de l'utilisateur
   const activateUserLocation = () => {
-    if ("geolocation" in navigator) {
+    if (!locationActivated && "geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
         setUserLocation([latitude, longitude]);
       });
+      setLocationActivated(true); // Marquer la localisation comme activée
+    }
+    else if (locationActivated) {
+      alert("La localisation a déjà été activée.");
     }
     else {
       alert("La géolocalisation n'est pas disponible sur votre navigateur");
@@ -42,14 +55,30 @@ function Map({ giteLocation }) {
   }, [userLocation, giteLocation]);
 
   return (
-    <div className="map-container">
+    <>
       <h2 className="map__title">Itinéraire vers le gîte</h2>
+      {locationActivated ? null : (
+        <div className="map__button-container">
       <button className="map__button" onClick={activateUserLocation}>
-        Activer la localisation
+        <span className="map__box">
+               Activer la localisation
+        </span>
       </button>
-      <div id="map" style={{ height: "400px", width: "100%" }}></div>
-    </div>
+ 
+      </div>
+      )}
+
+      {locationActivated ? (
+        <div className="map__container">
+          <div id="map" className="map__content"></div>
+        </div>
+      ) : null}
+      
+      
+      
+    </>
   );
 }
 
 export default Map;
+

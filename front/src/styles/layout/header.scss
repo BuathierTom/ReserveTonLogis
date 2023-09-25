@@ -24,6 +24,7 @@
     
     &__h1 {
         font-weight: 500;
+        font-size: $xxl-sz;
         text-align: center;
         @include desktop {
             font-size:$xxxl-sz ;
