@@ -11,6 +11,7 @@ const relations = ['client', 'chambre']
 // Fonction qui renvoie toutes les reservations dans la table reservations
 export const getReservation = async (req: Request, res: Response) => {
     try {
+        
         const reserv = await reservationRepository.find({relations: relations});
         res.status(200).json(reserv);
     } catch (error) {
