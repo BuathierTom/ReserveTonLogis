@@ -1,6 +1,6 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://corneil:03092021@cluster0.vcq4uz9.mongodb.net/?retryWrites=true&w=majority"
-//const dbName = "ReserveTonLogis";
+const dbName = "ReserveTonLogis";
 
 const client = new MongoClient(uri)
 
@@ -22,6 +22,11 @@ async function run() {
     } 
 }
 
+function getCollection(collectionName) {
+    return client.db(dbName).collection(collectionName);
+}
+
 module.exports = {
-    run
+    run,
+    getCollection,
 };

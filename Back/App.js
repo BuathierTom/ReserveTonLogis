@@ -3,6 +3,10 @@ const app = express();
 const port = 3000;
 const { run } = require("./src/services/db/connect");
 
+const clients = require("./src/routes/clients.js");
+
+app.use("/clients", clients);
+
 app.get("/", (req, res) => {
     res.send("Hello world !")
 })

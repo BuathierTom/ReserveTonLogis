@@ -1,4 +1,4 @@
-const { getCollection } = require('./connection');
+const { getCollection } = require('./connect.js');
 
 /**
  * Find one document in a collection
