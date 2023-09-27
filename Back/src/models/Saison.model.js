@@ -1,4 +1,4 @@
-class Saison{constructor(nom, date_res, temparature, conditions_meteorologique, promotion, id_chambre){             
+class Saisons{constructor(nom, date_res, temparature, conditions_meteorologique, promotion, id_chambre){             
     this.nom = nom;
     this.date_res = date_res;
     this.temparature = temparature;
@@ -7,4 +7,4 @@ class Saison{constructor(nom, date_res, temparature, conditions_meteorologique, 
     }
 }
 
-module.exports = {Saison}
+module.exports = {Saisons}

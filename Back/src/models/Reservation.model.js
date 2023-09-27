@@ -1,4 +1,4 @@
-class Reservation{constructor(id_reservation, date_arrive, date_depart, nb_personnes, prix_total){             
+class Reservations{constructor(id_reservation, date_arrive, date_depart, nb_personnes, prix_total){             
     this.id_reservation = id_reservation;
     this.date_arrive = date_arrive;
     this.date_depart = date_depart;
@@ -7,4 +7,4 @@ class Reservation{constructor(id_reservation, date_arrive, date_depart, nb_perso
     }    
 }
 
-module.exports = {Reservation}
+module.exports = {Reservations}
