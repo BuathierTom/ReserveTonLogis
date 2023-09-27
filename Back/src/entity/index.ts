@@ -1,5 +1,0 @@
-export { Client } from './client.entity'
-export { Chambre } from './chambre.entity'
-export { Reservation } from './reservation.entity'
-export { Hotes } from './hote.entity'
-export { Saison } from './saison.entity'

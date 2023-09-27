@@ -1,1 +1,0 @@
-export { connectToDatabase } from './database';
