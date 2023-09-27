@@ -64,7 +64,7 @@ async function deletechambre(req, res) {
 async function deletechambreMany(req, res) {
     try {
         let nom = req.params.nom;
-        let test = await crud.deleteMany('item', {"nom" : nom})
+        let test = await crud.deleteMany('chambres', {"nom" : nom})
         return res.send(test)
     } catch (e) {
         console.log(`Erreur lors de l execution de la fonction findChambre`);
