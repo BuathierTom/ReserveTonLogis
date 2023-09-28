@@ -65,7 +65,7 @@ function Home () {
                 <div class="card card-one"> 
                     <div class="card__content">
                     <p class="card__title">Les Marguerites</p>
-                    <p class="card__p">Une chambre en toute quiétude dans une ambiance aliant modernité et tradition </p>
+                    <p class="card__p">Une chambre en toute quiétude aliant modernité et tradition.  </p>
                     <a href="/" target="_blank" class="button">Réservez dès maintenant</a>
                     </div>
                 </div>
