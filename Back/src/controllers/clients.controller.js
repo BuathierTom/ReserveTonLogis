@@ -8,19 +8,31 @@ const { findOne,
     } = require("../services/db/crud");
 
 
-async function findClients(req,res, next){
-try {
-    const cursor = await find('clients', {});
-    const result=[]
-    await cursor.forEach((item)=>{
-        result.push(item)
-    });
-        console.log(`Les clients ont bien été trouvés`)
-        return res.send(result)
-    } catch (e){
-        console.log(e)
-    }
+// async function findClients(req,res, next){
+// try {
+//     const cursor = await find('clients', {});
+//     const result=[]
+//     await cursor.forEach((item)=>{
+//         result.push(item)
+//     });
+//         console.log(`Les clients ont bien été trouvés`)
+//         return res.send(result)
+//     } catch (e){
+//         console.log(e)
+//     }
 
+// }
+
+async function findClients(req, res) {
+    try {
+        let nom = req.params.nom;
+        let test = await crud.find('clients', {"nom" : nom})
+        return res.send(test)
+    } catch (e) {
+        console.log(`Erreur lors de l execution de la fonction findChambre`);
+        console.log(e);
+        throw e;
+    }
 }
 
 async function createClient(req, res, next) {
