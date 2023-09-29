@@ -1,11 +1,5 @@
 const { v4 : uuidv4 } = require ('uuid');
-
-const { findOne, 
-        find, 
-        insertOne, 
-        deleteOne,
-        updateOne
-    } = require("../services/db/crud");
+const crud = require('../services/db/crud')
 
 
 // async function findClients(req,res, next){
@@ -45,7 +39,7 @@ async function createClient(req, res, next) {
         const email = req.body.email
         const password = req.body.password
 
-        const verif = await findOne('clients', {nom: nom})
+        const verif = await crud.findOne('clients', {nom: nom})
         if (verif) {
             console.log(`Error, l'utilisateur ${nom} existe déja`);
             return res.send({Error: `Error, l'utilisateur ${nom} existe déja`});
