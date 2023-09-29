@@ -1,7 +1,3 @@
-const mongoose = require('mongoose');
-const { v4 : uuidv4 } = require ('uuid');
-const crud = require('../services/db/crud')
-const { getCollection } = require('../services/db/connect.js');
 const Client = require('../models/client.model');
 
 // Fonction qui recherche tous les clients
@@ -10,7 +6,7 @@ const findClients = async (req, res, next) => {
         const result = await Client.find({});
         return res.status(200).json(result)
     } catch (e){
-        console.log(e)
+        throw e;
     }
 
 };
@@ -44,11 +40,52 @@ const createClient = async (req, res, next) => {
     }
 };
 
+// Fonction qui delete un client
+const deleteClient = async (req, res, next) => {
+    try {
+        const { nom } = req.body;
+        // On verifie si l'utilisateur existe
+        const verif = await Client.findOne({ "nom": nom })
+        if (!verif) {
+            return res.status(400).send({ Error: `Error, l'utilisateur ${nom} n'existe pas` });
+        }
 
+        const deleteClient = await Client.deleteOne({ "nom": nom })
+        return res.status(200).send(deleteClient)
+    } catch (e) {
+        throw e;
+    }
+};
+
+// Fonction qui update un client
+const updateClient = async (req, res, next) => {
+    try {
+        const { nom, prenom, adresse, telephone, email, password } = req.body;
+        // On verifie si l'utilisateur existe
+        const verif = await Client.findOne({ "nom": nom })
+        if (!verif) {
+            return res.status(400).send({ Error: `Error, l'utilisateur ${nom} n'existe pas` });
+        }
+
+        const updateClient = await Client.updateOne({ "nom": nom }, {
+            nom: nom,
+            prenom: prenom,
+            adresse: adresse,
+            telephone: telephone,
+            email: email,
+            password: password,
+        })
+        return res.status(200).send(updateClient)
+    } catch (e) {
+        throw e;
+    }
+};
 
 
 module.exports = {
     findClients,
     createClient,
+    deleteClient,
+    updateClient,
 };
 

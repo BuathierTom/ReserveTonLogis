@@ -2,15 +2,14 @@ const express = require("express");
 const router = express.Router();
 const { findClients, 
         createClient, 
+        deleteClient,
+        updateClient
         } = require("../controllers/clients.controller.js");
 
-// Récupérer la liste des utilisateurs
 router.get("/get", findClients)
 router.post("/create", createClient)
+router.post("/delete", deleteClient)
+router.post("/update", updateClient)
 
-// Créé un utilisateur
-// router.post("/createUser", createUser)
-// // Permet d'afficher les watchlists en fonction d'un utilisateur
-// router.get("/findWL", findWatchListUser)
 
 module.exports = router;
