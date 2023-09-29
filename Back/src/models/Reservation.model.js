@@ -1,10 +1,13 @@
-class Reservations{constructor(id_reservation, date_arrive, date_depart, nb_personnes, prix_total){             
-    this.id_reservation = id_reservation;
-    this.date_arrive = date_arrive;
-    this.date_depart = date_depart;
-    this.nb_personnes = nb_personnes;
-    this.prix_total = prix_total;
-    }    
-}
+const mongoose = require('mongoose');
 
-module.exports = {Reservations}
+const reservationSchema = new mongoose.Schema({
+    id_reservation: String,
+    date_arrive: String, 
+    date_depart: String,
+    nb_personnes: Number,
+    prix_total: Number,
+});
+
+const reservations = mongoose.model('reservations', reservationSchema);
+
+module.exports = reservations;

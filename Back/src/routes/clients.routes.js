@@ -6,6 +6,7 @@ const { findClients,
 
 // Récupérer la liste des utilisateurs
 router.get("/get", findClients)
+router.post("/create", createClient)
 
 // Créé un utilisateur
 // router.post("/createUser", createUser)

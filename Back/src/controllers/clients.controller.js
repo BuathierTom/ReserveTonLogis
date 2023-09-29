@@ -1,33 +1,33 @@
 const { v4 : uuidv4 } = require ('uuid');
 const crud = require('../services/db/crud')
+const { getCollection } = require('../services/db/connect.js');
 
 
-// async function findClients(req,res, next){
-// try {
-//     const cursor = await find('clients', {});
-//     const result=[]
-//     await cursor.forEach((item)=>{
-//         result.push(item)
-//     });
-//         console.log(`Les clients ont bien été trouvés`)
-//         return res.send(result)
-//     } catch (e){
-//         console.log(e)
-//     }
 
-// }
-
-async function findClients(req, res) {
+async function findClients(req,res, next){
     try {
-        let nom = req.params.nom;
-        let test = await crud.find('clients', { "nom": nom })
-        return res.send(test)
-    } catch (e) {
-        console.log(`Erreur lors de l execution de la fonction findChambre`);
-        console.log(e);
-        throw e;
+        const cursor = await crud.find("client");
+
+        return res.send(cursor)
+    } catch (e){
+        console.log(e)
     }
+
 }
+
+// async function findClients(req, res) {
+//     try {
+//         const  collection = getCollection("clients");
+//         const  result = await  collection.find({});
+
+//         // let test = await crud.find('clients', {})
+//         return res.send(result)
+//     } catch (e) {
+//         console.log(`Erreur lors de l execution de la fonction findChambre`);
+//         console.log(e);
+//         throw e;
+//     }
+// }
 
 async function createClient(req, res, next) {
     try {
