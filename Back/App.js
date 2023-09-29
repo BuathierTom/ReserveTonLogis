@@ -6,6 +6,7 @@ const { connectToDatabase } = require("./src/services/db/connect");
 const clients = require("./src/routes/clients.routes.js");
 const chambres = require("./src/routes/chambres.routes.js");
 
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
     res.send("Hello world !")

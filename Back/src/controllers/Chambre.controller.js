@@ -6,32 +6,25 @@ const Chambre = require('../models/Chambre.model');
 
 
 // Fonction qui recherche toutes les chambres
-async function findchambreMany(req, res) {
+const findchambreMany = async (req, res) => {
     try {
-        const test = await Chambre.find({});
-        console.log(test);
-
-        return res.send(test);
+        const getAll = await Chambre.find({});
+        return res.status(200).send(getAll);
     } catch (e) {
-        console.log(`Erreur lors de l'execution de la fonction findchambreMany`);
-        console.log(e);
         throw e;
     }
-}
+};
 
 // Fonction qui recherche un item dans le registre avec un filtre sur l'id 
-async function findChambre(req, res) {
+const findChambre = async (req, res) => {
     try {
-
-        let id = req.params.id;
-        let test = await Chambre.find({"id" : id})
-        return res.send(test)
+        const id = req.params.id;
+        const getId = await Chambre.find({"id" : id})
+        return res.status(200).send(getId)
     } catch (e) {
-        console.log(`Erreur lors de l'execution de la fonction findChambre`);
-        console.log(e);
         throw e;
     }
-}
+};
 
 // Fonction qui crée une chambre
 async function addChambre(req, res, next) {

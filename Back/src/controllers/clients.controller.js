@@ -4,41 +4,45 @@ const crud = require('../services/db/crud')
 const { getCollection } = require('../services/db/connect.js');
 const Client = require('../models/client.model');
 
-
-async function findClients(req, res, next){
+// Fonction qui recherche tous les clients
+const findClients = async (req, res, next) => {
     try {
-        
         const result = await Client.find({});
         return res.status(200).json(result)
     } catch (e){
         console.log(e)
     }
 
-}
+};
 
-async function createClient(req, res, next) {
+// Fonction qui créé un client
+const createClient = async (req, res, next) => {
     try {
+        // On récupere les données
+        const { nom, prenom, adresse, telephone, email, password } = req.body;
 
-        const nom = req.body.nom
-        const prenom = req.body.prenom
-        const adresse = req.body.adresse
-        const telephone = req.body.telephone
-        const email = req.body.email
-        const password = req.body.password
-
-        const verif = await Client.findOne({ nom: nom })
+        // On vérifie si l'utilisateur existe déja
+        const verif = await Client.findOne({ "nom": nom })
         if (verif) {
-            console.log(`Error, l'utilisateur ${nom} existe déja`);
-            return res.send({ Error: `Error, l'utilisateur ${nom} existe déja` });
+            return res.status(400).send({ Error: `Error, l'utilisateur ${nom} existe déja` });
         }
 
-        const result = await Client.insertOne('clients', { nom: nom, prenom: prenom, adresse: adresse, telephone: telephone, email: email, password: password });
-        console.log(`L'utilisateur ${nom}, qui a pour prenom : ${prenom} et l'id : ${id}`);
-        return res.status(200).json(result)
+        const newClient = new Client({
+            nom: nom,
+            prenom: prenom,
+            adresse: adresse,
+            telephone: telephone,
+            email: email,
+            password: password,
+        });
+
+        const clientAdd = await newClient.save();
+
+        return res.status(200).send(clientAdd)
     } catch (e) {
-        console.log(e)
+        throw e;
     }
-}
+};
 
 
 
