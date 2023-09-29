@@ -1,5 +1,37 @@
+const mongoose = require('mongoose');
 const crud = require('../services/db/crud')
 const axios = require ('axios')
+const { getCollection } = require('../services/db/connect.js');
+const Chambre = require('../models/Chambre.model');
+
+
+// Fonction qui recherche toutes les chambres
+async function findchambreMany(req, res) {
+    try {
+        const test = await Chambre.find({});
+        console.log(test);
+
+        return res.send(test);
+    } catch (e) {
+        console.log(`Erreur lors de l'execution de la fonction findchambreMany`);
+        console.log(e);
+        throw e;
+    }
+}
+
+// Fonction qui recherche un item dans le registre avec un filtre sur l'id 
+async function findChambre(req, res) {
+    try {
+
+        let id = req.params.id;
+        let test = await Chambre.find({"id" : id})
+        return res.send(test)
+    } catch (e) {
+        console.log(`Erreur lors de l'execution de la fonction findChambre`);
+        console.log(e);
+        throw e;
+    }
+}
 
 // Fonction qui crée une chambre
 async function addChambre(req, res, next) {
@@ -23,30 +55,6 @@ async function addChambre(req, res, next) {
     }
 }
 
-
-// Fonction qui recherche un item dans le registre avec un filtre sur le nom 
-async function findChambre(req, res) {
-    try {
-        let id = req.params.id;
-        let test = await crud.find('chambres', {"id" : id})
-        return res.send(test)
-    } catch (e) {
-        console.log(`Erreur lors de l execution de la fonction findChambre`);
-        console.log(e);
-        throw e;
-    }
-}
-// Fonction qui recherche toutes les chambres
-async function findchambreMany(req, res) {
-    try {
-        let test = await crud.find('chambres', {})
-        return res.send(test)
-    } catch (e) {
-        console.log(`Erreur lors de l execution de la fonction findChambre`);
-        console.log(e);
-        throw e;
-    }
-}
 // Fonction qui supprime une chambre 
 async function deletechambre(req, res) {
     try {

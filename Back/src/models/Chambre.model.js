@@ -16,6 +16,6 @@ const chambreSchema = new mongoose.Schema({
     image3: String
 });
 
-const chambres = mongoose.model('chambres', chambreSchema);
+const Chambre = mongoose.model('chambres', chambreSchema);
 
-module.exports = chambres;
+module.exports = Chambre;
