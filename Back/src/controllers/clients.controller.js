@@ -1,12 +1,14 @@
+const mongoose = require('mongoose');
 const { v4 : uuidv4 } = require ('uuid');
 const crud = require('../services/db/crud')
 const { getCollection } = require('../services/db/connect.js');
-
-
+const { clients } = require('../models/client.model.js');
 
 async function findClients(req,res, next){
     try {
-        const cursor = await crud.find("client");
+        const clientCollection = getCollection('clients');
+
+        const cursor = await clientCollection.find({});
 
         return res.send(cursor)
     } catch (e){
@@ -15,22 +17,11 @@ async function findClients(req,res, next){
 
 }
 
-// async function findClients(req, res) {
-//     try {
-//         const  collection = getCollection("clients");
-//         const  result = await  collection.find({});
-
-//         // let test = await crud.find('clients', {})
-//         return res.send(result)
-//     } catch (e) {
-//         console.log(`Erreur lors de l execution de la fonction findChambre`);
-//         console.log(e);
-//         throw e;
-//     }
-// }
-
 async function createClient(req, res, next) {
     try {
+
+        const clientCollection = getCollection('clients');
+
 
         const nom = req.body.nom
         const prenom = req.body.prenom
@@ -39,13 +30,13 @@ async function createClient(req, res, next) {
         const email = req.body.email
         const password = req.body.password
 
-        const verif = await crud.findOne('clients', { nom: nom })
+        const verif = await clientCollection.findOne({ nom: nom })
         if (verif) {
             console.log(`Error, l'utilisateur ${nom} existe déja`);
             return res.send({ Error: `Error, l'utilisateur ${nom} existe déja` });
         }
 
-        const result = await insertOne('clients', { nom: nom, prenom: prenom, adresse: adresse, telephone: telephone, email: email, password: password });
+        const result = await clientCollection.insertOne('clients', { nom: nom, prenom: prenom, adresse: adresse, telephone: telephone, email: email, password: password });
         console.log(`L'utilisateur ${nom}, qui a pour prenom : ${prenom} et l'id : ${id}`);
         return res.send(result)
     } catch (e) {

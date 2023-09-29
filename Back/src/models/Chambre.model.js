@@ -11,7 +11,6 @@ const chambreSchema = new mongoose.Schema({
     avis: [String], 
     equipements: [String], 
     mots_cles: [String],
-    id_hote: mongoose.Schema.Types.ObjectId,
     image1: String,
     image2: String,
     image3: String
