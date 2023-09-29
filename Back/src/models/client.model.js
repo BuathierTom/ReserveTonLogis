@@ -9,6 +9,6 @@ const clientSchema = new mongoose.Schema({
     password: String,
 });
 
-const clients = mongoose.model('clients', clientSchema);
+const Client = mongoose.model('clients', clientSchema);
 
-module.exports = clients;
+module.exports = Client;

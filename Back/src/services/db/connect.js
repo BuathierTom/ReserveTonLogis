@@ -8,7 +8,7 @@ async function connectToDatabase() {
         await mongoose.connect(uri, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            dbName: "ReserveTonLogis",
+            dbName: dbName,
         });
         console.log("Connected to MongoDB :)");
     } catch (error) {
