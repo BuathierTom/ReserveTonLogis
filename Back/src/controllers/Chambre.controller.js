@@ -27,8 +27,8 @@ async function addChambre(req, res, next) {
 // Fonction qui recherche un item dans le registre avec un filtre sur le nom 
 async function findChambre(req, res) {
     try {
-        let room = req.params.nom;
-        let test = await crud.find('chambres', {"nom" : room})
+        let id = req.params.id;
+        let test = await crud.find('chambres', {"id" : id})
         return res.send(test)
     } catch (e) {
         console.log(`Erreur lors de l execution de la fonction findChambre`);

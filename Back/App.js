@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 const { run } = require("./src/services/db/connect");
 
-const clients = require("./src/routes/clients.js");
+const clients = require("./src/routes/clients.routes");
 const chambres = require("./src/routes/chambres.routes");
 
 app.use("/clients", clients);
