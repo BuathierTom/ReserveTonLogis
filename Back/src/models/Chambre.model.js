@@ -13,7 +13,8 @@ const chambreSchema = new mongoose.Schema({
     mots_cles: [String],
     image1: String,
     image2: String,
-    image3: String
+    image3: String,
+    image4: String
 });
 
 const Chambre = mongoose.model('chambres', chambreSchema);

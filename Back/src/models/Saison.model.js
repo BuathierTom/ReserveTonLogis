@@ -9,6 +9,6 @@ const saisonSchema = new mongoose.Schema({
 })
 
 // Création du modèle Saisons basé sur le schéma
-const saisons = mongoose.model('saisons', saisonSchema);
+const Saisons = mongoose.model('saisons', saisonSchema);
 
-module.exports = saisons;
+module.exports = Saisons;
