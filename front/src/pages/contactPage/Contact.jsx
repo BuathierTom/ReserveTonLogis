@@ -4,12 +4,43 @@ import Outside from "../../assets/img/outside.jpg";
 import InstagramLogo from "../../assets/img/logo_insta.webp";
 import FacebookLogo from "../../assets/img/logo_facebook.png";
 import TiktokLogo from "../../assets/img/logo_tiktok.webp";
+import Footer from "../../layout/Footer";
+
+import { useEffect } from "react";
+
+
 
 
 function Contact () {
+
+    useEffect(() => {
+        function handleResize() {
+          const divElement = document.querySelector(".nav-bar");
+          if (window.innerWidth > 769) {
+            divElement.classList.add("nav-bar--color");
+          } else {
+            divElement.classList.remove("nav-bar--color");
+          }
+        }
+    
+        // Ajoutez un gestionnaire d'événements de redimensionnement lors du montage du composant
+        window.addEventListener("resize", handleResize);
+    
+        // Appelez handleResize une fois pour définir la classe initiale en fonction de la largeur initiale
+        handleResize();
+    
+        // Supprimez le gestionnaire d'événements lorsque le composant est démonté
+        return () => {
+          window.removeEventListener("resize", handleResize);
+        };
+      }, []);
+
     return (
         <>
+            <div className="nav-bar">
             <NavBar />
+
+            </div>
             <section className="contact">
                 <div className="contact__container">
                     <div className="contact__title">
@@ -19,6 +50,11 @@ function Contact () {
                         <img className="contact__icon" src={Outside} alt="" />
                     </div>
                     <div className="contact__content">
+                        <div className="contact__text contact__span">
+                            <span>Contactez-nous</span>
+
+                        </div>
+
                         <form className="contact__form">
                             <div className="contact__form-input">
                                 <input className="contact__input" type="text" placeholder="Nom" />
@@ -63,6 +99,11 @@ function Contact () {
                 </div>
 
             </section>
+
+            <footer className="footer">
+                <Footer />
+
+            </footer>
         </>
     );
 }
