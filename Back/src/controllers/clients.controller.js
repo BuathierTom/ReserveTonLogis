@@ -17,13 +17,23 @@ const createClient = async (req, res, next) => {
         // On récupere les données
         const { nom, prenom, adresse, telephone, email, password } = req.body;
 
-        // On vérifie si l'utilisateur existe déja
-        const verif = await Client.findOne({ "nom": nom })
+        // On vérifie si l'utilisateur avec l'email existe déja
+        const verif = await Client.findOne({ "email": email })
         if (verif) {
-            return res.status(400).send({ Error: `Error, l'utilisateur ${nom} existe déja` });
+            return res.status(400).send({ Error: `Error, l'utilisateur avec l'email : ${email} existe déja` });
+        }
+
+        // On recupere l'id max (si il y en a pas on met 1) de la collection Client et on ajoute a l'id 1
+        const maxId = await Client.find({}).sort({id:-1}).limit(1);
+        let newId;
+        if (maxId.length === 0) {
+            newId = 1
+        } else {
+            newId = maxId[0].id + 1
         }
 
         const newClient = new Client({
+            id: newId,
             nom: nom,
             prenom: prenom,
             adresse: adresse,
@@ -43,14 +53,14 @@ const createClient = async (req, res, next) => {
 // Fonction qui delete un client
 const deleteClient = async (req, res, next) => {
     try {
-        const { nom } = req.body;
+        const { email } = req.body;
         // On verifie si l'utilisateur existe
-        const verif = await Client.findOne({ "nom": nom })
+        const verif = await Client.findOne({ "email": email })
         if (!verif) {
-            return res.status(400).send({ Error: `Error, l'utilisateur ${nom} n'existe pas` });
+            return res.status(400).send({ Error: `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas` });
         }
 
-        const deleteClient = await Client.deleteOne({ "nom": nom })
+        const deleteClient = await Client.deleteOne({ "email": email })
         return res.status(200).send(deleteClient)
     } catch (e) {
         throw e;
@@ -60,14 +70,15 @@ const deleteClient = async (req, res, next) => {
 // Fonction qui update un client
 const updateClient = async (req, res, next) => {
     try {
+        const { id } = req.params;
         const { nom, prenom, adresse, telephone, email, password } = req.body;
         // On verifie si l'utilisateur existe
-        const verif = await Client.findOne({ "nom": nom })
+        const verif = await Client.findOne({ "id": id })
         if (!verif) {
-            return res.status(400).send({ Error: `Error, l'utilisateur ${nom} n'existe pas` });
+            return res.status(400).send({ Error: `Error, l'utilisateur avec l'id : ${id} n'existe pas` });
         }
 
-        const updateClient = await Client.updateOne({ "nom": nom }, {
+        const updateClient = await Client.updateOne({ "id": id }, {
             nom: nom,
             prenom: prenom,
             adresse: adresse,

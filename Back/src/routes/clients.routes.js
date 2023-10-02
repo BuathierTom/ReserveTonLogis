@@ -9,7 +9,7 @@ const { findClients,
 router.get("/get", findClients)
 router.post("/create", createClient)
 router.post("/delete", deleteClient)
-router.post("/update", updateClient)
+router.post("/update/:id", updateClient)
 
 
 module.exports = router;

@@ -5,6 +5,7 @@ const { connectToDatabase } = require("./src/services/db/connect");
 
 const clients = require("./src/routes/clients.routes.js");
 const chambres = require("./src/routes/chambres.routes.js");
+const reservations = require("./src/routes/reservations.routes.js");
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -21,5 +22,6 @@ const startServer = async () => {
         
     app.use("/clients", clients);
     app.use("/chambres", chambres);
+    app.use("/reservations", reservations);
 }
 startServer();
