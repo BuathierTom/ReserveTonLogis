@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 
 const saisonSchema = new mongoose.Schema({
     nom: String,
-    date_res: String,
-    temperature: Number, 
-    conditions_meteorologiques: String, 
     promotion: String,
 })
 
