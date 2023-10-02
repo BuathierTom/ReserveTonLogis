@@ -57,32 +57,32 @@ function Home () {
                 <Slider />
             </section>
 
-            <section class="journey">
+            <section id="room" class="journey">
             <div class="journey__title">
                 <span class="journey__span">Les différentes chambres d'hôtes </span>
             </div>
-            <div class="journey__container"> 
+            <div  class="journey__container"> 
                 <div class="card card-one"> 
                     <div class="card__content">
                     <p class="card__title">Les Marguerites</p>
-                    <p class="card__p">Une chambre en toute quiétude aliant modernité et tradition.  </p>
-                    <a href="/" target="_blank" class="button">Réservez dès maintenant</a>
+                    <p class="card__p">Une chambre en toute quiétude aliant modernité et tradition dans un gîte merveilleux  </p>
+                    <a href="/room/1"  class="button">Réservez dès maintenant</a>
                     </div>
                 </div>
 
                 <div class="card card-two"> 
                     <div class="card__content">
                     <p class="card__title">Les Primevères</p>
-                    <p class="card__p">Si vous souhaitez prendre le bus pour vous rendre jusqu'à l'IUT, Cliquez juste en dessous.</p>
-                    <a href="/" target="_blank" class="button"> Réservez dès maintenant</a>
+                    <p class="card__p">Les Primevères est une chambre d'hôtes possédant deux lit simple et une salle de bain privative.</p>
+                    <a href="/room/2"  class="button"> Réservez dès maintenant</a>
                     </div>
                 </div>
 
                 <div class="card card-three"> 
                     <div class="card__content">
                     <p class="card__title">Les Oyats</p>
-                    <p class="card__p">Si vous souhaitez prendre le train pour vous rendre jusqu'à l'IUT, Cliquez juste en dessous.</p>
-                    <a href="/" target="_blank" class="button">Réservez dès maintenant</a>
+                    <p class="card__p"> Les Oyats est une chambre d'hôtes possédant un lit double et un confort moderne.</p>
+                    <a href="/room/3"  class="button">Réservez dès maintenant</a>
                     </div>
                 </div>
             </div>

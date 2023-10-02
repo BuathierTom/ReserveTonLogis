@@ -39,7 +39,7 @@ function NavBar () {
                 <div className="nav-bar__menu">
                     <ul className="nav-bar__ul">
                         <li className="nav-bar__li"><a href="/">Accueil</a></li>
-                        <li className="nav-bar__li"><a href="#about">Chambres d'hote</a></li>
+                        <li className="nav-bar__li"><a href="#room">Chambres d'hote</a></li>
                         <li className="nav-bar__li"><a href="/contact">Contact</a></li>
                         <li className="nav-bar__li"> <a href="#contact">Mon compte</a></li>
                     </ul>
@@ -52,7 +52,7 @@ function NavBar () {
 
                             <ul className="nav-bar__ul">
                             <li className="nav-bar__li"><a href="#home">Accueil</a></li>
-                            <li className="nav-bar__li"><a href="#about">Chambres d'hote</a></li>
+                            <li className="nav-bar__li"><a href="#room">Chambres d'hote</a></li>
                             <li className="nav-bar__li"><a href="#services">Contact</a></li>
                             <li className="nav-bar__li"> <a href="#contact">Mon compte</a></li>
                             </ul>
