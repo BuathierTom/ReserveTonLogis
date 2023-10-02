@@ -6,6 +6,7 @@ const { connectToDatabase } = require("./src/services/db/connect");
 const clients = require("./src/routes/clients.routes.js");
 const chambres = require("./src/routes/chambres.routes.js");
 const reservations = require("./src/routes/reservations.routes.js");
+const saison = require("./src/routes/saison.routes.js");
 
 app.use(express.urlencoded({ extended: true }));
 
