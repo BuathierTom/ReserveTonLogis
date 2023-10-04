@@ -1,4 +1,6 @@
 const Client = require('../models/client.model');
+// Hacher mdp : npm install bcrypt
+const bcrypt = require('bcrypt');
 
 // Fonction qui recherche tous les clients
 const findClients = async (req, res, next) => {
@@ -32,6 +34,9 @@ const createClient = async (req, res, next) => {
             newId = maxId[0].id + 1
         }
 
+        // Hacher le mot de passe
+        const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+        
         const newClient = new Client({
             id: newId,
             nom: nom,
@@ -39,7 +44,7 @@ const createClient = async (req, res, next) => {
             adresse: adresse,
             telephone: telephone,
             email: email,
-            password: password,
+            password: hashedPassword,
         });
 
         const clientAdd = await newClient.save();

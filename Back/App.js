@@ -24,5 +24,6 @@ const startServer = async () => {
     app.use("/clients", clients);
     app.use("/chambres", chambres);
     app.use("/reservations", reservations);
+    app.use("/saison", saison);
 }
 startServer();
