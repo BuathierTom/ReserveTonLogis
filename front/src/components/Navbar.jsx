@@ -26,7 +26,7 @@ function NavBar () {
     };
 
     return (
-        <div className="nav-bar nav-bar--transparent">
+        <>
             <div className="nav-bar__logo">
                 <img className="nav-bar__img" src={Image} alt="Logo" />
             </div>
@@ -38,10 +38,10 @@ function NavBar () {
             ) : (
                 <div className="nav-bar__menu">
                     <ul className="nav-bar__ul">
-                        <li className="nav-bar__li"><a href="/">Accueil</a></li>
-                        <li className="nav-bar__li"><a href="#about">Chambres d'hote</a></li>
-                        <li className="nav-bar__li"><a href="/contact">Contact</a></li>
-                        <li className="nav-bar__li"> <a href="/account">Mon compte</a></li>
+                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="/">Accueil</a></li>
+                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="#about">Chambres d'hote</a></li>
+                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="/contact">Contact</a></li>
+                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="/connexion">Mon compte</a></li>
                     </ul>
                 </div>
             )}
@@ -51,14 +51,14 @@ function NavBar () {
                     <p className="nav-bar__close-cross" onClick={() => setIsMenuOpen(false)}>X</p>
 
                             <ul className="nav-bar__ul">
-                            <li className="nav-bar__li"><a href="#home">Accueil</a></li>
+                            <li className="nav-bar__li"><a href="/">Accueil</a></li>
                             <li className="nav-bar__li"><a href="#about">Chambres d'hote</a></li>
-                            <li className="nav-bar__li"><a href="#services">Contact</a></li>
-                            <li className="nav-bar__li"> <a href="#contact">Mon compte</a></li>
+                            <li className="nav-bar__li"><a href="/contact">Contact</a></li>
+                            <li className="nav-bar__li"> <a href="/connexion">Mon compte</a></li>
                             </ul>
                 </div>
             )}
-        </div>
+        </>
     );
 }
 

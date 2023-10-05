@@ -1,15 +1,41 @@
 import React from "react";
 import NavBar from "../../components/Navbar";
 import ReCAPTCHA from "react-google-recaptcha";
+import Footer from "../../layout/Footer";
+import { useEffect } from "react";
 
 
 
 
 function ConnexionInscription () {
+    useEffect(() => {
+        function handleResize() {
+          const divElement = document.querySelector(".nav-bar");
+          if (window.innerWidth > 769) {
+            divElement.classList.add("nav-bar--color");
+          } else {
+            divElement.classList.remove("nav-bar--color");
+          }
+        }
+    
+        // Ajoutez un gestionnaire d'événements de redimensionnement lors du montage du composant
+        window.addEventListener("resize", handleResize);
+    
+        // Appelez handleResize une fois pour définir la classe initiale en fonction de la largeur initiale
+        handleResize();
+    
+        // Supprimez le gestionnaire d'événements lorsque le composant est démonté
+        return () => {
+          window.removeEventListener("resize", handleResize);
+        };
+      }, []);
+
     return (
         <>
             <div className="container-img">
+                <div className="nav-bar">
                 <NavBar />
+                </div>
                 <section className="connexion-inscription">
                     <div className="connexion-inscription__container">
                         <div className="connexion-inscription__connexion">
@@ -78,6 +104,10 @@ function ConnexionInscription () {
                         </div>
                     </div>
                 </section>
+
+                <footer className="footer">
+                    <Footer />
+                </footer>
             </div>
 
 
