@@ -1,0 +1,133 @@
+.room {
+    color: $secondary;
+
+    &__container {
+        display: grid;
+        gap: 1rem;
+        padding:0 $l-pd;
+
+    }
+    &__container-weather-content-imgtemp{
+        display: flex;
+        align-items: center;
+    }
+
+    &__container-weather-content {
+        line-height: 0.5;
+        background-color: $senary;
+        color: $primary;
+        padding: 1rem 0.6rem;
+        font-size: $xs-sz;
+    }
+
+    &__img-weather {
+        width: 3rem;
+        object-fit: cover;
+    }
+
+    &__container-fixed {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 1fr;
+        align-items: center;
+    }
+    &__container-fixed-reservation {
+        width: 100%;
+        position: fixed;
+        background-color: $senary;
+        bottom: 0;
+        height: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50% 50% 0 0;
+
+    }
+    &__container-weather {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &__content-info {
+        font-size: $xs-sz;
+    }
+
+    &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &__container-img {
+        display: grid;
+        grid-template-columns: 2fr repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        gap: 0.2rem;
+    }
+
+    &__img-first{
+        grid-area: 1 / 1 / 3 / 2;
+    }
+
+    &__img-quaternary{
+        grid-area: 2 / 2 / 2 / 4;
+    }
+
+    &__title {
+        @include  little-title;
+        padding: 0;
+        line-height: 1.5;
+        margin:  2rem 0;
+    }
+
+    &__icon {
+        width: 3rem;
+    }
+
+    &__container-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $m-pd;
+        border: 1px solid rgb(170, 170, 170);
+    }
+
+    &__name {
+        font-size: $s-sz;
+        font-weight: 600;
+    }
+
+    &__description {
+        color: black;
+        font-size: $s-sz;
+        max-height: 15rem;
+        overflow: auto;
+        text-align: justify;
+        padding: 1rem;
+    }
+
+    &__button {
+        @include button;
+        font-size: $xs-sz;
+    }
+
+    &__characteristics-content {
+        width: 100%;
+        display:flex;
+        align-items: center;
+        gap: 1rem;
+        
+    }
+
+    &__characteristics-container {
+        display:grid;
+        justify-content: center;
+        gap: 1rem;
+
+    }
+    &__characteristics-icon {
+        width: 3rem;
+    }
+}

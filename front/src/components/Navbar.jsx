@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Image from "../assets/img/logo.png";
-import iconMenu from "../assets/img/imgIcon/icons8-menu-50.png";
+import iconMenu from "../assets/img/imgIcon/icons8-menu-70.png";
 
 function NavBar () {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
-        // Fonction de rappel pour mettre à jour la largeur de la fenêtre
         const updateWindowWidth = () => {
             setWindowWidth(window.innerWidth);
         };
 
-        // Ajoute un écouteur d'événement pour suivre la largeur de la fenêtre
         window.addEventListener("resize", updateWindowWidth);
 
-        // Nettoie l'écouteur d'événement lors du démontage du composant
         return () => {
             window.removeEventListener("resize", updateWindowWidth);
         };
@@ -39,7 +36,7 @@ function NavBar () {
                 <div className="nav-bar__menu">
                     <ul className="nav-bar__ul">
                         <li className="nav-bar__li"><a className="nav-bar--color__link" href="/">Accueil</a></li>
-                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="#about">Chambres d'hote</a></li>
+                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="#room">Chambres d'hote</a></li>
                         <li className="nav-bar__li"><a className="nav-bar--color__link" href="/contact">Contact</a></li>
                         <li className="nav-bar__li"><a className="nav-bar--color__link" href="/connexion">Mon compte</a></li>
                     </ul>
@@ -51,10 +48,10 @@ function NavBar () {
                     <p className="nav-bar__close-cross" onClick={() => setIsMenuOpen(false)}>X</p>
 
                             <ul className="nav-bar__ul">
-                            <li className="nav-bar__li"><a href="/">Accueil</a></li>
-                            <li className="nav-bar__li"><a href="#about">Chambres d'hote</a></li>
-                            <li className="nav-bar__li"><a href="/contact">Contact</a></li>
-                            <li className="nav-bar__li"> <a href="/connexion">Mon compte</a></li>
+                            <li className="nav-bar__li"><a className="nav-bar__a-menu"  href="/">Accueil</a></li>
+                            <li className="nav-bar__li"><a className="nav-bar__a-menu"onClick={() => setIsMenuOpen(false)} href="#room">Chambres d'hote</a></li>
+                            <li className="nav-bar__li"><a className="nav-bar__a-menu" href="/contact">Contact</a></li>
+                            <li className="nav-bar__li"> <a className="nav-bar__a-menu" href="/connexion">Mon compte</a></li>
                             </ul>
                 </div>
             )}

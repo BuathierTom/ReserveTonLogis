@@ -21,6 +21,7 @@
             color: $secondary;
 
         }
+
         
     }
 
@@ -41,10 +42,10 @@
             z-index: 10;
             padding: $xxl-pd;
             overflow-y: hidden;
-            background-color: rgb(255 255 255 / 0.3);
+            background-color: rgb(255 255 255 / 0.8);
             backdrop-filter: blur(15px);
             box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.3);
-
+            
         }
     }
 
@@ -68,7 +69,7 @@
         height: 2rem;
         cursor: pointer;
         font-size: $xxl-sz;
-        color: $quaternary;
+        color: $secondary;
     }
 
     &__li {
@@ -83,5 +84,9 @@
     &__img {
         width: 4rem;
         height: 4rem;;
+    }
+
+    &__a-menu {
+        color: $secondary;
     }
 }

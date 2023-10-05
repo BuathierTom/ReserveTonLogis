@@ -57,32 +57,32 @@ function Home () {
                 <Slider />
             </section>
 
-            <section id="room" class="journey">
-            <div class="journey__title">
-                <span class="journey__span">Les différentes chambres d'hôtes </span>
+            <section id="room" className="journey">
+            <div className="journey__title">
+                <span className="journey__span">Les différentes chambres d'hôtes </span>
             </div>
-            <div  class="journey__container"> 
-                <div class="card card-one"> 
-                    <div class="card__content">
-                    <p class="card__title">Les Marguerites</p>
-                    <p class="card__p">Une chambre en toute quiétude aliant modernité et tradition dans un gîte merveilleux  </p>
-                    <a href="/room/1"  class="button">Réservez dès maintenant</a>
+            <div  className="journey__container"> 
+                <div className="card card-one"> 
+                    <div className="card__content">
+                    <p className="card__title">Les Marguerites</p>
+                    <p className="card__p">Une chambre en toute quiétude aliant modernité et tradition dans un gîte merveilleux  </p>
+                    <a href="/room/1"  className="button">Réservez dès maintenant</a>
                     </div>
                 </div>
 
-                <div class="card card-two"> 
-                    <div class="card__content">
-                    <p class="card__title">Les Primevères</p>
-                    <p class="card__p">Les Primevères est une chambre d'hôtes possédant deux lit simple et une salle de bain privative.</p>
-                    <a href="/room/2"  class="button"> Réservez dès maintenant</a>
+                <div className="card card-two"> 
+                    <div className="card__content">
+                    <p className="card__title">Les Primevères</p>
+                    <p className="card__p">Les Primevères est une chambre d'hôtes possédant deux lit simple et une salle de bain privative.</p>
+                    <a href="/room/2"  className="button"> Réservez dès maintenant</a>
                     </div>
                 </div>
 
-                <div class="card card-three"> 
-                    <div class="card__content">
-                    <p class="card__title">Les Oyats</p>
-                    <p class="card__p"> Les Oyats est une chambre d'hôtes possédant un lit double et un confort moderne.</p>
-                    <a href="/room/3"  class="button">Réservez dès maintenant</a>
+                <div className="card card-three"> 
+                    <div className="card__content">
+                    <p className="card__title">Les Oyats</p>
+                    <p className="card__p"> Les Oyats est une chambre d'hôtes possédant un lit double et un confort moderne.</p>
+                    <a href="/room/3"  className="button">Réservez dès maintenant</a>
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@ function Home () {
             <div className="activity__container">
                 <div className="activity__content activity__content--reverse">
                     <div className="activity__content-img">
-                        <img className="activity__img" src={ImgActivity1} alt="" />
+                        <img className="activity__img img-cave" src={ImgActivity1} alt="" />
                     </div>
                     <div className="activity__content-text activity__content-text--reverse">
                         <span className="activity__content-title">Caves Duhard</span>
@@ -106,7 +106,7 @@ function Home () {
                 </div>
                 <div className="activity__content">
                     <div className="activity__content-img">
-                        <img className="activity__img" src={ImgActivity2} alt="" />
+                        <img className="activity__img img-ride" src={ImgActivity2} alt="" />
                     </div>
                     <div className="activity__content-text">
                         <span className="activity__content-title">Balade à vélo le long de la Loire</span>
@@ -117,7 +117,7 @@ function Home () {
                 </div>
                 <div className="activity__content activity__content--reverse">
                     <div className="activity__content-img">
-                        <img className="activity__img" src={ImgActivity3} alt="" />
+                        <img className="activity__img img-Tours" src={ImgActivity3} alt="" />
                     </div>
                     <div className="activity__content-text activity__content-text--reverse">
                     <span className="activity__content-title">Visite de la ville de Tours</span>
@@ -129,7 +129,7 @@ function Home () {
                 </div>
                 <div className="activity__content activity__content">
                     <div className="activity__content-img">
-                        <img className="activity__img" src={ImgActivity4} alt="" />
+                        <img className="activity__img img-garder" src={ImgActivity4} alt="" />
                     </div>
                     <div className="activity__content-text">
                     <span className="activity__content-title">Visite des jardins de Villandry</span>

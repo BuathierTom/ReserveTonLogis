@@ -81,6 +81,8 @@
         @include desktop{
             width: 100%;
         }
+
+
     }
 
     &__input-submit{
@@ -113,6 +115,7 @@
         padding-bottom: $xxxl-pd;
         font-family: 'Crimsom Text', serif;
         width: 100%;
+        border-width: 0.1rem;
 
         @include tablet{
             width: 80%;
