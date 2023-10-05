@@ -15,6 +15,35 @@ const getAllReservations = async (req, res, next) => {
 
 };
 
+// Fonction qui permet de récuperer les détails d'une reservation en fonction de son id
+const getReservationById = async (req, res, next) => {
+    try {
+        const { id } = req.params.id;
+
+        // Information de la reservation
+        const reservationsData = await Reservations.find({id_reservation: id});
+
+        // Informations du client
+        const idClient = reservationsData[0].id_client;
+        const clientData = await Client.find({id: idClient});
+
+        // Informations de la chambre
+        const idChambre = reservationsData[0].id_chambre;
+        const chambreData = await Chambre.find({id: idChambre});
+
+        const result = {
+            reservation: reservationsData,
+            client: clientData,
+            chambre: chambreData
+        }        
+
+        return res.status(200).json(result)
+    } catch (e){
+        throw e;
+    }
+
+};
+
 // Fonction qui créé une reservation
 const createReservation = async (req, res, next) => {
     try {
@@ -56,4 +85,5 @@ const createReservation = async (req, res, next) => {
 module.exports = {
     getAllReservations,
     createReservation,
+    getReservationById
 };
