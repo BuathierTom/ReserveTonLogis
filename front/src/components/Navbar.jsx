@@ -41,7 +41,7 @@ function NavBar () {
                         <li className="nav-bar__li"><a href="/">Accueil</a></li>
                         <li className="nav-bar__li"><a href="#about">Chambres d'hote</a></li>
                         <li className="nav-bar__li"><a href="/contact">Contact</a></li>
-                        <li className="nav-bar__li"> <a href="#contact">Mon compte</a></li>
+                        <li className="nav-bar__li"> <a href="/account">Mon compte</a></li>
                     </ul>
                 </div>
             )}
