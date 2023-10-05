@@ -7,7 +7,9 @@
 
 .account{
     &__container{
-        margin: 20%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
 
@@ -17,6 +19,7 @@
         margin-left: $xxxl-mg;
         margin-right: $xxxl-mg;
         height: 100%;
+        width: 100%;
         gap: 2rem;
         margin-top: $xxl-pd;
         margin-bottom: $xxl-pd;
@@ -31,36 +34,62 @@
     &__reservations{
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        background-color: rgb(250, 248, 240,0.85);
+        padding: $l-pd;
+
+    }
+
+    &__div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__button{
+        background-color: $primary;
+        color: $secondary;
+        border: none;
+        border-radius: 5px;
+        padding: $s-pd;
+        font-size: $xxs-sz;
+        @include desktop{
+            font-size: $l-sz;
+        }
+    }
+
+    &__reservations-block{
+        flex-direction: column;
         gap: 1rem;
         justify-content: center;
-        margin-top: auto;
-        margin-bottom: auto;
         background-color: rgb(250, 248, 240,0.85);
-
+        align-items: center;
+        justify-content: space-between;
+        padding: $l-pd;
+        margin-top: $l-mg;
+        @include desktop{
+            flex-direction: row;
+        }
     }
 
     &__donnees{
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        justify-content: center;
-        margin-top: auto;
-        margin-bottom: auto;
+        justify-content: space-between;
         background-color: rgb(223, 254, 212,0.85);
-
+        padding: $l-pd;
     }
 
     &__parametres{
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        justify-content: center;
-        margin-top: auto;
-        margin-bottom: auto;
+        justify-content: space-between;
         background-color: rgb(250, 248, 240,0.85);
         @include desktop{
             background-color: rgb(223, 254, 212,0.85);
         }
+        padding: $l-pd;
+
 
 
     }
@@ -68,22 +97,20 @@
     &__connexion{
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        justify-content: center;
-        margin-top: auto;
-        margin-bottom: auto;
+        justify-content: space-between;
         background-color: rgb(223, 254, 212,0.85);
 
         @include desktop{
             background-color: rgb(250, 248, 240,0.85);
         }
+        padding: $l-pd;
+
 
     }
 
     &__title{
         color: $secondary;
         font-size: $xxs-sz;
-        padding: $l-pd;
         @include desktop {
             font-size: $l-sz;
         }
