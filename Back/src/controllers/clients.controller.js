@@ -1,4 +1,6 @@
 const Client = require('../models/client.model');
+// Hacher mdp : npm install bcrypt
+const bcrypt = require('bcrypt');
 
 // Fonction qui recherche tous les clients
 const findClients = async (req, res, next) => {
@@ -32,6 +34,9 @@ const createClient = async (req, res, next) => {
             newId = maxId[0].id + 1
         }
 
+        // Hacher le mot de passe
+        const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+        
         const newClient = new Client({
             id: newId,
             nom: nom,
@@ -39,7 +44,7 @@ const createClient = async (req, res, next) => {
             adresse: adresse,
             telephone: telephone,
             email: email,
-            password: password,
+            password: hashedPassword,
         });
 
         const clientAdd = await newClient.save();
@@ -92,11 +97,30 @@ const updateClient = async (req, res, next) => {
     }
 };
 
+// Fonction de connexion par mail et mot de passe 
+const connectClient = async (req, res, next) => {
+    const { email, password } = req.body;
+    // On verifie si l'utilisateur existe
+    const verif = await Client.findOne({ "email": email })
+    if (!verif) {
+        return res.status(400).send({ Error: `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas` });
+    }
+
+    // On verifie si le mot de passe est correct
+    const verifPassword = await bcrypt.compare(password, verif.password);
+    if (!verifPassword) {
+        return res.status(400).send({ Error: `Error, le mot de passe est incorrect` });
+    }
+    //console.log("client connecté")
+    return res.status(200).send(verif)
+    
+};
 
 module.exports = {
     findClients,
     createClient,
     deleteClient,
     updateClient,
+    connectClient
 };
 

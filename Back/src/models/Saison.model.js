@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const saisonSchema = new mongoose.Schema({
+    id : Number,
     nom: String,
     promotion: String,
 })
