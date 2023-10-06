@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-async function connectToDatabase() {
+const connectToDatabase = async () => {
     try {
         await mongoose.connect(process.env.DB_URI, {
             useNewUrlParser: true,
@@ -15,11 +15,13 @@ async function connectToDatabase() {
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
     }
-}
+};
 
-function getCollection(collectionName) {
+
+const getCollection = (collectionName) => {
     return mongoose.connection.db.collection(collectionName);
-}
+};
+
 
 module.exports = {
     connectToDatabase,

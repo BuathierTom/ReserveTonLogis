@@ -1,8 +1,9 @@
 const Client = require('../models/client.model');
-const bcrypt = require('bcrypt');
-const { transporter } = require('../mail/transporter.mail.js');
 const fs = require('fs');
+const { bcrypt } = require('bcrypt');
+const { transporter } = require('../mail/transporter.mail.js');
 const dotenv = require('dotenv');
+
 dotenv.config();
 
 // Fonction qui recherche tous les clients
@@ -58,14 +59,12 @@ const createClient = async (req, res, next) => {
             to: email,
             subject: 'Bienvenue chez RéserveTonLogis.com !',
             html: emailContent,
-            //text: 'Bonjour, nous vous souhaitons la bienvenue sur notre site de réservation de logement !\n Nous sommes ravis de vous accueillir parmi nos utilisateurs. Votre compte a été créé avec succès, et vous êtes désormais prêt à explorer notre sélection exceptionnelle de logements pour votre prochain voyage. \nChez nous, vous découvrirez une variété d\'options de logement, des chambres confortables aux appartements élégants, en passant par des maisons de vacances pittoresques, afin de répondre à tous vos besoins et préférences. \nQue vous planifiiez une escapade romantique, des vacances en famille ou un voyage d\'affaires, notre plateforme conviviale vous offre la possibilité de rechercher, de comparer et de réserver facilement l\'hébergement qui correspond parfaitement à votre séjour.\n Nous sommes là pour vous accompagner tout au long de votre voyage, alors n\'hésitez pas à explorer nos offres, à poser des questions ou à demander de l\'aide à notre équipe d\'assistance dédiée. \nNous vous souhaitons un voyage inoubliable et un séjour des plus agréables dans nos logements de qualité. Merci de nous faire confiance pour votre réservation de logement. Bon voyage !'
         };
 
         try {
             await transporter.sendMail(mailOptions);
-            console.log('E-mail envoyé au client');
         } catch (error) {
-            console.error('Erreur lors de l\'envoi de l\'e-mail au client:', error);
+            throw error;
         }
 
         return res.status(200).send(clientAdd);
