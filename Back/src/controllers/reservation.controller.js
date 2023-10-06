@@ -51,12 +51,12 @@ const createReservation = async (req, res, next) => {
         const { date_arrive, date_depart, nb_personnes, prix_total, id_client, id_chambre } = req.body;
 
         // On créé un id en fonction du dernier id de la collection
-        const maxId = await Reservations.find({}).sort({id:-1}).limit(1);
+        const maxId = await Reservations.find({}).sort({ id: -1 }).limit(1);
         let newId;
         if (maxId.length === 0) {
-            newId = 1
+            newId = 1;
         } else {
-            newId = maxId[0].id + 1
+            newId = maxId[0].id_reservation + 1;
         }
 
         const newReservation = new Reservations({

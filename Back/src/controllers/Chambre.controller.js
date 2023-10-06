@@ -62,10 +62,10 @@ const deleteChambre = async (req, res) => {
 
         const deletechambre = await Chambre.deleteOne ({ "id": id })
         return res.status(200).send(deletechambre)
-        } catch (e) {
-            throw e;
-        }
-    };
+    } catch (e) {
+        throw e;
+    }
+};
 
 module.exports = {
     findChambre,
