@@ -6,25 +6,25 @@ Le site que nous devons réaliser est un site de gestions de réservations de 3 
 
 ## Fonctionnalités Principales :
 
-- Gestion des Réservations : Le site permet aux visiteurs de consulter la disponibilité des trois chambres d'hôtes et de réserver en fonction de leurs préférences en termes de dates, durée du séjour et nombre de personnes.
+- **Gestion des Réservations** : Le site permet aux visiteurs de consulter la disponibilité des trois chambres d'hôtes et de réserver en fonction de leurs préférences en termes de dates, durée du séjour et nombre de personnes.
 
- - Tarification Dynamique : Le prix des chambres varie en fonction de la période et du nombre de personnes. Les visiteurs peuvent voir le tarif en temps réel lors de la réservation.
+ - **Tarification Dynamique** : Le prix des chambres varie en fonction de la période et du nombre de personnes. Les visiteurs peuvent voir le tarif en temps réel lors de la réservation.
 
- - Galerie Photos : Une galerie de photos attrayante présente les chambres, les espaces communs et l'environnement extérieur pour donner aux visiteurs une idée précise de leur séjour potentiel.
+ - **Galerie Photos** : Une galerie de photos attrayante présente les chambres, les espaces communs et l'environnement extérieur pour donner aux visiteurs une idée précise de leur séjour potentiel.
 
- - Activités Proposées : Une section dédiée présente les activités locales, les attractions touristiques, et les expériences uniques que les visiteurs peuvent apprécier pendant leur séjour.
+ - **Activités Proposées** : Une section dédiée présente les activités locales, les attractions touristiques, et les expériences uniques que les visiteurs peuvent apprécier pendant leur séjour.
 
-- Météo Locale : Le site intègre une fonctionnalité qui affiche les prévisions météorologiques locales lors de la réservation, aidant ainsi les visiteurs à prévoir leur voyage en conséquence.
+- **Météo Locale** : Le site intègre une fonctionnalité qui affiche les prévisions météorologiques locales lors de la réservation, aidant ainsi les visiteurs à prévoir leur voyage en conséquence.
 
- - Itinéraires et Bornes Électriques : Un itinéraire pour permettre au client de se rendre au Gite en fonction de sa localisation.
+ - **Itinéraires et Bornes Électriques** : Un itinéraire pour permettre au client de se rendre au Gite en fonction de sa localisation.
  
- - Calendrier de réservation : Un calendrier avec les disponibilités de réservation des chambres avec les dates disponibles. 
+ - **Calendrier de réservation** : Un calendrier avec les disponibilités de réservation des chambres avec les dates disponibles. 
  
-- Connexion/Inscription : Le client va pouvoir créer un compte et avec ce compte il pourra voir le nombre de réservation qu’il a déjà fais dans le Gite. Toutes les données seront sécurisé afin de respecter le RGPD.
+- **Connexion/Inscription** : Le client va pouvoir créer un compte et avec ce compte il pourra voir le nombre de réservation qu’il a déjà fais dans le Gite. Toutes les données seront sécurisé afin de respecter le RGPD.
 
- - Contacter le propriétaire : Le client peut contacter le propriétaire en toute circonstance en cas de question sur les chambres ou autre.
+ - **Contacter le propriétaire** : Le client peut contacter le propriétaire en toute circonstance en cas de question sur les chambres ou autre.
 
- - Données personnelles : Le client pourra modifier ses information personnelles en cas de besoin.
+ - **Données personnelles** : Le client pourra modifier ses information personnelles en cas de besoin.
 
 
 
