@@ -18,7 +18,7 @@ const getAllReservations = async (req, res, next) => {
 // Fonction qui permet de récuperer les détails d'une reservation en fonction de son id
 const getReservationById = async (req, res, next) => {
     try {
-        const { id } = req.params.id;
+        const id = req.params.id;
 
         // Information de la reservation
         const reservationsData = await Reservations.find({id_reservation: id});
@@ -51,7 +51,7 @@ const createReservation = async (req, res, next) => {
         const { date_arrive, date_depart, nb_personnes, prix_total, id_client, id_chambre } = req.body;
 
         // On créé un id en fonction du dernier id de la collection
-        const maxId = await Reservations.find({}).sort({ id: -1 }).limit(1);
+        const maxId = await Reservations.find({}).sort({ id_reservation: -1 }).limit(1);
         let newId;
         if (maxId.length === 0) {
             newId = 1;

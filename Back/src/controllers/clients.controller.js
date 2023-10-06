@@ -140,17 +140,19 @@ const connectClient = async (req, res, next) => {
 // Fonction qui permet de récuperer les détails d'une reservation en fonction de l'id du
 const getClientReservationById = async (req, res, next) => {
     try {
-        const { id } = req.params.id;
+        const idClient = req.params.id;
 
         // Information de la reservation
-        const reservationData = await Reservations.find({id_client: id});
+        const reservationData = await Reservations.find({id_client: idClient});
 
-        // Information de la chambre
-        const chambreData = await Chambre.find({id: reservationData.id_chambre});
-
-        const result = {
-            reservation: reservationData,
-            chambre: chambreData
+        let result = [];
+        for (let i = 0; i < reservationData.length; i++) {
+            const idChambre = reservationData[i].id_chambre;
+            const chambreData = await Chambre.find({id: idChambre});
+            result.push({
+                reservation: reservationData[i],
+                chambre: chambreData
+            })
         }
 
         return res.status(200).json(result)
