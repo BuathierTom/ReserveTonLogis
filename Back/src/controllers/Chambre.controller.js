@@ -1,9 +1,4 @@
-const mongoose = require('mongoose');
-const crud = require('../services/db/crud')
-const axios = require ('axios')
-const { getCollection } = require('../services/db/connect.js');
 const Chambre = require('../models/chambre.model');
-
 
 // Fonction qui recherche toutes les chambres
 const findchambreMany = async (req, res) => {
