@@ -1,6 +1,6 @@
 const Client = require('../models/client.model');
 const fs = require('fs');
-const { bcrypt } = require('bcrypt');
+const bcrypt  = require('bcrypt');
 const { transporter } = require('../mail/transporter.mail.js');
 const dotenv = require('dotenv');
 
