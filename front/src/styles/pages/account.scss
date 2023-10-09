@@ -1,15 +1,21 @@
 .account-img{
     background-image: url("../../assets/img/other-view-img.jpg");
-    background-size: cover;
     background-repeat: no-repeat;
-    height: 100vh;
+    background-attachment: fixed;
+    min-height: 100vh;
+
+    @include desktop{
+        background-size: cover;
+    }
 }
 
 .account{
     &__container{
         display: flex;
-        align-items: center;
+        flex-direction: column;
         justify-content: center;
+        height: 100%;
+
     }
 
 
@@ -18,16 +24,15 @@
         flex-direction: column;
         margin-left: $xxxl-mg;
         margin-right: $xxxl-mg;
-        height: 100%;
-        width: 100%;
         gap: 2rem;
-        margin-top: $xxl-pd;
         margin-bottom: $xxl-pd;
+        margin-top: $xxl-pd;
         @include desktop{
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             margin-top: $big-pd;
             margin-bottom: $big-pd;
+            align-items: start;
         }
     }
 
@@ -38,6 +43,10 @@
         background-color: rgb(250, 248, 240,0.85);
         padding: $l-pd;
 
+        @include desktop{
+            justify-content: center;
+        }
+
     }
 
     &__div{
@@ -47,29 +56,44 @@
     }
 
     &__button{
-        background-color: $primary;
-        color: $secondary;
+        background-color: transparent;
         border: none;
-        border-radius: 5px;
-        padding: $s-pd;
-        font-size: $xxs-sz;
+        cursor: pointer;
         @include desktop{
             font-size: $l-sz;
         }
     }
 
+    &__button-img{
+        width: 1.5rem;
+        height: 1.5rem;
+
+        @include desktop{
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+
     &__reservations-block{
-        flex-direction: column;
-        gap: 1rem;
-        justify-content: center;
         background-color: rgb(250, 248, 240,0.85);
-        align-items: center;
-        justify-content: space-between;
         padding: $l-pd;
         margin-top: $l-mg;
+
+        &--reservation-title{
+            color: $senary;
+            font-size: $xs-sz;
+            font-weight: $bold;
+            @include desktop {
+                font-size: $s-sz;
+            }
+
+        }
+
         @include desktop{
             flex-direction: row;
         }
+
+
     }
 
     &__donnees{
@@ -85,13 +109,11 @@
         flex-direction: column;
         justify-content: space-between;
         background-color: rgb(250, 248, 240,0.85);
+        padding: $l-pd;
+
         @include desktop{
             background-color: rgb(223, 254, 212,0.85);
         }
-        padding: $l-pd;
-
-
-
     }
 
     &__connexion{
@@ -104,15 +126,77 @@
             background-color: rgb(250, 248, 240,0.85);
         }
         padding: $l-pd;
-
-
     }
 
     &__title{
         color: $secondary;
-        font-size: $xxs-sz;
+        font-size: $xs-sz;
         @include desktop {
             font-size: $l-sz;
         }
     }
+
+    &__donnees-block{
+        background-color: rgb(250, 248, 240,0.85);
+        padding: $l-pd;
+        margin-top: $l-mg;
+
+        &--info{
+            display: flex;
+            margin-top: $l-mg;
+            align-items: center;
+        }
+
+        &--info-title{
+            color: $senary;
+            font-size: $xs-sz;
+            font-weight: $bold;
+            margin-right: $s-mg;
+            @include desktop {
+                font-size: $s-sz;
+            }
+        }
+
+        &--info-content{
+            color: $quinary;
+            font-size: $xs-sz;
+            @include desktop {
+                font-size: $m-sz;
+            }
+        }
+
+        @include desktop{
+            flex-direction: row;
+        }
+    }
+
+    &__security-block{
+        background-color: rgb(250, 248, 240,0.85);
+        padding: $l-pd;
+        margin-top: $l-mg;
+
+        &--info-link{
+            color: $senary;
+            font-size: $xs-sz;
+            font-weight: $bold;
+            margin-right: $l-mg;
+            @include desktop {
+                font-size: $s-sz;
+            }
+        }
+    }
+
+    &__delete{
+        display: flex;
+        justify-content: center;
+        margin-bottom: $xxxl-mg;     
+    }
+
+    &__delete-button{
+        @include button;
+        background-color: rgb(254, 68, 68);
+        cursor: pointer;
+    }
+
+
 }
