@@ -2,12 +2,55 @@ import React from "react";
 import NavBar from "../../components/Navbar";
 import ReCAPTCHA from "react-google-recaptcha";
 import Footer from "../../layout/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 
 
 
 
 function ConnexionInscription () {
+    const [nom, setNom] = useState("");
+    const [prenom, setPrenom] = useState("");
+    const [email, setEmail] = useState("");
+    const [telephone, setTelephone] = useState("");
+    const [adresse, setAdresse] = useState("");
+    const [ville, setVille] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
+
+    const handleInscription = async (e) => {
+        e.preventDefault();
+        
+        
+        try {
+            const response = await fetch("http://localhost:3000/clients/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nom,
+                    prenom,
+                    email,
+                    adresse,
+                    telephone,
+                    password,
+                }),
+            });
+            console.log(response)
+            const data = await response.json();
+            console.log(data);
+            if (data.error) {
+                setError(data.error);
+            }
+        } catch (error) {
+            console.log(error);
+            // Gérez l'erreur ici, par exemple, en affichant un message d'erreur approprié.
+        }   
+             
+        console.log(nom, prenom, email, telephone, adresse, ville, password);
+    };
+
     useEffect(() => {
         function handleResize() {
           const divElement = document.querySelector(".nav-bar");
@@ -17,14 +60,11 @@ function ConnexionInscription () {
             divElement.classList.remove("nav-bar--color");
           }
         }
+        
     
-        // Ajoutez un gestionnaire d'événements de redimensionnement lors du montage du composant
         window.addEventListener("resize", handleResize);
-    
-        // Appelez handleResize une fois pour définir la classe initiale en fonction de la largeur initiale
         handleResize();
     
-        // Supprimez le gestionnaire d'événements lorsque le composant est démonté
         return () => {
           window.removeEventListener("resize", handleResize);
         };
@@ -65,42 +105,83 @@ function ConnexionInscription () {
                         <div className="connexion-inscription__inscription">
                             <p className="connexion-inscription__title">Nouveau Client ?</p>
                             <p className="connexion-inscription__text">Créer votre compte client</p>
-                            <form className="connexion-inscription__form">
-                                <div className="connexion-inscription__form-line">
-                                    <div className="connexion-inscription__form-input">
-                                        <input className="connexion-inscription__input" type="text" placeholder="Nom" />
-                                    </div>
-                                    <div className="connexion-inscription__form-input">
-                                        <input className="connexion-inscription__input" type="text" placeholder="Prénom" />
-                                    </div>
-                                </div>
-                                <div className="connexion-inscription__form-input">
-                                    <input className="connexion-inscription__input" type="email" placeholder="Email" />
-                                </div>
-                                <div className="connexion-inscription__form-input">
-                                    <input className="connexion-inscription__input" type="text" placeholder="Numéro de téléphone" />
-                                </div>
-                                <div className="connexion-inscription__form-input">
-                                    <input className="connexion-inscription__input" type="text" placeholder="Adresse" />
-                                </div>
-                                <div className="connexion-inscription__form-line">
-                                    <div className="connexion-inscription__form-input">
-                                        <input className="connexion-inscription__input" type="text" placeholder="Code postal" />
-                                    </div>
-                                    <div className="connexion-inscription__form-input">
-                                        <input className="connexion-inscription__input" type="text" placeholder="Ville" />
-                                    </div>
-                                </div>
-                                <div className="connexion-inscription__form-input">
-                                    <input className="connexion-inscription__input" type="password" placeholder="Mot de passe" minLength={8} />
-                                </div>
-                                {/* <ReCAPTCHA
-                                    sitekey="6LcEeTUoAAAAABjZLGe1StYkQ4gIAGg2C4T_GugF"
-                                /> */}
-                                <div className="connexion-inscription__button">
-                                    <input className="connexion-inscription__input-submit" type="submit" value="S'inscrire" />
-                                </div>
+                            <form className="connexion-inscription__form" onSubmit={handleInscription} method="POST">
+                            <div className="connexion-inscription__form-input">
+                                <input
+                                className="connexion-inscription__input"
+                                type="text"
+                                placeholder="Nom"
+                                name="nom" 
+                                value={nom}
+                                onChange={(e) => setNom(e.target.value)}
+                                />
+                            </div>
+                            <div className="connexion-inscription__form-input">
+                                <input
+                                className="connexion-inscription__input"
+                                type="text"
+                                placeholder="Prénom"
+                                name="prenom"
+                                value={prenom}
+                                onChange={(e) => setPrenom(e.target.value)}
+                                />
+                            </div>
+                            <div className="connexion-inscription__form-input">
+                                <input
+                                className="connexion-inscription__input"
+                                type="email"
+                                placeholder="Email"
+                                value={email}
+                                name="email"
+                                onChange={(e) => setEmail(e.target.value)}
+                                
+                                />
+                            </div>
+                            <div className="connexion-inscription__form-input">
+                                <input
+                                className="connexion-inscription__input"
+                                type="text"
+                                name="telephone"
+                                placeholder="Numéro de téléphone"
+                                value={telephone}
+                                onChange={(e) => setTelephone(e.target.value)}
+                                />
+                            </div>
+                            <div className="connexion-inscription__form-input">
+                                <input
+                                className="connexion-inscription__input"
+                                type="text"
+                                placeholder="Adresse"
+                                value={adresse}
+                                onChange={(e) => setAdresse(e.target.value)}
+                                />
+                            </div>
+                            <div className="connexion-inscription__form-input">
+                                <input
+                                className="connexion-inscription__input"
+                                type="text"
+                                placeholder="Ville"
+                                value={ville}
+                                onChange={(e) => setVille(e.target.value)}
+                                />
+                            </div>
+                            <div className="connexion-inscription__form-input">
+                                <input
+                                className="connexion-inscription__input"
+                                type="password"
+                                placeholder="Mot de passe"
+                                minLength={8}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                />
+                            </div>
+                            {/* Affichez ici un message d'erreur en cas d'échec d'inscription */}
+                            {error && <p className="error-message">{error}</p>}
+                            <div className="connexion-inscription__button">
+                                <input className="connexion-inscription__input-submit" type="submit" value="S'inscrire" />
+                            </div>
                             </form>
+
                         </div>
                     </div>
                 </section>

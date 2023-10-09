@@ -18,6 +18,8 @@ const createClient = async (req, res, next) => {
     try {
         // On récupere les données
         const { nom, prenom, adresse, telephone, email, password } = req.body;
+        console.log( { nom, prenom, adresse, telephone, email, password } );
+
 
         // On vérifie si l'utilisateur avec l'email existe déja
         const verif = await Client.findOne({ "email": email })
