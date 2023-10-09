@@ -56,6 +56,10 @@ const createReservation = async (req, res, next) => {
         // On récupere les données
         const { date_arrive, date_depart, nb_personnes, prix_total, id_client, id_chambre } = req.body;
 
+        // On récupere l'email du client avec l'id_client qu'il y a dans reservation
+        const clientData = await Client.find({id: id_client});
+        const email = clientData[0].email;
+
         // On créé un id en fonction du dernier id de la collection
         const maxId = await Reservations.find({}).sort({ id_reservation: -1 }).limit(1);
         let newId;
@@ -76,6 +80,22 @@ const createReservation = async (req, res, next) => {
         });
 
         const reservationAdd = await newReservation.save();
+
+        // On envoie un mail de confirmation de suppression
+        const emailContent = fs.readFileSync('./src/mail/createReservation.mail.html', 'utf-8');
+        //Envoi de l'e-mail au client
+        const mailOptions = {
+            from: process.env.MAIL_USER,
+            to: email,
+            subject: 'Création de votre réservation',
+            html: emailContent,
+        };
+
+        try {
+            await transporter.sendMail(mailOptions);
+        } catch (error) {
+            throw error;
+        }
 
         return res.status(200).send(reservationAdd)
     } catch (e) {
@@ -115,18 +135,17 @@ const deleteReservation = async (req, res, next) => {
     try {
         const id = req.params.id;
 
+        // On verifie si la reservation existe
+        const verif = await Reservations.findOne({id_reservation: id})
+        if (!verif) {
+            return res.status(400).send({Error: `Error, la reservation avec l'id : ${id} n'existe pas`});
+        }
 
         // On récupere l'email du client avec l'id_client qu'il y a dans reservation
         const reservationsData = await Reservations.find({id_reservation: id});
         const idClient = reservationsData[0].id_client;
         const clientData = await Client.find({id: idClient});
         const email = clientData[0].email;
-
-        // On verifie si la reservation existe
-        const verif = await Reservations.findOne({id_reservation: id})
-        if (!verif) {
-            return res.status(400).send({Error: `Error, la reservation avec l'id : ${id} n'existe pas`});
-        }
 
         const deleteReservation = await Reservations.deleteOne({id_reservation: id});
 
