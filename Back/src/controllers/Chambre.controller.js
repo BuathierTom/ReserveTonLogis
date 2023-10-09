@@ -1,9 +1,4 @@
-const mongoose = require('mongoose');
-const crud = require('../services/db/crud')
-const axios = require ('axios')
-const { getCollection } = require('../services/db/connect.js');
 const Chambre = require('../models/chambre.model');
-
 
 // Fonction qui recherche toutes les chambres
 const findchambreMany = async (req, res) => {
@@ -67,10 +62,10 @@ const deleteChambre = async (req, res) => {
 
         const deletechambre = await Chambre.deleteOne ({ "id": id })
         return res.status(200).send(deletechambre)
-        } catch (e) {
-            throw e;
-        }
-    };
+    } catch (e) {
+        throw e;
+    }
+};
 
 module.exports = {
     findChambre,

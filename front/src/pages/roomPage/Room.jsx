@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import NavBar from "../../components/Navbar";
 import ApiCall from "../../components/api/ApiCall";
+import Footer from "../../layout/Footer";
 import iconMenu from "../../assets/img/logo.png";
 import IconBed from "../../assets/img/imgIcon/icons8-lit-50.png";
 import IconWifi from "../../assets/img/imgIcon/icons8-wifi-48.png";
@@ -25,16 +26,16 @@ function Room(){
     , []);
 
 
-  useEffect(() => {
-    fetch(`https://api.weatherapi.com/v1/current.json?key=7889403755cb4ebc976103914230510&q=${giteLocation[0]},${giteLocation[1]}&aqi=no`)
-      .then((response) => response.json())
-      .then((data) => {
-        setWeatherData(data);
-      })
-      .catch((error) => {
-        console.error('Erreur lors de la récupération des données météo', error);
-      });
-  }, []);
+    useEffect(() => {
+        fetch(`https://api.weatherapi.com/v1/current.json?key=7889403755cb4ebc976103914230510&q=${giteLocation[0]},${giteLocation[1]}&aqi=no`)
+        .then((response) => response.json())
+        .then((data) => {
+            setWeatherData(data);
+        })
+        .catch((error) => {
+            console.error('Erreur lors de la récupération des données météo', error);
+        });
+    }, []);
 
 
     useEffect(() => {
@@ -53,6 +54,8 @@ function Room(){
           window.removeEventListener("resize", handleResize);
         };
       }, []);
+
+
 
 
     return(
@@ -146,7 +149,10 @@ function Room(){
                 </div>
             </div>
 
-        </div>       
+        </div>  
+        <div className="footer">
+            <Footer />        
+        </div>     
     </>
     )
 }

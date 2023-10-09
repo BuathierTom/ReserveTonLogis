@@ -105,8 +105,9 @@
         max-height: 15rem;
         overflow: auto;
         text-align: justify;
-        padding: 1rem;
-    }
+        padding:0 1rem;
+        margin-top: 1rem;
+        }
 
     &__button {
         @include button;
@@ -123,8 +124,8 @@
 
     &__characteristics-container {
         display:grid;
-        justify-content: center;
         gap: 1rem;
+        padding: $xxl-pd;
 
     }
     &__characteristics-icon {
