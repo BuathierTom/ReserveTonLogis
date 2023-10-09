@@ -2,6 +2,12 @@ const Reservations = require('../models/reservation.model.js');
 const Client = require('../models/client.model.js');
 const Chambre = require('../models/chambre.model.js');
 
+const { transporter } = require('../mail/transporter.mail.js');
+const dotenv = require('dotenv');
+const fs = require('fs');
+
+dotenv.config();
+
 // Fonction qui recherche toutes les reservations
 const getAllReservations = async (req, res, next) => {
     try {
@@ -109,6 +115,13 @@ const deleteReservation = async (req, res, next) => {
     try {
         const id = req.params.id;
 
+
+        // On récupere l'email du client avec l'id_client qu'il y a dans reservation
+        const reservationsData = await Reservations.find({id_reservation: id});
+        const idClient = reservationsData[0].id_client;
+        const clientData = await Client.find({id: idClient});
+        const email = clientData[0].email;
+
         // On verifie si la reservation existe
         const verif = await Reservations.findOne({id_reservation: id})
         if (!verif) {
@@ -116,6 +129,22 @@ const deleteReservation = async (req, res, next) => {
         }
 
         const deleteReservation = await Reservations.deleteOne({id_reservation: id});
+
+        // On envoie un mail de confirmation de suppression
+        const emailContent = fs.readFileSync('./src/mail/deleteReservation.mail.html', 'utf-8');
+        //Envoi de l'e-mail au client
+        const mailOptions = {
+            from: process.env.MAIL_USER,
+            to: email,
+            subject: 'Supression de votre réservation',
+            html: emailContent,
+        };
+
+        try {
+            await transporter.sendMail(mailOptions);
+        } catch (error) {
+            throw error;
+        }
 
         return res.status(200).send(deleteReservation)
     } catch (e) {
