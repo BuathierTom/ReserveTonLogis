@@ -77,13 +77,57 @@ const createReservation = async (req, res, next) => {
     }
 };
 
+// Fonction qui permet de modifier une reservation
+const updateReservation = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const { date_arrive, date_depart, nb_personnes, prix_total, id_client, id_chambre } = req.body;
 
+        // On verifie si la reservation existe
+        const verif = await Reservations.findOne({id_reservation: id})
+        if (!verif) {
+            return res.status(400).send({Error: `Error, la reservation avec l'id : ${id} n'existe pas`});
+        }
 
+        const updateReservation = await Reservations.updateOne({id_reservation: id}, {
+            date_arrive: date_arrive,
+            date_depart: date_depart,
+            nb_personnes: nb_personnes,
+            prix_total: prix_total,
+            id_client: id_client,
+            id_chambre: id_chambre,
+        });
 
+        return res.status(200).send(updateReservation)
+    } catch (e) {
+        throw e;
+    }
+};
+
+// Fonction qui permet de supprimer une reservation
+const deleteReservation = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        // On verifie si la reservation existe
+        const verif = await Reservations.findOne({id_reservation: id})
+        if (!verif) {
+            return res.status(400).send({Error: `Error, la reservation avec l'id : ${id} n'existe pas`});
+        }
+
+        const deleteReservation = await Reservations.deleteOne({id_reservation: id});
+
+        return res.status(200).send(deleteReservation)
+    } catch (e) {
+        throw e;
+    }
+};
 
 
 module.exports = {
     getAllReservations,
     createReservation,
-    getReservationById
+    getReservationById,
+    updateReservation,
+    deleteReservation
 };
