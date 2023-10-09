@@ -1,24 +1,27 @@
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
-const uri = "mongodb+srv://corneil:03092021@cluster0.vcq4uz9.mongodb.net/?retryWrites=true&w=majority";
-const dbName = "ReserveTonLogis";
+dotenv.config();
 
-async function connectToDatabase() {
+
+const connectToDatabase = async () => {
     try {
-        await mongoose.connect(uri, {
+        await mongoose.connect(process.env.DB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            dbName: dbName,
+            dbName: process.env.DB_NAME,
         });
         console.log("Connected to MongoDB :)");
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
     }
-}
+};
 
-function getCollection(collectionName) {
+
+const getCollection = (collectionName) => {
     return mongoose.connection.db.collection(collectionName);
-}
+};
+
 
 module.exports = {
     connectToDatabase,

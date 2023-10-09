@@ -15,6 +15,35 @@ const getAllReservations = async (req, res, next) => {
 
 };
 
+// Fonction qui permet de récuperer les détails d'une reservation en fonction de son id
+const getReservationById = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        // Information de la reservation
+        const reservationsData = await Reservations.find({id_reservation: id});
+
+        // Informations du client
+        const idClient = reservationsData[0].id_client;
+        const clientData = await Client.find({id: idClient});
+
+        // Informations de la chambre
+        const idChambre = reservationsData[0].id_chambre;
+        const chambreData = await Chambre.find({id: idChambre});
+
+        const result = {
+            reservation: reservationsData,
+            client: clientData,
+            chambre: chambreData
+        }        
+
+        return res.status(200).json(result)
+    } catch (e){
+        throw e;
+    }
+
+};
+
 // Fonction qui créé une reservation
 const createReservation = async (req, res, next) => {
     try {
@@ -22,12 +51,12 @@ const createReservation = async (req, res, next) => {
         const { date_arrive, date_depart, nb_personnes, prix_total, id_client, id_chambre } = req.body;
 
         // On créé un id en fonction du dernier id de la collection
-        const maxId = await Reservations.find({}).sort({id:-1}).limit(1);
+        const maxId = await Reservations.find({}).sort({ id_reservation: -1 }).limit(1);
         let newId;
         if (maxId.length === 0) {
-            newId = 1
+            newId = 1;
         } else {
-            newId = maxId[0].id + 1
+            newId = maxId[0].id_reservation + 1;
         }
 
         const newReservation = new Reservations({
@@ -56,4 +85,5 @@ const createReservation = async (req, res, next) => {
 module.exports = {
     getAllReservations,
     createReservation,
+    getReservationById
 };

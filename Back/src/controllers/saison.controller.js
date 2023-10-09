@@ -1,9 +1,4 @@
-const mongoose = require('mongoose');
-const crud = require('../services/db/crud')
-const axios = require ('axios')
-const { getCollection } = require('../services/db/connect.js');
 const Saisons = require('../models/saison.model');
-
 
 // Fonction qui recherche toutes les saisons
 const findsaisonMany = async (req, res) => {
