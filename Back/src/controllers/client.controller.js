@@ -54,7 +54,7 @@ const createClient = async (req, res, next) => {
         });
 
         const clientAdd = await newClient.save();
-        const emailContent = fs.readFileSync('./src/mail/mailText.mail.html', 'utf-8');
+        const emailContent = fs.readFileSync('./src/mail/createClient.mail.html', 'utf-8');
         //Envoi de l'e-mail au client
         const mailOptions = {
             from: process.env.MAIL_USER,
