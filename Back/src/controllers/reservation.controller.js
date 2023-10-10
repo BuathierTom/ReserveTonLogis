@@ -177,5 +177,5 @@ module.exports = {
     createReservation,
     getReservationById,
     updateReservation,
-    deleteReservation
+    deleteReservation,
 };

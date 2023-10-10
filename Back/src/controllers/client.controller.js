@@ -19,6 +19,16 @@ const findClients = async (req, res, next) => {
 
 };
 
+// Fonction qui recherche un client dans le registre avec un filtre sur l'id 
+const findOneClients = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const getId = await Client.find({"id" : id})
+        return res.status(200).send(getId)
+    } catch (e) {
+        throw e;
+    }
+};
 
 const createClient = async (req, res, next) => {
     try {
@@ -180,6 +190,7 @@ module.exports = {
     deleteClient,
     updateClient,
     connectClient,
-    getClientReservationById
+    getClientReservationById,
+    findOneClients
 };
 
