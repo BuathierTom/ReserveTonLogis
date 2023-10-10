@@ -140,7 +140,6 @@ const updateClient = async (req, res, next) => {
     }
 };
 
-// Fonction de connexion par mail et mot de passe 
 const connectClient = async (req, res, next) => {
     const { email, password } = req.body;
     // On verifie si l'utilisateur existe
@@ -154,10 +153,11 @@ const connectClient = async (req, res, next) => {
     if (!verifPassword) {
         return res.status(400).send({ Error: `Error, le mot de passe est incorrect` });
     }
-    //console.log("client connecté")
-    return res.status(200).send(verif)
-    
+
+    // Si l'authentification réussit, renvoyez l'ID du client sous la clé "id"
+    return res.status(200).send({ id: verif.id });
 };
+
 
 // Fonction qui permet de récuperer les détails d'une reservation en fonction de l'id du
 const getClientReservationById = async (req, res, next) => {
