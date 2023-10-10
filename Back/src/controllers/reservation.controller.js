@@ -24,7 +24,7 @@ const getAllReservations = async (req, res, next) => {
 // Fonction qui permet de récuperer les détails d'une reservation en fonction de son id
 const getReservationById = async (req, res, next) => {
     try {
-        const id = req.params.id;
+        const id = req.body.id;
 
         // Information de la reservation
         const reservationsData = await Reservations.find({id_reservation: id});
@@ -106,7 +106,7 @@ const createReservation = async (req, res, next) => {
 // Fonction qui permet de modifier une reservation
 const updateReservation = async (req, res, next) => {
     try {
-        const id = req.params.id;
+        const id = req.body.id;
         const { date_arrive, date_depart, nb_personnes, prix_total, id_client, id_chambre } = req.body;
 
         // On verifie si la reservation existe
@@ -133,7 +133,7 @@ const updateReservation = async (req, res, next) => {
 // Fonction qui permet de supprimer une reservation
 const deleteReservation = async (req, res, next) => {
     try {
-        const id = req.params.id;
+        const id = req.body.id;
 
         // On verifie si la reservation existe
         const verif = await Reservations.findOne({id_reservation: id})
