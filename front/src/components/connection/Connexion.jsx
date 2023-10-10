@@ -8,15 +8,12 @@ function Connexion() {
     const [password, setPassword] = useState("");
     const [connected, setConnected] = useState(false);
     const [id, setId] = useState(0);
-    console.log(connected);
 
     useEffect(() => {  
        localStorage.setItem("connected", connected);
-       localStorage.setItem("id", id);
-    }, [connected, id]);
+    }, [connected]);
 
 
-    console.log(connected);
     const handleInscription = async (e) => {
         e.preventDefault();
 
@@ -33,9 +30,9 @@ function Connexion() {
 
             if (response.status === 200) {
                 alert("Vous êtes connecté");
-                window.location.href = "/account"  
-                setConnected(true);
                 setId(data.id);
+                window.location.href = "/account/" + data.id;  
+                setConnected(true);
 
             }
             else {

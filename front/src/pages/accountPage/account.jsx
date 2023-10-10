@@ -1,27 +1,29 @@
 import NavBar from "../../components/Navbar";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import IconFleche from "../../assets/img/imgIcon/icons8-flèche-vers-le-bas-50.png";
-
-
+import ApiCallCustomer from "../../api/ApiCallCustomer";
 
 function Account() {
     const [blockVisibility, setBlockVisibility] = useState([false, false, false, false]);
-    const [id, setId] = useState();
-
-    useEffect(() => {
-        const id = localStorage.getItem("id");
-        setId(id);
-    }
-    , []);
-
-    console.log(id);
+    const [account, setAccount] = useState([]);
+    
 
     const toggleBlockVisibility = (index) => {
       const updatedVisibility = [...blockVisibility];
       updatedVisibility[index] = !updatedVisibility[index];
       setBlockVisibility(updatedVisibility);
     };
+
+    useEffect(() => {
+        ApiCallCustomer().then(data => {
+            setAccount(data);
+        })
+    }, []);
+
+
+    
+    
 
     return (
         <>
@@ -30,6 +32,14 @@ function Account() {
                     <NavBar />
                 </div>
 
+                {account.map((account) => (
+                    <div className="account-img__container" key={account.id}>
+                        <div className="account-img__container--text">
+                            <p className="account-img__container--text-title">Bonjour {account.prenom} {account.nom}</p>
+                            <p className="account-img__container--text-content">Bienvenue sur votre espace client</p>
+                        </div>
+                    </div>
+                ))}
 
                 <section className="account">
                     <div className="account__container">
