@@ -109,6 +109,23 @@ const deleteClient = async (req, res, next) => {
         }
 
         const deleteClient = await Client.deleteOne({ "email": email })
+
+        // On envoie un mail de confirmation de suppression
+        const emailContent = fs.readFileSync('./src/mail/deleteClient.mail.html', 'utf-8');
+        //Envoi de l'e-mail au client
+        const mailOptions = {
+            from: process.env.MAIL_USER,
+            to: email,
+            subject: 'Suppression de votre compte',
+            html: emailContent,
+        };
+
+        try {
+            await transporter.sendMail(mailOptions);
+        } catch (error) {
+            throw error;
+        }
+
         return res.status(200).send(deleteClient)
     } catch (e) {
         throw e;
@@ -141,21 +158,25 @@ const updateClient = async (req, res, next) => {
 };
 
 const connectClient = async (req, res, next) => {
-    const { email, password } = req.body;
-    // On verifie si l'utilisateur existe
-    const verif = await Client.findOne({ "email": email })
-    if (!verif) {
-        return res.status(400).send({ Error: `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas` });
-    }
+    try {
+        const { email, password } = req.body;
+        // On verifie si l'utilisateur existe
+        const verif = await Client.findOne({ "email": email })
+        if (!verif) {
+            return res.status(400).send({ Error: `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas` });
+        }
 
-    // On verifie si le mot de passe est correct
-    const verifPassword = await bcrypt.compare(password, verif.password);
-    if (!verifPassword) {
-        return res.status(400).send({ Error: `Error, le mot de passe est incorrect` });
-    }
+        // On verifie si le mot de passe est correct
+        const verifPassword = await bcrypt.compare(password, verif.password);
+        if (!verifPassword) {
+            return res.status(400).send({ Error: `Error, le mot de passe est incorrect` });
+        }
 
-    // Si l'authentification réussit, renvoyez l'ID du client sous la clé "id"
-    return res.status(200).send({ id: verif.id });
+        // Si l'authentification réussit, renvoyez l'ID du client sous la clé "id"
+        return res.status(200).send({ id: verif.id });
+    } catch (e) {
+        throw e;
+    }
 };
 
 
