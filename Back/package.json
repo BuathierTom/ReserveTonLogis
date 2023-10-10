@@ -11,7 +11,8 @@
     "nodemailer": "^6.9.5",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^10.9.1",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "winston": "^3.11.0"
   },
   "name": "sae_bdd",
   "version": "1.0.0",

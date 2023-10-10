@@ -1,12 +1,14 @@
 const Chambre = require('../models/chambre.model');
+const { addLog } = require("../services/logs/logs");
 
 // Fonction qui recherche toutes les chambres
 const findchambreMany = async (req, res) => {
     try {
         const getAll = await Chambre.find({});
-        return res.status(200).send(getAll);
+        addLog("info", `getAll des chambres`, "chambre.controller.js");
+        return res.status(200).send(getAll);    
     } catch (e) {
-        throw e;
+        addLog("error", e, "chambre.controller.js");
     }
 };
 
@@ -15,9 +17,10 @@ const findChambre = async (req, res) => {
     try {
         const id = req.params.id;
         const getId = await Chambre.find({"id" : id})
+        addLog("info", `getId de la chambre ${id}`, "chambre.controller.js");
         return res.status(200).send(getId)
     } catch (e) {
-        throw e;
+        addLog("error", e, "chambre.controller.js");
     }
 };
 
@@ -28,7 +31,8 @@ const updateChambre = async (req, res) => {
         const { nom, description, capacite, superficie, prix, disponibilite, avis, equipements, mots_cles, image1, image2, image3, image4} = req.body;
         const verif = await Chambre.findOne({ "id": id })
         if (!verif) {
-            return res.status(400).send({ Error: `Error, la chambre ${id} n'existe pas` });
+            addLog("error", `Error, la chambre ${id} n'existe pas`, "chambre.controller.js");
+            return res.status(404).send({ Error: `Error, la chambre n'existe pas` });
         }
         const chambreupdate = await Chambre.updateOne({ "id": id }, {
             nom: nom,
@@ -45,9 +49,10 @@ const updateChambre = async (req, res) => {
             image3: image3,
             image4: image4
         })
+        addLog("info", `updateChambre de la chambre ${id}`, "chambre.controller.js");
         return res.status(200).send(chambreupdate)
     } catch (e) {
-        throw e;
+        addLog("error", e, "chambre.controller.js");
     }
 };
 
@@ -57,13 +62,15 @@ const deleteChambre = async (req, res) => {
         const id = req.params.id;
         const verif = await Chambre.findOne({ "id": id })
         if (!verif) {
-            return res.status(400).send({ Error: `Error, la chambre ${id} n'existe pas` });
+            addLog("error", `Error, la chambre ${id} n'existe pas`, "chambre.controller.js");
+            return res.status(404).send({ Error: `Error, la chambre n'existe pas` });
         }
 
         const deletechambre = await Chambre.deleteOne ({ "id": id })
+        addLog("info", `deleteChambre de la chambre ${id}`, "chambre.controller.js");
         return res.status(200).send(deletechambre)
     } catch (e) {
-        throw e;
+        addLog("error", e, "chambre.controller.js");
     }
 };
 

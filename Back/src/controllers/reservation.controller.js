@@ -6,6 +6,8 @@ const { transporter } = require('../mail/transporter.mail.js');
 const dotenv = require('dotenv');
 const fs = require('fs');
 
+const { addLog } = require("../services/logs/logs");
+
 dotenv.config();
 
 // Fonction qui recherche toutes les reservations
@@ -13,10 +15,10 @@ const getAllReservations = async (req, res, next) => {
     try {
         // on récupere les données de la reservation
         const result = await Reservations.find({});
-
+        addLog("info", `getAll des reservations`, "reservation.controller.js");
         return res.status(200).json(result)
     } catch (e){
-        throw e;
+        addLog("error", e, "reservation.controller.js");
     }
 
 };
@@ -43,9 +45,10 @@ const getReservationById = async (req, res, next) => {
             chambre: chambreData
         }        
 
+        addLog("info", `getReservationById de la reservation ${id}`, "reservation.controller.js");
         return res.status(200).json(result)
     } catch (e){
-        throw e;
+        addLog("error", e, "reservation.controller.js");
     }
 
 };
@@ -92,14 +95,15 @@ const createReservation = async (req, res, next) => {
         };
 
         try {
+            addLog("info", `Mail de confirmation de création de la réservation envoyé à ${email}`, "reservation.controller.js");
             await transporter.sendMail(mailOptions);
         } catch (error) {
-            throw error;
+            addLog("error", error, "reservation.controller.js")
         }
-
+        addLog("info", `createReservation de la reservation ${newId}`, "reservation.controller.js");
         return res.status(200).send(reservationAdd)
     } catch (e) {
-        throw e;
+        addLog("error", e, "reservation.controller.js")
     }
 };
 
@@ -112,7 +116,8 @@ const updateReservation = async (req, res, next) => {
         // On verifie si la reservation existe
         const verif = await Reservations.findOne({id_reservation: id})
         if (!verif) {
-            return res.status(400).send({Error: `Error, la reservation avec l'id : ${id} n'existe pas`});
+            addLog("error", `Error, la reservation avec l'id : ${id} n'existe pas`, "reservation.controller.js");
+            return res.status(404).send({Error: `Error, la reservation n'existe pas`});
         }
 
         const updateReservation = await Reservations.updateOne({id_reservation: id}, {
@@ -124,9 +129,10 @@ const updateReservation = async (req, res, next) => {
             id_chambre: id_chambre,
         });
 
+        addLog("info", `updateReservation de la reservation ${id}`, "reservation.controller.js");
         return res.status(200).send(updateReservation)
     } catch (e) {
-        throw e;
+        addLog("error", e, "reservation.controller.js")
     }
 };
 
@@ -138,7 +144,8 @@ const deleteReservation = async (req, res, next) => {
         // On verifie si la reservation existe
         const verif = await Reservations.findOne({id_reservation: id})
         if (!verif) {
-            return res.status(400).send({Error: `Error, la reservation avec l'id : ${id} n'existe pas`});
+            addLog("error", `Error, la reservation avec l'id : ${id} n'existe pas`, "reservation.controller.js");
+            return res.status(404).send({Error: `Error, la reservation n'existe pas`});
         }
 
         // On récupere l'email du client avec l'id_client qu'il y a dans reservation
@@ -160,14 +167,15 @@ const deleteReservation = async (req, res, next) => {
         };
 
         try {
+            addLog("info", `Mail de confirmation de suppression de la réservation envoyé à ${email}`, "reservation.controller.js");
             await transporter.sendMail(mailOptions);
         } catch (error) {
-            throw error;
+            addLog("error", error, "reservation.controller.js")
         }
-
+        addLog("info", `deleteReservation de la reservation ${id}`, "reservation.controller.js");
         return res.status(200).send(deleteReservation)
     } catch (e) {
-        throw e;
+        addLog("error", e, "reservation.controller.js")
     }
 };
 
