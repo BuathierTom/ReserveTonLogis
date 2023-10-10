@@ -19,6 +19,16 @@ const findClients = async (req, res, next) => {
 
 };
 
+// Fonction qui recherche un client dans le registre avec un filtre sur l'id 
+const findOneClients = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const getId = await Client.find({"id" : id})
+        return res.status(200).send(getId)
+    } catch (e) {
+        throw e;
+    }
+};
 
 const createClient = async (req, res, next) => {
     try {
@@ -130,7 +140,6 @@ const updateClient = async (req, res, next) => {
     }
 };
 
-// Fonction de connexion par mail et mot de passe 
 const connectClient = async (req, res, next) => {
     const { email, password } = req.body;
     // On verifie si l'utilisateur existe
@@ -144,10 +153,11 @@ const connectClient = async (req, res, next) => {
     if (!verifPassword) {
         return res.status(400).send({ Error: `Error, le mot de passe est incorrect` });
     }
-    //console.log("client connecté")
-    return res.status(200).send(verif)
-    
+
+    // Si l'authentification réussit, renvoyez l'ID du client sous la clé "id"
+    return res.status(200).send({ id: verif.id });
 };
+
 
 // Fonction qui permet de récuperer les détails d'une reservation en fonction de l'id du
 const getClientReservationById = async (req, res, next) => {
@@ -180,6 +190,7 @@ module.exports = {
     deleteClient,
     updateClient,
     connectClient,
-    getClientReservationById
+    getClientReservationById,
+    findOneClients
 };
 
