@@ -1,12 +1,20 @@
 import React from 'react';
-import {useState, useEffect } from 'react';
-import { useConnect } from "./ConnectedContext";
+import {useState,useEffect } from 'react';
+
  
 
 function Connexion() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [connected, setConnected] = useState(false);
+    console.log(connected);
 
+    useEffect(() => {  
+       localStorage.setItem("connected", connected);
+    }, [connected]);
+
+
+    console.log(connected);
     const handleInscription = async (e) => {
         e.preventDefault();
 
@@ -24,6 +32,8 @@ function Connexion() {
             if (response.status === 200) {
                 alert("Vous êtes connecté");
                 window.location.href = "/account"  
+                setConnected(true);
+
             }
             else {
                 alert(data.Error);

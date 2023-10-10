@@ -5,7 +5,6 @@ import IconFleche from "../../assets/img/imgIcon/icons8-flèche-vers-le-bas-50.p
 
 
 function Account() {
-
     const [blockVisibility, setBlockVisibility] = useState([false, false, false, false]);
 
     const toggleBlockVisibility = (index) => {
@@ -14,13 +13,14 @@ function Account() {
       setBlockVisibility(updatedVisibility);
     };
 
-
     return (
         <>
             <div className="account-img">
                 <div className="nav-bar ">
                     <NavBar />
                 </div>
+
+
                 <section className="account">
                     <div className="account__container">
                         <div className="account__grid">

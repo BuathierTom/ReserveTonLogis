@@ -11,6 +11,7 @@ import ImgActivity1 from "../../assets/img-activity/wine.png";
 import ImgActivity2 from "../../assets/img-activity/bike.png";
 import ImgActivity3 from "../../assets/img-activity/city.png";
 import ImgActivity4 from "../../assets/img-activity/visit.png";
+
  
 
 

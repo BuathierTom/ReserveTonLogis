@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import NavBar from "../../components/Navbar";
-import ApiCall from "../../components/api/ApiCall";
+import ApiCall from "../../api/ApiCall";
 import Footer from "../../layout/Footer";
 import iconMenu from "../../assets/img/logo.png";
 import IconBed from "../../assets/img/imgIcon/icons8-lit-50.png";

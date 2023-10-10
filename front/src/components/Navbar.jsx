@@ -2,9 +2,20 @@ import React, { useState, useEffect } from "react";
 import Image from "../assets/img/logo.png";
 import iconMenu from "../assets/img/imgIcon/icons8-menu-70.png";
 
+
 function NavBar () {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [connected, setConnected] = useState();
+
+    useEffect(() => {
+        const connected = localStorage.getItem("connected");
+        setConnected(connected);
+    }
+    , []);
+    console.log(connected);
+
+
 
     useEffect(() => {
         const updateWindowWidth = () => {
@@ -38,7 +49,12 @@ function NavBar () {
                         <li className="nav-bar__li"><a className="nav-bar--color__link" href="/">Accueil</a></li>
                         <li className="nav-bar__li"><a className="nav-bar--color__link" href="#room">Chambres d'hote</a></li>
                         <li className="nav-bar__li"><a className="nav-bar--color__link" href="/contact">Contact</a></li>
-                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="/connexion">Mon compte</a></li>
+                        {connected === "true" ? ( 
+                            <li className="nav-bar__li"><a className="nav-bar--color__link" href="/account">Mon compte</a></li>
+                        ) : (
+                            <li className="nav-bar__li"><a className="nav-bar--color__link" href="/connexion">Connexion/Inscription</a></li>
+                        )}
+    
                     </ul>
                 </div>
             )}
@@ -51,7 +67,12 @@ function NavBar () {
                             <li className="nav-bar__li"><a className="nav-bar__a-menu"  href="/">Accueil</a></li>
                             <li className="nav-bar__li"><a className="nav-bar__a-menu"onClick={() => setIsMenuOpen(false)} href="#room">Chambres d'hote</a></li>
                             <li className="nav-bar__li"><a className="nav-bar__a-menu" href="/contact">Contact</a></li>
-                            <li className="nav-bar__li"> <a className="nav-bar__a-menu" href="/connexion">Mon compte</a></li>
+                            {connected === "true" ? ( 
+                                <li className="nav-bar__li"><a className="nav-bar__a-menu" href="/account">Mon compte</a></li>
+                            ) : (
+                                <li className="nav-bar__li"><a className="nav-bar__a-menu" href="/connexion">Connexion/Inscription</a></li>
+                            )}
+                            
                             </ul>
                 </div>
             )}
