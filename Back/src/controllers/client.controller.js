@@ -19,6 +19,16 @@ const findClients = async (req, res, next) => {
 
 };
 
+// Fonction qui recherche un client dans le registre avec un filtre sur l'id 
+const findOneClients = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const getId = await Client.find({"id" : id})
+        return res.status(200).send(getId)
+    } catch (e) {
+        throw e;
+    }
+};
 
 const createClient = async (req, res, next) => {
     try {
@@ -53,7 +63,7 @@ const createClient = async (req, res, next) => {
         });
 
         const clientAdd = await newClient.save();
-        const emailContent = fs.readFileSync('./src/mail/mailText.mail.html', 'utf-8');
+        const emailContent = fs.readFileSync('./src/mail/createClient.mail.html', 'utf-8');
         //Envoi de l'e-mail au client
         const mailOptions = {
             from: process.env.MAIL_USER,
@@ -78,11 +88,23 @@ const createClient = async (req, res, next) => {
 // Fonction qui delete un client
 const deleteClient = async (req, res, next) => {
     try {
-        const { email } = req.body;
+        const id = req.params.id;
+
+        // On récupere l'email du client avec l'id_client qu'il y a dans client
+        const clientData = await Client.find({ id: id });
+        const email = clientData[0].email;
+
         // On verifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
         if (!verif) {
             return res.status(400).send({ Error: `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas` });
+        }
+
+        // On récuperer les réservation de ce client et on supprime les réservations
+        const reservationData = await Reservations.find({ id_client: id });
+        for (let i = 0; i < reservationData.length; i++) {
+            const idReservation = reservationData[i].id_reservation;
+            const deleteReservation = await Reservations.deleteOne({ "id_reservation": idReservation })
         }
 
         const deleteClient = await Client.deleteOne({ "email": email })
@@ -117,7 +139,6 @@ const updateClient = async (req, res, next) => {
     }
 };
 
-// Fonction de connexion par mail et mot de passe 
 const connectClient = async (req, res, next) => {
     const { email, password } = req.body;
     // On verifie si l'utilisateur existe
@@ -131,10 +152,11 @@ const connectClient = async (req, res, next) => {
     if (!verifPassword) {
         return res.status(400).send({ Error: `Error, le mot de passe est incorrect` });
     }
-    //console.log("client connecté")
-    return res.status(200).send(verif)
-    
+
+    // Si l'authentification réussit, renvoyez l'ID du client sous la clé "id"
+    return res.status(200).send({ id: verif.id });
 };
+
 
 // Fonction qui permet de récuperer les détails d'une reservation en fonction de l'id du
 const getClientReservationById = async (req, res, next) => {
@@ -167,6 +189,7 @@ module.exports = {
     deleteClient,
     updateClient,
     connectClient,
-    getClientReservationById
+    getClientReservationById,
+    findOneClients
 };
 
