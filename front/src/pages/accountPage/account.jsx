@@ -1,11 +1,21 @@
 import NavBar from "../../components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import IconFleche from "../../assets/img/imgIcon/icons8-flèche-vers-le-bas-50.png";
 
 
+
 function Account() {
     const [blockVisibility, setBlockVisibility] = useState([false, false, false, false]);
+    const [id, setId] = useState();
+
+    useEffect(() => {
+        const id = localStorage.getItem("id");
+        setId(id);
+    }
+    , []);
+
+    console.log(id);
 
     const toggleBlockVisibility = (index) => {
       const updatedVisibility = [...blockVisibility];

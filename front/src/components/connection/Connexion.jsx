@@ -7,11 +7,13 @@ function Connexion() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [connected, setConnected] = useState(false);
+    const [id, setId] = useState(0);
     console.log(connected);
 
     useEffect(() => {  
        localStorage.setItem("connected", connected);
-    }, [connected]);
+       localStorage.setItem("id", id);
+    }, [connected, id]);
 
 
     console.log(connected);
@@ -33,6 +35,7 @@ function Connexion() {
                 alert("Vous êtes connecté");
                 window.location.href = "/account"  
                 setConnected(true);
+                setId(data.id);
 
             }
             else {

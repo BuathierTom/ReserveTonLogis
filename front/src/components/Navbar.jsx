@@ -11,6 +11,7 @@ function NavBar () {
     useEffect(() => {
         const connected = localStorage.getItem("connected");
         setConnected(connected);
+
     }
     , []);
     console.log(connected);
