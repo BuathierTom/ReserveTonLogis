@@ -22,7 +22,7 @@ const findClients = async (req, res, next) => {
 // Fonction qui recherche un client dans le registre avec un filtre sur l'id 
 const findOneClients = async (req, res) => {
     try {
-        const id = req.params.id;
+        const id = req.body.id;
         const getId = await Client.find({"id" : id})
         return res.status(200).send(getId)
     } catch (e) {
@@ -89,7 +89,7 @@ const createClient = async (req, res, next) => {
 // Fonction qui delete un client
 const deleteClient = async (req, res, next) => {
     try {
-        const id = req.params.id;
+        const id = req.body.id;
 
         // On récupere l'email du client avec l'id_client qu'il y a dans client
         const clientData = await Client.find({ id: id });
@@ -135,8 +135,7 @@ const deleteClient = async (req, res, next) => {
 // Fonction qui update un client
 const updateClient = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const { nom, prenom, adresse, telephone, email, password } = req.body;
+        const { id, nom, prenom, adresse, telephone, email, password } = req.body;
         // On verifie si l'utilisateur existe
         const verif = await Client.findOne({ "id": id })
         if (!verif) {
@@ -183,7 +182,7 @@ const connectClient = async (req, res, next) => {
 // Fonction qui permet de récuperer les détails d'une reservation en fonction de l'id du
 const getClientReservationById = async (req, res, next) => {
     try {
-        const idClient = req.params.id;
+        const idClient = req.body.id;
 
         // Information de la reservation
         const reservationData = await Reservations.find({id_client: idClient});
