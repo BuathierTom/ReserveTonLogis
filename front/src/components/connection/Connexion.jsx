@@ -1,17 +1,28 @@
 import React from 'react';
-import {useState,useEffect } from 'react';
+import {useState,useEffect, useHistory} from 'react';
+
+import { isUserLoggedIn } from '../../utils/auth';
 
  
 
 function Connexion() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [connected, setConnected] = useState(false);
-    console.log(connected);
+    const [connected, setConnected] = useState();
+
+
 
     useEffect(() => {  
        localStorage.setItem("connected", connected);
+       
     }, [connected]);
+
+    console.log(localStorage.getItem("connected"));
+
+
+    
+
+  
 
 
     console.log(connected);
@@ -30,9 +41,12 @@ function Connexion() {
             const data = await response.json();
 
             if (response.status === 200) {
-                alert("Vous êtes connecté");
-                window.location.href = "/account"  
+                const { token } = data;
+                console.log(token);
                 setConnected(true);
+                localStorage.setItem("token", token); // Stockez le JWT dans localStorage
+                alert("Vous êtes connecté");
+                window.location.href = "/account";
 
             }
             else {

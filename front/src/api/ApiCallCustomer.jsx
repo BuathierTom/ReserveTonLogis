@@ -1,5 +1,5 @@
 const ApiCallCustomer = () => {
-    return fetch('http://localhost:3000/clients/get/' + window.location.pathname.split('/')[2])
+    return fetch('http://localhost:3000/clients/get/')
         .then(response => response.json())
         
 };

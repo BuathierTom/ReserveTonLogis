@@ -5,8 +5,17 @@ const fs = require('fs');
 const bcrypt  = require('bcrypt');
 const { transporter } = require('../mail/transporter.mail.js');
 const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
+
 
 dotenv.config();
+
+const generateAccessToken = (id) => {
+    const token = jwt.sign({ id }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+    console.log(token); // Ajoutez cette ligne pour déboguer
+    return token;
+};
+
 
 // Fonction qui recherche tous les clients
 const findClients = async (req, res, next) => {
@@ -19,16 +28,33 @@ const findClients = async (req, res, next) => {
 
 };
 
-// Fonction qui recherche un client dans le registre avec un filtre sur l'id 
 const findOneClients = async (req, res) => {
+    console.log('La fonction findOneClients a été appelée');
     try {
-        const id = req.body.id;
-        const getId = await Client.find({"id" : id})
-        return res.status(200).send(getId)
+        const token = req.header('Authorization');
+        console.log('tokennnnnnnn', token);
+
+        if (!token) {
+            return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
+        }
+
+        const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
+        console.log('decodedToken', decodedToken);
+
+        const id = decodedToken.id;
+        const client = await Client.findOne({ id: id });
+        
+        if (!client) {
+            return res.status(404).send({ Error: `Aucun client trouvé avec l'ID : ${id}` });
+        }
+        
+        return res.status(200).json(client);
     } catch (e) {
-        throw e;
+        console.error('Erreur dans findOneClients :', e); 
+        return res.status(401).send({ Error: 'Token JWT invalide' });
     }
 };
+
 
 const createClient = async (req, res, next) => {
     try {
@@ -158,24 +184,29 @@ const updateClient = async (req, res, next) => {
 const connectClient = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        // On verifie si l'utilisateur existe
+        // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
         if (!verif) {
             return res.status(400).send({ Error: `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas` });
         }
 
-        // On verifie si le mot de passe est correct
+        // On vérifie si le mot de passe est correct
         const verifPassword = await bcrypt.compare(password, verif.password);
         if (!verifPassword) {
             return res.status(400).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
-        // Si l'authentification réussit, renvoyez l'ID du client sous la clé "id"
-        return res.status(200).send({ id: verif.id });
+        // On génère un token
+        const token = generateAccessToken(verif.id);
+        console.log(token); // Assurez-vous que cela renvoie un token valide ici
+
+        // Vous pouvez maintenant renvoyer le token au client
+        return res.status(200).json({ token: token });
     } catch (e) {
         throw e;
     }
 };
+
 
 
 // Fonction qui permet de récuperer les détails d'une reservation en fonction de l'id du

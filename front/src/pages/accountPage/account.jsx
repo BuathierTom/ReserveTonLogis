@@ -7,6 +7,9 @@ import ApiCallCustomer from "../../api/ApiCallCustomer";
 function Account() {
     const [blockVisibility, setBlockVisibility] = useState([false, false, false, false]);
     const [account, setAccount] = useState([]);
+
+
+
     
 
     const toggleBlockVisibility = (index) => {
@@ -15,14 +18,34 @@ function Account() {
       setBlockVisibility(updatedVisibility);
     };
 
-    useEffect(() => {
-        ApiCallCustomer().then(data => {
-            setAccount(data);
-        })
-    }, []);
 
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        console.log(storedToken);
+        if (storedToken) {
+            const headers = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${storedToken}`,
+            };
+            fetch("http://localhost:3000/clients/get", {
+                method: "GET",
+                headers,
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setAccount(data);
+                console.log(data); 
+            })
+            .catch((error) => {
+                console.error("Erreur lors de la récupération des données", error);
+            });
+        }
+
+    }, []);
+    
 
     
+
     
 
     return (
@@ -31,20 +54,18 @@ function Account() {
                 <div className="nav-bar ">
                     <NavBar />
                 </div>
-
-                {account.map((account) => (
-                    <div className="account-img__container" key={account.id}>
-                        <div className="account-img__container--text">
-                            <p className="account-img__container--text-title">Bonjour {account.prenom} {account.nom}</p>
-                            <p className="account-img__container--text-content">Bienvenue sur votre espace client</p>
-                        </div>
-                    </div>
-                ))}
-
                 <section className="account">
+            
                     <div className="account__container">
+                        <div className="account__client">
+                            <div className="account__client--info">
+                                <p className="account__client--info-title" >Bonjour {account.prenom} {account.nom}</p>
+                            </div>
+                        </div>
+
                         <div className="account__grid">
                             <div className="account__reservations">
+
                                 <div className="account__div">
                                     <p className="account__title">Mes réservations</p>
                                     <button className="account__button" onClick={() => toggleBlockVisibility(0)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
@@ -69,23 +90,23 @@ function Account() {
                                     <div className="account__donnees-block">
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Nom : </p>
-                                            <p className="account__donnees-block--info-content"> Dupont</p>
+                                            <p className="account__donnees-block--info-content"> {account.nom}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Prénom : </p>
-                                            <p className="account__donnees-block--info-content"> Jean</p>
+                                            <p className="account__donnees-block--info-content"> {account.prenom}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Email : </p>
-                                            <p className="account__donnees-block--info-content"></p>
+                                            <p className="account__donnees-block--info-content"> {account.email}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Téléphone : </p>
-                                            <p className="account__donnees-block--info-content"></p>
+                                            <p className="account__donnees-block--info-content"> {account.telephone}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Adresse : </p>
-                                            <p className="account__donnees-block--info-content"></p>
+                                            <p className="account__donnees-block--info-content"> {account.adresse}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Code postal : </p>
@@ -93,7 +114,7 @@ function Account() {
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Ville : </p>
-                                            <p className="account__donnees-block--info-content"></p>
+                                            <p className="account__donnees-block--info-content"> {account.ville}</p>
                                         </div>
                                     </div>
                                     )}
