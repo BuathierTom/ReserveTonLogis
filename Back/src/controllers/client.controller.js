@@ -4,6 +4,7 @@ const Chambre = require('../models/chambre.model');
 const fs = require('fs');
 const bcrypt  = require('bcrypt');
 const { transporter } = require('../mail/transporter.mail.js');
+const { addLog } = require("../services/logs/logs");
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 
@@ -21,9 +22,10 @@ const generateAccessToken = (id) => {
 const findClients = async (req, res, next) => {
     try {
         const result = await Client.find({});
+        addLog("info", `getAll des clients`, "client.controller.js");
         return res.status(200).json(result)
     } catch (e){
-        throw e;
+        addLog("error", e, "client.controller.js");
     }
 
 };
@@ -50,8 +52,7 @@ const findOneClients = async (req, res) => {
         
         return res.status(200).json(client);
     } catch (e) {
-        console.error('Erreur dans findOneClients :', e); 
-        return res.status(401).send({ Error: 'Token JWT invalide' });
+        throw e;
     }
 };
 
@@ -63,7 +64,8 @@ const createClient = async (req, res, next) => {
         // On vérifie si l'utilisateur avec l'e-mail existe déjà
         const verif = await Client.findOne({ "email": email });
         if (verif) {
-            return res.status(400).send({ Error: `Erreur, l'utilisateur avec l'e-mail : ${email} existe déjà` });
+            addLog("error", `Erreur, l'utilisateur avec l'e-mail : ${email} existe déjà`, "client.controller.js");
+            return res.status(404).send({ Error: `Erreur, l'utilisateur existe déjà` });
         }
 
         // On récupère l'id max (si il n'y en a pas, on met 1) de la collection Client et on ajoute 1 à l'id
@@ -99,14 +101,15 @@ const createClient = async (req, res, next) => {
         };
 
         try {
+            addLog("info", `Mail de confirmation de création du compte envoyé à ${email}`, "client.controller.js");
             await transporter.sendMail(mailOptions);
         } catch (error) {
-            throw error;
+            addLog("error", error, "client.controller.js");
         }
-
+        addLog("info", `createClient du client ${email}`, "client.controller.js");
         return res.status(200).send(clientAdd);
     } catch (e) {
-        throw e;
+        addLog("error", e, "client.controller.js");
     }
 };
 
@@ -123,7 +126,8 @@ const deleteClient = async (req, res, next) => {
         // On verifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
         if (!verif) {
-            return res.status(400).send({ Error: `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas` });
+            addLog("error", `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
+            return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
 
         // On récuperer les réservation de ce client et on supprime les réservations
@@ -146,14 +150,16 @@ const deleteClient = async (req, res, next) => {
         };
 
         try {
+            addLog("info", `Mail de confirmation de suppression du compte envoyé à ${email}`, "client.controller.js");
             await transporter.sendMail(mailOptions);
         } catch (error) {
-            throw error;
+            addLog("error", error, "client.controller.js");
         }
 
+        addLog("info", `deleteClient du client ${email}`, "client.controller.js");
         return res.status(200).send(deleteClient)
     } catch (e) {
-        throw e;
+        addLog("error", e, "client.controller.js");
     }
 };
 
@@ -164,7 +170,8 @@ const updateClient = async (req, res, next) => {
         // On verifie si l'utilisateur existe
         const verif = await Client.findOne({ "id": id })
         if (!verif) {
-            return res.status(400).send({ Error: `Error, l'utilisateur avec l'id : ${id} n'existe pas` });
+            addLog("error", `Error, l'utilisateur avec l'id : ${id} n'existe pas`, "client.controller.js");
+            return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
 
         const updateClient = await Client.updateOne({ "id": id }, {
@@ -175,9 +182,11 @@ const updateClient = async (req, res, next) => {
             email: email,
             password: password,
         })
+
+        addLog("info", `updateClient du client ${email}`, "client.controller.js");
         return res.status(200).send(updateClient)
     } catch (e) {
-        throw e;
+        addLog("error", e, "client.controller.js");
     }
 };
 
@@ -187,13 +196,15 @@ const connectClient = async (req, res, next) => {
         // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
         if (!verif) {
-            return res.status(400).send({ Error: `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas` });
+            addLog("error", `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
+            return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
 
         // On vérifie si le mot de passe est correct
         const verifPassword = await bcrypt.compare(password, verif.password);
         if (!verifPassword) {
-            return res.status(400).send({ Error: `Error, le mot de passe est incorrect` });
+            addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
+            return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
         // On génère un token
@@ -203,7 +214,7 @@ const connectClient = async (req, res, next) => {
         // Vous pouvez maintenant renvoyer le token au client
         return res.status(200).json({ token: token });
     } catch (e) {
-        throw e;
+        addLog("error", e, "client.controller.js");
     }
 };
 
@@ -227,9 +238,10 @@ const getClientReservationById = async (req, res, next) => {
             })
         }
 
+        addLog("info", `getClientReservationById du client ${idClient}`, "client.controller.js");
         return res.status(200).json(result)
     } catch (e){
-        throw e;
+        addLog("error", e, "client.controller.js");
     }
 
 };
