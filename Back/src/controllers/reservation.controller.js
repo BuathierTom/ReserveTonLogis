@@ -6,25 +6,43 @@ const { transporter } = require('../mail/transporter.mail.js');
 const dotenv = require('dotenv');
 const fs = require('fs');
 
+const { addLog } = require("../services/logs/logs");
+
 dotenv.config();
 
-// Fonction qui recherche toutes les reservations
-const getAllReservations = async (req, res, next) => {
+/**
+ * Récupere toutes les reservation créées.
+ *
+ * @function getAllReservations
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant toutes les reservations.
+ * @throws {Error} - Si il y a une erreur lors de la récupération des reservations.
+ */
+const getAllReservations = async (req, res) => {
     try {
         // on récupere les données de la reservation
         const result = await Reservations.find({});
-
+        addLog("info", `getAll des reservations`, "reservation.controller.js");
         return res.status(200).json(result)
     } catch (e){
-        throw e;
+        addLog("error", e, "reservation.controller.js");
     }
 
 };
 
-// Fonction qui permet de récuperer les détails d'une reservation en fonction de son id
-const getReservationById = async (req, res, next) => {
+/**
+ * Récupere une reservation en fonction de l'id de la reservation et les informations du client et de la chambre.
+ * 
+ * @function getReservationById
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant la reservation.
+ * @throws {Error} - Si il y a une erreur lors de la récupération de la reservation.
+**/
+const getReservationById = async (req, res) => {
     try {
-        const id = req.params.id;
+        const id = req.body.id;
 
         // Information de la reservation
         const reservationsData = await Reservations.find({id_reservation: id});
@@ -43,15 +61,26 @@ const getReservationById = async (req, res, next) => {
             chambre: chambreData
         }        
 
+        addLog("info", `getReservationById de la reservation ${id}`, "reservation.controller.js");
         return res.status(200).json(result)
     } catch (e){
-        throw e;
+        addLog("error", e, "reservation.controller.js");
     }
 
 };
 
-// Fonction qui créé une reservation
-const createReservation = async (req, res, next) => {
+/**
+ * Créer une reservation en récuperant les dates, le nombre de personnes, le prix total, l'id du client et l'id de la chambre.
+ * Et envoie un mail de confirmation de création de la reservation.
+ *   
+ * @function createReservation
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant la reservation créée.
+ * @throws {Error} - Si il y a une erreur lors de l'envoi du mail.
+ * @throws {Error} - Si il y a une erreur lors de la création de la reservation.
+ */
+const createReservation = async (req, res) => {
     try {
         // On récupere les données
         const { date_arrive, date_depart, nb_personnes, prix_total, id_client, id_chambre } = req.body;
@@ -92,27 +121,38 @@ const createReservation = async (req, res, next) => {
         };
 
         try {
+            addLog("info", `Mail de confirmation de création de la réservation envoyé à ${email}`, "reservation.controller.js");
             await transporter.sendMail(mailOptions);
         } catch (error) {
-            throw error;
+            addLog("error", error, "reservation.controller.js")
         }
-
+        addLog("info", `createReservation de la reservation ${newId}`, "reservation.controller.js");
         return res.status(200).send(reservationAdd)
     } catch (e) {
-        throw e;
+        addLog("error", e, "reservation.controller.js")
     }
 };
 
-// Fonction qui permet de modifier une reservation
-const updateReservation = async (req, res, next) => {
+/**
+ * Met à jour une reservation en récuperant les dates, le nombre de personnes, le prix total, l'id du client et l'id de la chambre.
+ * 
+ * @function updateReservation
+ * @param {Object} req - L'objet de requête.   
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant la reservation mise à jour.
+ * @throws {Error} - Si la reservation n'existe pas.
+ * @throws {Error} - Si il y a une erreur lors de la mise à jour de la reservation.
+ */
+const updateReservation = async (req, res) => {
     try {
-        const id = req.params.id;
+        const id = req.body.id;
         const { date_arrive, date_depart, nb_personnes, prix_total, id_client, id_chambre } = req.body;
 
         // On verifie si la reservation existe
         const verif = await Reservations.findOne({id_reservation: id})
         if (!verif) {
-            return res.status(400).send({Error: `Error, la reservation avec l'id : ${id} n'existe pas`});
+            addLog("error", `Error, la reservation avec l'id : ${id} n'existe pas`, "reservation.controller.js");
+            return res.status(404).send({Error: `Error, la reservation n'existe pas`});
         }
 
         const updateReservation = await Reservations.updateOne({id_reservation: id}, {
@@ -124,21 +164,34 @@ const updateReservation = async (req, res, next) => {
             id_chambre: id_chambre,
         });
 
+        addLog("info", `updateReservation de la reservation ${id}`, "reservation.controller.js");
         return res.status(200).send(updateReservation)
     } catch (e) {
-        throw e;
+        addLog("error", e, "reservation.controller.js")
     }
 };
 
-// Fonction qui permet de supprimer une reservation
-const deleteReservation = async (req, res, next) => {
+/**
+ * Supprime une reservation en fonction de l'id de la reservation, et envoie un mail de confirmation de 
+ * suppression de la reservation au client.
+ * 
+ * @function deleteReservation
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant la reservation supprimée.
+ * @throws {Error} - Si il y a une erreur lors de l'envoi du mail.
+ * @throws {Error} - Si la reservation n'existe pas.
+ * @throws {Error} - Si il y a une erreur lors de la suppression de la reservation.
+ */
+const deleteReservation = async (req, res) => {
     try {
-        const id = req.params.id;
+        const id = req.body.id;
 
         // On verifie si la reservation existe
         const verif = await Reservations.findOne({id_reservation: id})
         if (!verif) {
-            return res.status(400).send({Error: `Error, la reservation avec l'id : ${id} n'existe pas`});
+            addLog("error", `Error, la reservation avec l'id : ${id} n'existe pas`, "reservation.controller.js");
+            return res.status(404).send({Error: `Error, la reservation n'existe pas`});
         }
 
         // On récupere l'email du client avec l'id_client qu'il y a dans reservation
@@ -160,14 +213,15 @@ const deleteReservation = async (req, res, next) => {
         };
 
         try {
+            addLog("info", `Mail de confirmation de suppression de la réservation envoyé à ${email}`, "reservation.controller.js");
             await transporter.sendMail(mailOptions);
         } catch (error) {
-            throw error;
+            addLog("error", error, "reservation.controller.js")
         }
-
+        addLog("info", `deleteReservation de la reservation ${id}`, "reservation.controller.js");
         return res.status(200).send(deleteReservation)
     } catch (e) {
-        throw e;
+        addLog("error", e, "reservation.controller.js")
     }
 };
 

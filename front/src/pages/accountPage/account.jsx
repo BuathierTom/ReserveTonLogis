@@ -17,21 +17,34 @@ function Account() {
       setBlockVisibility(updatedVisibility);
     };
 
-    useEffect(() => {
-        ApiCallCustomer().then(data => {
-            setAccount(data);
-        })
-    },
 
     useEffect(() => {
-        ApiCallReservation().then(data => {
-            setReservation(data);
-        })
-    }, []));
+        const storedToken = localStorage.getItem("token");
+        console.log(storedToken);
+        if (storedToken) {
+            const headers = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${storedToken}`,
+            };
+            fetch("http://localhost:3000/clients/get", {
+                method: "GET",
+                headers,
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setAccount(data);
+                console.log(data); 
+            })
+            .catch((error) => {
+                console.error("Erreur lors de la récupération des données", error);
+            });
+        }
 
-
+    }, []);
+    
 
     
+
     
 
     return (
@@ -40,37 +53,32 @@ function Account() {
                 <div className="nav-bar ">
                     <NavBar />
                 </div>
-
-                {account.map((account) => (
-                    <div className="account-img__container" key={account.id}>
-                        <div className="account-img__container--text">
-                            <p className="account-img__container--text-title">Bonjour {account.prenom} {account.nom}</p>
-                            <p className="account-img__container--text-content">Bienvenue sur votre espace client</p>
-                        </div>
-                    </div>
-                ))}
-
                 <section className="account">
+            
                     <div className="account__container">
+                        <div className="account__client">
+                            <div className="account__client--info">
+                                <p className="account__client--info-title" >Bonjour {account.prenom} {account.nom}</p>
+                            </div>
+                        </div>
+
                         <div className="account__grid">
-                            {reservation.map((reservation) => (
-                                <div className="account__reservations">
-                                    <div className="account__div">
-                                        <p className="account__title">Mes réservations</p>
-                                        <button className="account__button" onClick={() => toggleBlockVisibility(0)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
-                                    </div>
-                                    {blockVisibility[0] && (
-                                        <div className="account__reservations-block">
-                                            <div className="account__reservations-block--reservation">
-                                                <p className="account__reservations-block--reservation-title">{reservation.nom}</p> 
-                                                <p className="account__reservations-block--reservation-date"> Du {reservation.date_arrive} au {reservation.date_depart}</p> 
-                                                <p className="account__reservations-block--reservation-price">Prix : {reservation.prix_total} €</p>
-                                            </div>    
+                            <div className="account__reservations">
+                                <div className="account__div">
+                                    <p className="account__title">Mes réservations</p>
+                                    <button className="account__button" onClick={() => toggleBlockVisibility(0)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
+                                </div>
+                                {blockVisibility[0] && (
+                                    <div className="account__reservations-block">
+                                        <div className="account__reservations-block--reservation">
+                                            <p className="account__reservations-block--reservation-title">Les Marguerites</p>
+                                            <p className="account__reservations-block--reservation-date">Du 12/12/2021 au 19/12/2021</p>
+                                            <p className="account__reservations-block--reservation-price">Prix : 500€</p>
+                                        </div>    
 
                                         </div>
                                     )}
                                 </div>
-                            ))}
                             {account.map((account) => (
                             <div className="account__donnees">
                                 <div className="account__div">
@@ -89,15 +97,23 @@ function Account() {
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Email : </p>
-                                            <p className="account__donnees-block--info-content">{account.email}</p>
+                                            <p className="account__donnees-block--info-content"> {account.email}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Téléphone : </p>
-                                            <p className="account__donnees-block--info-content">{account.telephone}</p>
+                                            <p className="account__donnees-block--info-content"> {account.telephone}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Adresse : </p>
-                                            <p className="account__donnees-block--info-content">{account.adresse}</p>
+                                            <p className="account__donnees-block--info-content"> {account.adresse}</p>
+                                        </div>
+                                        <div className="account__donnees-block--info">
+                                            <p className="account__donnees-block--info-title">Code postal : </p>
+                                            <p className="account__donnees-block--info-content"></p>
+                                        </div>
+                                        <div className="account__donnees-block--info">
+                                            <p className="account__donnees-block--info-title">Ville : </p>
+                                            <p className="account__donnees-block--info-content"> {account.ville}</p>
                                         </div>
                                     </div>
                                     )}

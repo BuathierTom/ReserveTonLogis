@@ -1,18 +1,28 @@
 import React from 'react';
-import {useState,useEffect } from 'react';
+import {useState,useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 
- 
 
 function Connexion() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [connected, setConnected] = useState(false);
-    const [id, setId] = useState(0);
+    const [connected, setConnected] = useState();
+    const navigate = useNavigate();
+
 
     useEffect(() => {  
        localStorage.setItem("connected", connected);
+       
     }, [connected]);
 
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            localStorage.setItem("connected", true);
+            navigate("/account");
+
+        }
+    }, []);
 
     const handleInscription = async (e) => {
         e.preventDefault();
@@ -29,10 +39,12 @@ function Connexion() {
             const data = await response.json();
 
             if (response.status === 200) {
-                alert("Vous êtes connecté");
-                setId(data.id);
-                window.location.href = "/account/" + data.id;  
+                const { token } = data;
+                console.log(token);
                 setConnected(true);
+                localStorage.setItem("token", token); // Stockez le JWT dans localStorage
+                alert("Vous êtes connecté");
+                window.location.href = "/account";
 
             }
             else {
@@ -45,6 +57,8 @@ function Connexion() {
         }
 
     };
+
+        
 
     
     return (
