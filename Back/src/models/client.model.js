@@ -6,6 +6,8 @@ const clientSchema = new mongoose.Schema({
     prenom: String,
     adresse: String,
     telephone: String,
+    ville : String,
+    codePostal: String,
     email: String,
     password: String,
 });
