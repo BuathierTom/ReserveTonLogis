@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from "react";
 import Image from "../assets/img/logo.png";
-import iconMenu from "../assets/img/imgIcon/icons8-menu-50.png";
+import iconMenu from "../assets/img/imgIcon/icons8-menu-70.png";
+
 
 function NavBar () {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [connected, setConnected] = useState();
 
     useEffect(() => {
-        // Fonction de rappel pour mettre à jour la largeur de la fenêtre
+        const connected = localStorage.getItem("connected");
+        setConnected(connected);
+
+    }
+    , []);
+    console.log(connected);
+
+
+
+    useEffect(() => {
         const updateWindowWidth = () => {
             setWindowWidth(window.innerWidth);
         };
 
-        // Ajoute un écouteur d'événement pour suivre la largeur de la fenêtre
         window.addEventListener("resize", updateWindowWidth);
 
-        // Nettoie l'écouteur d'événement lors du démontage du composant
         return () => {
             window.removeEventListener("resize", updateWindowWidth);
         };
@@ -26,7 +35,7 @@ function NavBar () {
     };
 
     return (
-        <div className="nav-bar nav-bar--transparent">
+        <>
             <div className="nav-bar__logo">
                 <img className="nav-bar__img" src={Image} alt="Logo" />
             </div>
@@ -38,10 +47,15 @@ function NavBar () {
             ) : (
                 <div className="nav-bar__menu">
                     <ul className="nav-bar__ul">
-                        <li className="nav-bar__li"><a href="/">Accueil</a></li>
-                        <li className="nav-bar__li"><a href="#about">Chambres d'hote</a></li>
-                        <li className="nav-bar__li"><a href="/contact">Contact</a></li>
-                        <li className="nav-bar__li"> <a href="#contact">Mon compte</a></li>
+                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="/">Accueil</a></li>
+                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="/#room">Chambres d'hote</a></li>
+                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="/contact">Contact</a></li>
+                        {connected === "true" ? ( 
+                            <li className="nav-bar__li"><a className="nav-bar--color__link" href="/account">Mon compte</a></li>
+                        ) : (
+                            <li className="nav-bar__li"><a className="nav-bar--color__link" href="/connexion">Connexion/Inscription</a></li>
+                        )}
+    
                     </ul>
                 </div>
             )}
@@ -51,14 +65,19 @@ function NavBar () {
                     <p className="nav-bar__close-cross" onClick={() => setIsMenuOpen(false)}>X</p>
 
                             <ul className="nav-bar__ul">
-                            <li className="nav-bar__li"><a href="#home">Accueil</a></li>
-                            <li className="nav-bar__li"><a href="#about">Chambres d'hote</a></li>
-                            <li className="nav-bar__li"><a href="#services">Contact</a></li>
-                            <li className="nav-bar__li"> <a href="#contact">Mon compte</a></li>
+                            <li className="nav-bar__li"><a className="nav-bar__a-menu"  href="/">Accueil</a></li>
+                            <li className="nav-bar__li"><a className="nav-bar__a-menu"onClick={() => setIsMenuOpen(false)} href="#room">Chambres d'hote</a></li>
+                            <li className="nav-bar__li"><a className="nav-bar__a-menu" href="/contact">Contact</a></li>
+                            {connected === "true" ? ( 
+                                <li className="nav-bar__li"><a className="nav-bar__a-menu" href="/account">Mon compte</a></li>
+                            ) : (
+                                <li className="nav-bar__li"><a className="nav-bar__a-menu" href="/connexion">Connexion/Inscription</a></li>
+                            )}
+                            
                             </ul>
                 </div>
             )}
-        </div>
+        </>
     );
 }
 

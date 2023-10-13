@@ -5,7 +5,9 @@ function Header () {
     return (    
         <header className="header">
             <div className="header__container">
-            <NavBar />
+                <div className="nav-bar"> 
+                <NavBar />  
+                </div>
             <div className="header__content">
                 <div className="header__title">
                     <h1 className="header__h1">Le Domaine Des 4 Saisons</h1>

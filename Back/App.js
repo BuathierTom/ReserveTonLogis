@@ -1,23 +1,31 @@
-const express = require("express")
+const express = require("express");
+const cors = require("cors"); 
+
 const app = express();
 const port = 3000;
-const { run } = require("./src/services/db/connect");
+const { connectToDatabase } = require("./src/services/db/connect");
 
-const clients = require("./src/routes/clients.js");
-const chambres = require("./src/routes/chambres.routes");
+const clients = require("./src/routes/client.routes.js");
+const chambres = require("./src/routes/chambre.routes.js");
+const reservations = require("./src/routes/reservation.routes.js");
+const saison = require("./src/routes/saison.routes.js");
 
-app.use("/clients", clients);
-app.use("/chambres", chambres);
-
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-    res.send("Hello world !")
-})
+    res.send("Hello world !");
+});
 
 const startServer = async () => {
-    run();
+    connectToDatabase();
     app.listen(port, () => {
-        console.log(`Listening on port ${port}`);
+        console.log(`Listening on port ${port}...`);
     });
+
+    app.use("/clients", clients);
+    app.use("/chambres", chambres);
+    app.use("/reservations", reservations);
+    app.use("/saison", saison);
 }
 startServer();
