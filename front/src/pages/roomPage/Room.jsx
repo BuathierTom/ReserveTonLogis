@@ -103,6 +103,8 @@ function Room(){
                     <img className="room__img room__img-quaternary" src={require(`../../assets/img-room/${room.image4}.jpg`)} alt="" />
                     </div>
 
+                    <div className="room__container-description-characteristics">
+
                     <div className="room__container-info">
                         <div className="room__placement-info">
                             <span className="room__name"> Chambre {room.nom}</span>
@@ -118,37 +120,42 @@ function Room(){
                        
 
                     </div>
-                    <div className="room__container-description">
-                        <p className="room__description">{room.description}</p>
+
+                        <div className="room__container-description">
+                            <p className="room__description">{room.description}</p>
+                        </div>
+
+                        <div className="room__characteristics">
+                            <div className="room__characteristics-container">
+                                <div className="room__characteristics-content">
+                                        <img className="room__characteristics-icon" src={IconWifi} alt="" />
+                                        <span className="room__characteristics-text">Wifi Gratuit</span>
+                                </div>
+                                <div className="room__characteristics-content">
+                                        <img className="room__characteristics-icon" src={iconTv} alt="" />
+                                        <span className="room__characteristics-text"> TV HD 43" avec Netflix</span>
+                                </div>
+                                <div className="room__characteristics-content">
+                                        <img className="room__characteristics-icon" src={IconBed} alt="" />
+                                        <span className="room__characteristics-text">1 Lit</span>
+                                </div>
+                                <div className="room__characteristics-content">
+                                    <img className="room__characteristics-icon" src={iconCars} alt="" />
+                                    <span className="room__characteristics-text">Parking gratuit sécurisé sur place</span>
+                                </div>
+                                <div className="room__characteristics-content">
+                                    <img className="room__characteristics-icon" src={iconDraps} alt="" />
+                                    <span className="room__characteristics-text">Draps - Linge de lit en coton</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+
                 </div>             
             ))}
 
-            <div className="room__characteristics">
-                <div className="room__characteristics-container">
-                    <div className="room__characteristics-content">
-                            <img className="room__characteristics-icon" src={IconWifi} alt="" />
-                            <span className="room__characteristics-text">Wifi Gratuit</span>
-                    </div>
-                    <div className="room__characteristics-content">
-                            <img className="room__characteristics-icon" src={iconTv} alt="" />
-                            <span className="room__characteristics-text"> TV HD 43" avec Netflix</span>
-                    </div>
-                    <div className="room__characteristics-content">
-                            <img className="room__characteristics-icon" src={IconBed} alt="" />
-                            <span className="room__characteristics-text">1 Lit</span>
-                    </div>
-                    <div className="room__characteristics-content">
-                            <img className="room__characteristics-icon" src={iconCars} alt="" />
-                            <span className="room__characteristics-text">Parking gratuit sécurisé sur place</span>
-                    </div>
-                    <div className="room__characteristics-content">
-                            <img className="room__characteristics-icon" src={iconDraps} alt="" />
-                            <span className="room__characteristics-text">Draps - Linge de lit en coton</span>
-                    </div>
-                </div>
-            </div>
-
+           
         </div>  
         <div className="footer">
             <Footer />        

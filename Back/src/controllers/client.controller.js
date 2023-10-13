@@ -12,7 +12,11 @@ const jwt = require('jsonwebtoken');
 dotenv.config();
 
 const generateAccessToken = (id) => {
-    const token = jwt.sign({ id }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id }, process.env.TOKEN_SECRET, { expiresIn: '30d' });
+    if (!token) {
+        addLog("error", `Erreur, le token n'a pas pu être généré`, "client.controller.js");
+        return res.status(404).send({ Error: `Erreur, le token n'a pas pu être généré` });
+    }
     console.log(token); // Ajoutez cette ligne pour déboguer
     return token;
 };
@@ -34,14 +38,11 @@ const findOneClients = async (req, res) => {
     console.log('La fonction findOneClients a été appelée');
     try {
         const token = req.header('Authorization');
-        console.log('tokennnnnnnn', token);
-
         if (!token) {
             return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
         }
 
         const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
-        console.log('decodedToken', decodedToken);
 
         const id = decodedToken.id;
         const client = await Client.findOne({ id: id });

@@ -1,15 +1,13 @@
 import React from 'react';
-import {useState,useEffect, useHistory} from 'react';
+import {useState,useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { isUserLoggedIn } from '../../utils/auth';
-
- 
 
 function Connexion() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [connected, setConnected] = useState();
-
+    const navigate = useNavigate();
 
 
     useEffect(() => {  
@@ -17,15 +15,15 @@ function Connexion() {
        
     }, [connected]);
 
-    console.log(localStorage.getItem("connected"));
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            localStorage.setItem("connected", true);
+            navigate("/account");
 
+        }
+    }, []);
 
-    
-
-  
-
-
-    console.log(connected);
     const handleInscription = async (e) => {
         e.preventDefault();
 
@@ -59,6 +57,8 @@ function Connexion() {
         }
 
     };
+
+        
 
     
     return (
