@@ -79,7 +79,6 @@ function Account() {
                                         </div>
                                     )}
                                 </div>
-                            {account.map((account) => (
                             <div className="account__donnees">
                                 <div className="account__div">
                                     <p className="account__title">Données personnelles</p>
@@ -118,7 +117,6 @@ function Account() {
                                     </div>
                                     )}
                             </div>
-                            ))}
                             <div className="account__parametres">
                                 <div className="account__div">
                                     <p className="account__title">Paramètres</p>

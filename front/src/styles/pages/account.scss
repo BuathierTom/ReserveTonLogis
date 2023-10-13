@@ -16,6 +16,10 @@
         justify-content: center;
         height: 100%;
 
+        @include desktop{
+            margin: $xxl-mg;
+        }
+
     }
 
     &__grid{
@@ -24,14 +28,14 @@
         margin-left: $xxxl-mg;
         margin-right: $xxxl-mg;
         gap: 2rem;
-        margin-bottom: $xxl-pd;
-        margin-top: $xxl-pd;
+        margin-bottom: $xxl-mg;
+        margin-top: $xxl-mg;
         @include desktop{
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            margin-top: $big-pd;
-            margin-bottom: $big-pd;
             align-items: start;
+            gap: 3.5rem;
+
         }
     }
 
