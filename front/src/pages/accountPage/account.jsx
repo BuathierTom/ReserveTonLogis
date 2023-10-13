@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import React from "react";
 import IconFleche from "../../assets/img/imgIcon/icons8-flèche-vers-le-bas-50.png";
 import ApiCallCustomer from "../../api/ApiCallCustomer";
+import ApiCallReservation from "../../api/ApiCallReservation";
 
 function Account() {
     const [blockVisibility, setBlockVisibility] = useState([false, false, false, false]);
     const [account, setAccount] = useState([]);
+    const [reservation, setReservation] = useState([]);
     
 
     const toggleBlockVisibility = (index) => {
@@ -19,7 +21,14 @@ function Account() {
         ApiCallCustomer().then(data => {
             setAccount(data);
         })
-    }, []);
+    },
+
+    useEffect(() => {
+        ApiCallReservation().then(data => {
+            setReservation(data);
+        })
+    }, []));
+
 
 
     
@@ -44,22 +53,25 @@ function Account() {
                 <section className="account">
                     <div className="account__container">
                         <div className="account__grid">
-                            <div className="account__reservations">
-                                <div className="account__div">
-                                    <p className="account__title">Mes réservations</p>
-                                    <button className="account__button" onClick={() => toggleBlockVisibility(0)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
-                                </div>
-                                {blockVisibility[0] && (
-                                    <div className="account__reservations-block">
-                                        <div className="account__reservations-block--reservation">
-                                            <p className="account__reservations-block--reservation-title">Les Marguerites</p>
-                                            <p className="account__reservations-block--reservation-date">Du 12/12/2021 au 19/12/2021</p>
-                                            <p className="account__reservations-block--reservation-price">Prix : 500€</p>
-                                        </div>    
-
+                            {reservation.map((reservation) => (
+                                <div className="account__reservations">
+                                    <div className="account__div">
+                                        <p className="account__title">Mes réservations</p>
+                                        <button className="account__button" onClick={() => toggleBlockVisibility(0)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
                                     </div>
-                                 )}
-                            </div>
+                                    {blockVisibility[0] && (
+                                        <div className="account__reservations-block">
+                                            <div className="account__reservations-block--reservation">
+                                                <p className="account__reservations-block--reservation-title">{reservation.nom}</p> 
+                                                <p className="account__reservations-block--reservation-date"> Du {reservation.date_arrive} au {reservation.date_depart}</p> 
+                                                <p className="account__reservations-block--reservation-price">Prix : {reservation.prix_total} €</p>
+                                            </div>    
+
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                            {account.map((account) => (
                             <div className="account__donnees">
                                 <div className="account__div">
                                     <p className="account__title">Données personnelles</p>
@@ -69,35 +81,28 @@ function Account() {
                                     <div className="account__donnees-block">
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Nom : </p>
-                                            <p className="account__donnees-block--info-content"> Dupont</p>
+                                            <p className="account__donnees-block--info-content"> {account.nom}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Prénom : </p>
-                                            <p className="account__donnees-block--info-content"> Jean</p>
+                                            <p className="account__donnees-block--info-content"> {account.prenom}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Email : </p>
-                                            <p className="account__donnees-block--info-content"></p>
+                                            <p className="account__donnees-block--info-content">{account.email}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Téléphone : </p>
-                                            <p className="account__donnees-block--info-content"></p>
+                                            <p className="account__donnees-block--info-content">{account.telephone}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Adresse : </p>
-                                            <p className="account__donnees-block--info-content"></p>
-                                        </div>
-                                        <div className="account__donnees-block--info">
-                                            <p className="account__donnees-block--info-title">Code postal : </p>
-                                            <p className="account__donnees-block--info-content"></p>
-                                        </div>
-                                        <div className="account__donnees-block--info">
-                                            <p className="account__donnees-block--info-title">Ville : </p>
-                                            <p className="account__donnees-block--info-content"></p>
+                                            <p className="account__donnees-block--info-content">{account.adresse}</p>
                                         </div>
                                     </div>
                                     )}
                             </div>
+                            ))}
                             <div className="account__parametres">
                                 <div className="account__div">
                                     <p className="account__title">Paramètres</p>
