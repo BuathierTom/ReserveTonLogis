@@ -9,8 +9,16 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// Fonction qui recherche tous les clients
-const findClients = async (req, res, next) => {
+/**
+ * Récupere tous les clients de la base.
+ * 
+ * @function findClients
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant tous les clients.
+ * @throws {Error} - Si il y a une erreur lors de la récupération des clients.
+ */
+const findClients = async (req, res) => {
     try {
         const result = await Client.find({});
         addLog("info", `getAll des clients`, "client.controller.js");
@@ -21,7 +29,15 @@ const findClients = async (req, res, next) => {
 
 };
 
-// Fonction qui recherche un client dans le registre avec un filtre sur l'id 
+/**
+ * Récupere un client en fonction de son id.
+ * 
+ * @function findOneClients
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant le client.
+ * @throws {Error} - Si il y a une erreur lors de la récupération du client.
+ */
 const findOneClients = async (req, res) => {
     try {
         const id = req.body.id;
@@ -33,7 +49,19 @@ const findOneClients = async (req, res) => {
     }
 };
 
-const createClient = async (req, res, next) => {
+/**
+ * Créer un client en fonction des données envoyées.
+ * Envoi un mail de confirmation de création.
+ * 
+ * @function createClient
+ * @param {Object} req - L'objet de requête.$
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant le client.
+ * @throws {Error} - Si il y a une erreur lors de la création du client.
+ * @throws {Error} - Si le client existe déjà.
+ * @throws {Error} - Si il y a une erreur lors de l'envoi du mail de confirmation de création.
+ */
+const createClient = async (req, res) => {
     try {
         // On récupère les données
         const { nom, prenom, adresse, telephone, email, password } = req.body;
@@ -90,9 +118,20 @@ const createClient = async (req, res, next) => {
     }
 };
 
-
-// Fonction qui delete un client
-const deleteClient = async (req, res, next) => {
+/**
+ * Supprime un client en fonction de son id.
+ * Envoi un mail de confirmation de suppression.
+ * 
+ * @function deleteClient
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant le client supprimé.
+ * @throws {Error} - Si il y a une erreur lors de la suppression du client.
+ * @throws {Error} - Si le client n'existe pas.
+ * @throws {Error} - Si il y a une erreur lors de la suppression des réservations du client.
+ * @throws {Error} - Si il y a une erreur lors de l'envoi du mail de confirmation de suppression.
+ */
+const deleteClient = async (req, res) => {
     try {
         const id = req.body.id;
 
@@ -140,8 +179,17 @@ const deleteClient = async (req, res, next) => {
     }
 };
 
-// Fonction qui update un client
-const updateClient = async (req, res, next) => {
+/**
+ * Met à jour un client en fonction de son id.
+ * 
+ * @function updateClient
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant le client.
+ * @throws {Error} - Si il y a une erreur lors de la mise à jour du client.
+ * @throws {Error} - Si le client n'existe pas.
+ */
+const updateClient = async (req, res) => {
     try {
         const { id, nom, prenom, adresse, telephone, email, password } = req.body;
         // On verifie si l'utilisateur existe
@@ -167,7 +215,18 @@ const updateClient = async (req, res, next) => {
     }
 };
 
-const connectClient = async (req, res, next) => {
+/**
+ * Connecte un client en fonction de son email et de son mot de passe.
+ * 
+ * @function connectClient
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant l'id du client.
+ * @throws {Error} - Si il y a une erreur lors de la connexion du client.
+ * @throws {Error} - Si le client n'existe pas.
+ * @throws {Error} - Si le mot de passe est incorrect.
+*/
+const connectClient = async (req, res) => {
     try {
         const { email, password } = req.body;
         // On verifie si l'utilisateur existe
@@ -192,9 +251,18 @@ const connectClient = async (req, res, next) => {
     }
 };
 
-
-// Fonction qui permet de récuperer les détails d'une reservation en fonction de l'id du
-const getClientReservationById = async (req, res, next) => {
+/**
+ * Récupere les réservations d'un client en fonction de son id.
+ * 
+ * @function getClientReservationById
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant les réservations du client.
+ * @throws {Error} - Si il y a une erreur lors de la récupération des réservations du client.
+ * @throws {Error} - Si le client n'existe pas.
+ * @throws {Error} - Si il y a une erreur lors de la récupération des chambres.
+ */
+const getClientReservationById = async (req, res) => {
     try {
         const idClient = req.body.id;
 

@@ -1,7 +1,15 @@
 const Chambre = require('../models/chambre.model');
 const { addLog } = require("../services/logs/logs");
 
-// Fonction qui recherche toutes les chambres
+/**
+ * Récupere toutes les chambres créées.
+ * 
+ * @function findchambreMany
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant toutes les chambres.
+ * @throws {Error} - Si il y a une erreur lors de la récupération des chambres.
+ */
 const findchambreMany = async (req, res) => {
     try {
         const getAll = await Chambre.find({});
@@ -12,7 +20,15 @@ const findchambreMany = async (req, res) => {
     }
 };
 
-// Fonction qui recherche une chambre dans le registre avec un filtre sur l'id 
+/**
+ * Récupere une chambre en fonction de l'id de la chambre.
+ * 
+ * @function findChambre
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant la chambre.
+ * @throws {Error} - Si il y a une erreur lors de la récupération de la chambre.
+ */
 const findChambre = async (req, res) => {
     try {
         const id = req.params.id;
@@ -24,7 +40,16 @@ const findChambre = async (req, res) => {
     }
 };
 
-// Fonction qui update une chambre
+/**
+ * Met à jour une chambre en fonction de l'id.
+ * 
+ * @function updateChambre
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant la chambre.
+ * @throws {Error} - Si il y a une erreur lors de la mise à jour de la chambre.
+ * @throws {Error} - Si la chambre n'existe pas.
+ */
 const updateChambre = async (req, res) => {
     try {
         const id = req.params.id;
@@ -56,7 +81,16 @@ const updateChambre = async (req, res) => {
     }
 };
 
-// Delete chambre
+/**
+ * Supprime une chambre en fonction de l'id.
+ * 
+ * @function deleteChambre
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant la chambre supprimée.
+ * @throws {Error} - Si il y a une erreur lors de la suppression de la chambre.
+ * @throws {Error} - Si la chambre n'existe pas.
+ */
 const deleteChambre = async (req, res) => {
     try {
         const id = req.params.id;
