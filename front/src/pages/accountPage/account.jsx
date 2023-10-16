@@ -85,13 +85,13 @@ function Account() {
                                 {blockVisibility[0] && (
                                     <div className="account__reservations-block">
                                         <div className="account__reservations-block--reservation">
-                                            <p className="account__reservations-block--reservation-title"> Chambre {reservation.nom}</p>
-                                            <p className="account__reservations-block--reservation-date">{reservation.date_arrivee} au {reservation.date_depart}</p>
-                                            <p className="account__reservations-block--reservation-price">Prix : 500€</p>
-                                        </div>    
-
+                                            <p className="account__reservations-block--reservation-title">{reservation[0].chambre[0].nom}</p>
+                                            <p className="account__reservations-block--reservation-date">Du {reservation[0].reservation.date_arrive} au {reservation[0].reservation.date_depart}</p>
+                                            <p className="account__reservations-block--reservation-price">Prix : {reservation[0].reservation.prix_total} €</p>
+                                            <img src={require(`../../assets/img-room/${reservation[0].chambre[0].image1}.jpg`)} alt="chambre" className="account__reservations-block--reservation-img" />
                                         </div>
-                                    )}
+                                    </div>
+                                )}
                                 </div>
                             <div className="account__donnees">
                                 <div className="account__div">
