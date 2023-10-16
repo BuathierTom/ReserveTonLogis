@@ -43,14 +43,14 @@ function Account() {
             .then((response) => response.json())
             .then((data) => {
                 setReservation(data);
-                console.log(data); 
+                console.log(data);
             })
             .catch((error) => {
                 console.error("Erreur lors de la récupération des données", error);
             });
         }
 
-    }, []); 
+     }, []);
     
 
     
