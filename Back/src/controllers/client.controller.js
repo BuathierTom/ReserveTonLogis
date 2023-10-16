@@ -267,28 +267,10 @@ const connectClient = async (req, res, next) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
         // On génère un token
-        //const token = generateAccessToken(verif.id);
-        // console.log(token); // Assurez-vous que cela renvoie un token valide ici
-        const clientConnect = await newClient.save();
-        const emailContent = fs.readFileSync('./src/mail/connectClient.mail.html', 'utf-8');
-        //Envoi de l'e-mail au client
-        const mailOptions = {
-            from: process.env.MAIL_USER,
-            to: email,
-            subject: 'Bienvenue chez RéserveTonLogis.com !',
-            html: emailContent,
-        };
-
-        try {
-            addLog("info", `Mail de confirmation de connexion du compte envoyé à ${email}`, "client.controller.js");
-            await transporter.sendMail(mailOptions);
-        } catch (error) {
-            addLog("error", error, "client.controller.js");
-        }
-        addLog("info", `Connexion du client ${email}`, "client.controller.js");
-        return res.status(200).send(clientConnect);
+        const token = generateAccessToken(verif.id);
+        console.log(token); // Assurez-vous que cela renvoie un token valide ici
         // Vous pouvez maintenant renvoyer le token au client
-        //return res.status(200).json({ token: token });
+        return res.status(200).json({ token: token });
     } catch (e) {
         addLog("error", e, "client.controller.js");
     }
