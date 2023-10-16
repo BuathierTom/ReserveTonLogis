@@ -9,7 +9,8 @@ import IconWifi from "../../assets/img/imgIcon/icons8-wifi-48.png";
 import iconDraps from "../../assets/img/imgIcon/draps.png";
 import iconCars from "../../assets/img/imgIcon/cars.png";
 import iconTv from "../../assets/img/imgIcon/tv.png";
-import ModalImage from "react-modal-image";
+import Calendar from "react-calendar"; // Importez le composant Calendar
+import "react-calendar/dist/Calendar.css"; // Importez le CSS du composant Calendar
 
 
 
@@ -18,6 +19,9 @@ function Room(){
     const [weatherData, setWeatherData] = useState(null);
     const giteLocation = [47.553903, 4.815041];
     const [isOpened, setIsOpened] = useState(false);
+    const [value, onChange] = useState(new Date());  // Utilisez useState pour gérer la valeur du calendrier
+
+    
         
 
     useEffect(() => {
@@ -126,8 +130,11 @@ function Room(){
 
                         </div>
                        
-
                     </div>
+                    <div className="room__calendar">
+                        <Calendar onChange={onChange} value={value} /> {/* Intégrez le calendrier ici */}
+                        </div>
+
 
                         <div className="room__container-description">
                             <p className="room__description">{room.description}</p>

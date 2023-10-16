@@ -83,6 +83,7 @@ function Account() {
                                     <button className="account__button" onClick={() => toggleBlockVisibility(0)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
                                 </div>
                                 {blockVisibility[0] && (
+                                    
                                     <div className="account__reservations-block">
                                         <div className="account__reservations-block--reservation">
                                             <p className="account__reservations-block--reservation-title"> Chambre {reservation.nom}</p>

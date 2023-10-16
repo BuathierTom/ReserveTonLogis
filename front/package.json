@@ -12,6 +12,7 @@
     "leaflet-routing-machine": "^3.2.12",
     "link-react": "^3.0.0",
     "react": "^18.2.0",
+    "react-calendar": "^4.6.0",
     "react-dom": "^18.2.0",
     "react-google-recaptcha": "^3.1.0",
     "react-leaflet": "^4.2.1",
