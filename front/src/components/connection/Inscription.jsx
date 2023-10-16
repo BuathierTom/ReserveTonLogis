@@ -31,7 +31,7 @@ function Inscription () {
         
         // fetch request to the server
         try {
-          const response = await fetch("http://localhost:3000/clients/create", {
+          const response = await fetch('http://localhost:5000/clients/create', {
             method: "POST",
             body: formData,
           });
