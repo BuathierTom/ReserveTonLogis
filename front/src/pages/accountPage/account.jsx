@@ -18,7 +18,6 @@ function Account() {
 
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
-        console.log(storedToken);
         if (storedToken) {
             const headers = {
                 "Content-Type": "application/json",
@@ -59,7 +58,7 @@ function Account() {
             console.error("Erreur lors de la récupération des données", error);
         });
     
-    }, [ account.id ]);
+    }, []);
     
     
     return (
