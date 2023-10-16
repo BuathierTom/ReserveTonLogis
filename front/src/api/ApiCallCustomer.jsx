@@ -1,5 +1,5 @@
 const ApiCallCustomer = () => {
-    return fetch('http://localhost:3000/clients/get/')
+    return fetch('http://localhost:5000/clients/get/')
         .then(response => response.json())
         
 };

@@ -24,7 +24,7 @@ function Account() {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${storedToken}`,
             };
-            fetch("http://localhost:3000/clients/get", {
+            fetch('http://localhost:5000/clients/get', {
                 method: "GET",
                 headers,
             })
@@ -49,7 +49,7 @@ function Account() {
             }
         };
     
-        fetch("http://localhost:3000/clients/getReservation", requestOptions)
+        fetch('http://localhost:5000/clients/getReservation', requestOptions)
         .then((response) => response.json())
         .then((data) => {
             setReservation(data);
