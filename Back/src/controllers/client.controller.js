@@ -290,10 +290,12 @@ const connectClient = async (req, res, next) => {
  */
 const getClientReservationById = async (req, res) => {
     try {
-        const idClient = req.body.id;
+        const idClient = req.headers.authorization.replace('Bearer ', ''); // Récupérer l'ID du client depuis l'en-tête
+        console.log('ID du client', idClient);
 
         // Information de la reservation
         const reservationData = await Reservations.find({id_client: idClient});
+        
 
         let result = [];
         for (let i = 0; i < reservationData.length; i++) {
