@@ -1,5 +1,5 @@
 const ApiCallReservation = () => {
-    return fetch('http://localhost:3000/clients/getReservation' + window.location.pathname.split('/')[2])
+    return fetch('http://localhost:3000/clients/getReservation')
         .then(response => response.json())
         
 };

@@ -10,6 +10,7 @@ function Inscription () {
     const [telephone, setTelephone] = useState("");
     const [adresse, setAdresse] = useState("");
     const [ville, setVille] = useState("");
+    const [codePostal, setCodePostal] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
 
@@ -23,6 +24,8 @@ function Inscription () {
         formData.append("prenom", prenom);
         formData.append("email", email);
         formData.append("adresse", adresse);
+        formData.append("ville", ville);
+        formData.append("codePostal", codePostal);
         formData.append("telephone", telephone);
         formData.append("password", password);
         
@@ -109,15 +112,27 @@ function Inscription () {
                                 onChange={(e) => setAdresse(e.target.value)}
                                 />
                             </div>
-                            <div className="connexion-inscription__form-input">
-                                <input
-                                className="connexion-inscription__input"
-                                type="text"
-                                placeholder="Ville"
-                                value={ville}
-                                onChange={(e) => setVille(e.target.value)}
-                                />
+                            <div className="connexion-inscription__form-line">
+                                <div className="connexion-inscription__form-input">
+                                    <input
+                                    className="connexion-inscription__input"
+                                    type="text"
+                                    placeholder="Ville"
+                                    value={ville}
+                                    onChange={(e) => setVille(e.target.value)}
+                                    />
+                                </div>
+                                <div className="connexion-inscription__form-input">
+                                    <input
+                                    className="connexion-inscription__input"
+                                    type="text"
+                                    placeholder="Code Postal"
+                                    value={codePostal}
+                                    onChange={(e) => setCodePostal(e.target.value)}
+                                    />
+                                </div>
                             </div>
+
                             <div className="connexion-inscription__form-input">
                                 <input
                                 className="connexion-inscription__input"
