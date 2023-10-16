@@ -119,7 +119,7 @@ function Account() {
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Code postal : </p>
-                                            <p className="account__donnees-block--info-content">{account.codepostal}</p>
+                                            <p className="account__donnees-block--info-content">{account.codePostal}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Ville : </p>
