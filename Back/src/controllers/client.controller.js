@@ -121,6 +121,7 @@ const createClient = async (req, res, next) => {
 
         const clientAdd = await newClient.save();
         const emailContent = fs.readFileSync('./src/mail/createClient.mail.html', 'utf-8');
+        console.log(emailContent);
         //Envoi de l'e-mail au client
         const mailOptions = {
             from: process.env.MAIL_USER,
@@ -265,11 +266,9 @@ const connectClient = async (req, res, next) => {
             addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
-
         // On génère un token
         const token = generateAccessToken(verif.id);
         console.log(token); // Assurez-vous que cela renvoie un token valide ici
-
         // Vous pouvez maintenant renvoyer le token au client
         return res.status(200).json({ token: token });
     } catch (e) {
@@ -291,10 +290,12 @@ const connectClient = async (req, res, next) => {
  */
 const getClientReservationById = async (req, res) => {
     try {
-        const idClient = req.body.id;
+        const idClient = req.headers.authorization.replace('Bearer ', ''); // Récupérer l'ID du client depuis l'en-tête
+        console.log('ID du client', idClient);
 
         // Information de la reservation
         const reservationData = await Reservations.find({id_client: idClient});
+        
 
         let result = [];
         for (let i = 0; i < reservationData.length; i++) {
