@@ -36,27 +36,32 @@ function Account() {
             .catch((error) => {
                 console.error("Erreur lors de la récupération des données", error);
             });
-            fetch("http://localhost:3000/clients/getReservation", {
-                method: "GET",
-                headers,
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                setReservation(data);
-                console.log(data); 
-            })
-            .catch((error) => {
-                console.error("Erreur lors de la récupération des données", error);
-            });
+            
         }
-
     }, []); 
-    
 
+    useEffect(() => {
     
-
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${account.id}`
+            }
+        };
     
-
+        fetch("http://localhost:3000/clients/getReservation", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+            setReservation(data);
+            console.log(data);
+        })
+        .catch((error) => {
+            console.error("Erreur lors de la récupération des données", error);
+        });
+    
+    }, [account]);
+    
+    
     return (
         <>
             <div className="account-img">
