@@ -2,8 +2,7 @@ import NavBar from "../../components/Navbar";
 import { useState, useEffect } from "react";
 import React from "react";
 import IconFleche from "../../assets/img/imgIcon/icons8-flèche-vers-le-bas-50.png";
-import ApiCallCustomer from "../../api/ApiCallCustomer";
-import ApiCallReservation from "../../api/ApiCallReservation";
+
 
 function Account() {
     const [blockVisibility, setBlockVisibility] = useState([false, false, false, false]);
@@ -16,7 +15,6 @@ function Account() {
       updatedVisibility[index] = !updatedVisibility[index];
       setBlockVisibility(updatedVisibility);
     };
-
 
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
@@ -38,9 +36,21 @@ function Account() {
             .catch((error) => {
                 console.error("Erreur lors de la récupération des données", error);
             });
+            fetch("http://localhost:3000/clients/getReservation", {
+                method: "GET",
+                headers,
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setReservation(data);
+                console.log(data); 
+            })
+            .catch((error) => {
+                console.error("Erreur lors de la récupération des données", error);
+            });
         }
 
-    }, []);
+    }, []); 
     
 
     
@@ -58,7 +68,7 @@ function Account() {
                     <div className="account__container">
                         <div className="account__client">
                             <div className="account__client--info">
-                                <p className="account__client--info-title" >Bonjour {account.prenom} {account.nom}</p>
+                                <p className="account__client--info-title" >Bonjour {account.prenom} {account.nom} !</p>
                             </div>
                         </div>
 
@@ -72,7 +82,7 @@ function Account() {
                                     <div className="account__reservations-block">
                                         <div className="account__reservations-block--reservation">
                                             <p className="account__reservations-block--reservation-title">Les Marguerites</p>
-                                            <p className="account__reservations-block--reservation-date">Du 12/12/2021 au 19/12/2021</p>
+                                            <p className="account__reservations-block--reservation-date">{reservation.date_arrivee} au {reservation.date_depart}</p>
                                             <p className="account__reservations-block--reservation-price">Prix : 500€</p>
                                         </div>    
 
@@ -108,7 +118,7 @@ function Account() {
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Code postal : </p>
-                                            <p className="account__donnees-block--info-content"></p>
+                                            <p className="account__donnees-block--info-content">{account.codePostal}</p>
                                         </div>
                                         <div className="account__donnees-block--info">
                                             <p className="account__donnees-block--info-title">Ville : </p>

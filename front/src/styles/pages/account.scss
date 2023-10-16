@@ -201,5 +201,11 @@
         cursor: pointer;
     }
 
+    &__client{
+        color:$primary;
+        margin-left: 2rem;
+        font-size: $m-sz;
+        font-weight: $semi-bold;
+    }
 
 }

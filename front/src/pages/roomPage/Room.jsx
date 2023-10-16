@@ -9,21 +9,27 @@ import IconWifi from "../../assets/img/imgIcon/icons8-wifi-48.png";
 import iconDraps from "../../assets/img/imgIcon/draps.png";
 import iconCars from "../../assets/img/imgIcon/cars.png";
 import iconTv from "../../assets/img/imgIcon/tv.png";
+import ModalImage from "react-modal-image";
+
 
 
 function Room(){
     const [room, setRoom] = useState([]); 
     const [weatherData, setWeatherData] = useState(null);
     const giteLocation = [47.553903, 4.815041];
-
+    const [isOpened, setIsOpened] = useState(false);
+        
 
     useEffect(() => {
         ApiCall().then(data => {
             setRoom(data);
         })
-
     }
     , []);
+
+    onclick = () => {
+        setIsOpened(!isOpened);
+    }
 
 
     useEffect(() => {
@@ -54,7 +60,6 @@ function Room(){
           window.removeEventListener("resize", handleResize);
         };
       }, []);
-
 
 
 
@@ -96,12 +101,15 @@ function Room(){
                         </div>
                     </div>
                     </div>
-                    <div className="room__container-img">
-                    <img className="room__img room__img-first" src={require(`../../assets/img-room/${room.image1}.jpg`)} alt="" />
-                    <img className="room__img room__img-second" src={require(`../../assets/img-room/${room.image2}.jpg`)} alt="" />
+                    <div className="room__container-img" >
+                    
+                    <img className="room__img room__img-first" src={require(`../../assets/img-room/${room.image1}.jpg`)} alt=""  />
+                    <img className="room__img room__img-second"  src={require(`../../assets/img-room/${room.image2}.jpg`)} alt="" />
                     <img className="room__img room__img-third" src={require(`../../assets/img-room/${room.image3}.jpg`)} alt="" />
                     <img className="room__img room__img-quaternary" src={require(`../../assets/img-room/${room.image4}.jpg`)} alt="" />
                     </div>
+
+
 
                     <div className="room__container-description-characteristics">
 
