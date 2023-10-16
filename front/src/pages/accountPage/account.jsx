@@ -48,7 +48,6 @@ function Account() {
                 'Authorization': `Bearer ${account.id}`
             }
         };
-    
         fetch("http://localhost:3000/clients/getReservation", requestOptions)
         .then((response) => response.json())
         .then((data) => {
@@ -59,7 +58,7 @@ function Account() {
             console.error("Erreur lors de la récupération des données", error);
         });
     
-    }, [account]);
+    }, [ account.id ]);
     
     
     return (
@@ -86,7 +85,7 @@ function Account() {
                                 {blockVisibility[0] && (
                                     <div className="account__reservations-block">
                                         <div className="account__reservations-block--reservation">
-                                            <p className="account__reservations-block--reservation-title">Les Marguerites</p>
+                                            <p className="account__reservations-block--reservation-title"> Chambre {reservation.nom}</p>
                                             <p className="account__reservations-block--reservation-date">{reservation.date_arrivee} au {reservation.date_depart}</p>
                                             <p className="account__reservations-block--reservation-price">Prix : 500€</p>
                                         </div>    
