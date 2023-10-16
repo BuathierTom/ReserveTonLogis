@@ -13,6 +13,7 @@ dotenv.config();
 
 const generateAccessToken = (id) => {
     const token = jwt.sign({ id }, process.env.TOKEN_SECRET, { expiresIn: '30d' });
+
     if (!token) {
         addLog("error", `Erreur, le token n'a pas pu être généré`, "client.controller.js");
         return res.status(404).send({ Error: `Erreur, le token n'a pas pu être généré` });
@@ -118,18 +119,18 @@ const createClient = async (req, res, next) => {
 // Fonction qui delete un client
 const deleteClient = async (req, res, next) => {
     try {
-        const id = req.body.id;
+        // on recupere le jsonwebtoken du client
+        const token = req.header('Authorization');
+        if (!token) {
+            return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
+        }
 
-        // On récupere l'email du client avec l'id_client qu'il y a dans client
-        const clientData = await Client.find({ id: id });
-        const email = clientData[0].email;
+
 
         // On verifie si l'utilisateur existe
-        const verif = await Client.findOne({ "email": email })
-        if (!verif) {
-            addLog("error", `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
-            return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
-        }
+        const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
+        const id = decodedToken.id;
+        console.log(id);
 
         // On récuperer les réservation de ce client et on supprime les réservations
         const reservationData = await Reservations.find({ id_client: id });
