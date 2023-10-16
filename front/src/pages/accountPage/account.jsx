@@ -2,8 +2,7 @@ import NavBar from "../../components/Navbar";
 import { useState, useEffect } from "react";
 import React from "react";
 import IconFleche from "../../assets/img/imgIcon/icons8-flèche-vers-le-bas-50.png";
-import ApiCallCustomer from "../../api/ApiCallCustomer";
-import ApiCallReservation from "../../api/ApiCallReservation";
+
 
 function Account() {
     const [blockVisibility, setBlockVisibility] = useState([false, false, false, false]);
@@ -51,7 +50,7 @@ function Account() {
             });
         }
 
-    }, []);
+    }, []); 
     
 
     
