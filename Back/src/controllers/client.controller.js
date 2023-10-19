@@ -51,6 +51,7 @@ const findClients = async (req, res) => {
  * @param {Object} res - La réponse de la requête.
  * @returns {Promise<Object>} - Un tableau JSON contenant le client.
  * @throws {Error} - Si il y a une erreur lors de la récupération du client.
+ * @throws {Error} - Si le token JWT est manquant dans l'en-tête Authorization.
  */
 const findOneClients = async (req, res) => {
     console.log('La fonction findOneClients a été appelée');
@@ -74,6 +75,7 @@ const findOneClients = async (req, res) => {
         addLog("error", e, "client.controller.js");
     }
 };
+
 /**
  * Créer un client en fonction des données envoyées.
  * Envoi un mail de confirmation de création.
@@ -89,7 +91,7 @@ const findOneClients = async (req, res) => {
 const createClient = async (req, res, next) => {
     try {
         // On récupère les données
-        const { nom, prenom, adresse, telephone, email, password } = req.body;
+        const { nom, prenom, adresse, telephone, ville, codePostal, email, password } = req.body;
         // On vérifie si l'utilisateur avec l'e-mail existe déjà
         const verif = await Client.findOne({ "email": email });
         if (verif) {
@@ -115,6 +117,8 @@ const createClient = async (req, res, next) => {
             prenom: prenom,
             adresse: adresse,
             telephone: telephone,
+            ville: ville,
+            codePostal: codePostal,
             email: email,
             password: hashedPassword,
         });
@@ -156,6 +160,7 @@ const createClient = async (req, res, next) => {
  * @throws {Error} - Si le client n'existe pas.
  * @throws {Error} - Si il y a une erreur lors de la suppression des réservations du client.
  * @throws {Error} - Si il y a une erreur lors de l'envoi du mail de confirmation de suppression.
+ * @throws {Error} - Si le token JWT est manquant dans l'en-tête Authorization.
  */
 const deleteClient = async (req, res, next) => {
     try {
@@ -164,8 +169,6 @@ const deleteClient = async (req, res, next) => {
         if (!token) {
             return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
         }
-
-
 
         // On verifie si l'utilisateur existe
         const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
@@ -216,7 +219,7 @@ const deleteClient = async (req, res, next) => {
  */
 const updateClient = async (req, res, next) => {
     try {
-        const { id, nom, prenom, adresse, telephone, email, password } = req.body;
+        const { id, nom, prenom, adresse, telephone, ville, codePostal, email, password } = req.body;
         // On verifie si l'utilisateur existe
         const verif = await Client.findOne({ "id": id })
         if (!verif) {
@@ -229,6 +232,8 @@ const updateClient = async (req, res, next) => {
             prenom: prenom,
             adresse: adresse,
             telephone: telephone,
+            ville: ville,
+            codePostal: codePostal,
             email: email,
             password: password,
         })
