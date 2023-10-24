@@ -6,9 +6,13 @@ import Account from './pages/accountPage/account';
 import Room from './pages/roomPage/Room';
 import "./styles/main.scss";
 import {  Route, Routes } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import Loader from './pages/loaderPage/Loader';
 
 
 function App() {
+ 
+
   return (
     <div className="App">
       <Routes>
@@ -18,7 +22,6 @@ function App() {
         <Route path="/account/" element={<Account />} />
         <Route path="/room/:id" element={<Room />} />
       </Routes>
-
     </div>
   );
 }

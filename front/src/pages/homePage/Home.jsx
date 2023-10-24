@@ -11,14 +11,29 @@ import ImgActivity1 from "../../assets/img-activity/wine.png";
 import ImgActivity2 from "../../assets/img-activity/bike.png";
 import ImgActivity3 from "../../assets/img-activity/city.png";
 import ImgActivity4 from "../../assets/img-activity/visit.png";
-
+import { useEffect,useState } from "react";
+import Loader from "../loaderPage/Loader";
  
 
 
 
 function Home () {
     const giteLocation = [47.553903, 4.815041];
+    const [isloading, setloading] = useState(true);
+
+    useEffect(() => {
+      setTimeout(() => {
+        setloading(false);
+      }, 2500);
+    }, []);
     return ( 
+        <>
+         {isloading ? (
+        <div className="loader">
+        <Loader />
+        </div>
+      ) : (
+        
         <>
             <Header />    
             <section className="presentation">
@@ -151,8 +166,9 @@ function Home () {
             <Footer />
         </footer>
 
-        
-
-    </>
-    )}
+        </> 
+        )}
+        </>
+    )
+}
 export default Home;

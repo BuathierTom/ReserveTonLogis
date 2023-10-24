@@ -37,7 +37,7 @@ function NavBar () {
     return (
         <>
             <div className="nav-bar__logo">
-                <img className="nav-bar__img" src={Image} alt="Logo" />
+                <img className="nav-bar__img" src={Image} alt="Logo" href="/" />
             </div>
 
             {windowWidth < 768 ? ( 

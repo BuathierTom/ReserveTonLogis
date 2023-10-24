@@ -1,0 +1,15 @@
+.loader-svg {
+  stroke-dasharray: 600; /* Longueur du chemin SVG */
+  stroke-dashoffset: 600; /* Cacher complètement le chemin au départ */
+  animation: dash 2s linear infinite; /* Animation pour déplacer le trait */
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 600; /* Cacher complètement le trait au début de l'animation */
+  }
+  100% {
+    stroke-dashoffset: 0; /* Afficher complètement le trait à la fin de l'animation */
+  }
+}
+

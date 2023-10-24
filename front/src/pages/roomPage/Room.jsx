@@ -21,7 +21,6 @@ function Room(){
     const [isOpened, setIsOpened] = useState(false);
     const [value, onChange] = useState(new Date());  // Utilisez useState pour gérer la valeur du calendrier
 
-    
         
 
     useEffect(() => {
