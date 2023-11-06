@@ -36,10 +36,9 @@ function Home () {
         
         <>
             <Header />    
-            <section className="presentation">
+            <section className="presentation" id="accueil">
                     <h2 className="presentation__title" >Bienvenue au Domaine Des 4 Saisons</h2>
                     <h3 className="presentation__content-title">Presentation du Domaine</h3>
-
 
                     <div className="presentation__container">
                         <div className="presentation__content">
@@ -77,30 +76,36 @@ function Home () {
             <div className="journey__title">
                 <span className="journey__span">Les différentes chambres d'hôtes </span>
             </div>
-            <div  className="journey__container"> 
-                <div className="card card-one"> 
-                    <div className="card__content">
-                    <p className="card__title">Les Marguerites</p>
-                    <p className="card__p">Une chambre en toute quiétude aliant modernité et tradition dans un gîte merveilleux  </p>
-                    <a href="/room/1"  className="button">Réservez dès maintenant</a>
+            <div  className="journey__container">
+                <a href="/room/1">
+                    <div className="card card-one"> 
+                        <div className="card__content">
+                        <p className="card__title">Les Marguerites</p>
+                        <p className="card__p">Une chambre en toute quiétude aliant modernité et tradition dans un gîte merveilleux  </p>
+                        <a href="/room/1"  className="button">Réservez dès maintenant</a>
+                        </div>
                     </div>
-                </div>
+                </a> 
 
-                <div className="card card-two"> 
-                    <div className="card__content">
-                    <p className="card__title">Les Primevères</p>
-                    <p className="card__p">Les Primevères est une chambre d'hôtes possédant deux lit simple et une salle de bain privative.</p>
-                    <a href="/room/2"  className="button"> Réservez dès maintenant</a>
+                <a href="/room/2">
+                    <div className="card card-two"> 
+                        <div className="card__content">
+                        <p className="card__title">Les Primevères</p>
+                        <p className="card__p">Les Primevères est une chambre d'hôtes possédant deux lit simple et une salle de bain privative.</p>
+                        <a href="/room/2"  className="button"> Réservez dès maintenant</a>
+                        </div>
                     </div>
-                </div>
+                </a>
 
-                <div className="card card-three"> 
-                    <div className="card__content">
-                    <p className="card__title">Les Oyats</p>
-                    <p className="card__p"> Les Oyats est une chambre d'hôtes possédant un lit double et un confort moderne.</p>
-                    <a href="/room/3"  className="button">Réservez dès maintenant</a>
+                <a href="/room/3">
+                    <div className="card card-three"> 
+                        <div className="card__content">
+                        <p className="card__title">Les Oyats</p>
+                        <p className="card__p"> Les Oyats est une chambre d'hôtes possédant un lit double et un confort moderne.</p>
+                        <a href="/room/3"  className="button">Réservez dès maintenant</a>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </section>   
 

@@ -16,6 +16,10 @@ function Header () {
                     <a href="#about">Réservez des maintenant</a>
                 </div>
             </div>
+
+            <section className="header__fleche">
+                <a href="/#accueil"><span></span></a>
+            </section>
             </div>
            
 
