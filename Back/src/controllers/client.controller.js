@@ -321,6 +321,40 @@ const getClientReservationById = async (req, res) => {
 
 };
 
+const updatePassword = async (req, res) => {
+    try {
+        // Fonction pour update le mot de passe
+        const { email, password } = req.body;
+
+        // On vérifie si l'utilisateur existe
+        const verif = await Client.findOne({ "email": email })
+        if (!verif) {
+            addLog("error", `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
+            return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
+        }
+
+        // On vérifie si le mot de passe est correct
+        const verifPassword = await bcrypt.compare(password, verif.password);
+        if (!verifPassword) {
+            addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
+            return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
+        }
+
+        // Hacher le mot de passe
+        const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+
+        const updateClient = await Client.updateOne({ "email": email }, {
+            password: hashedPassword,
+        })
+
+        addLog("info", `updatePassword du client ${email}`, "client.controller.js");
+        return res.status(200).send(updateClient)
+
+    } catch (e){
+        addLog("error", e, "client.controller.js");
+    }
+};
+
 module.exports = {
     findClients,
     createClient,
@@ -328,6 +362,7 @@ module.exports = {
     updateClient,
     connectClient,
     getClientReservationById,
-    findOneClients
+    findOneClients,
+    updatePassword
 };
 
