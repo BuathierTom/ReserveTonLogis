@@ -82,17 +82,17 @@ function Contact () {
                 <span className="reseaux__barre"></span>
                 <div className="reseaux__container">
                     <div className="reseaux__content">
-                        <a href="https://www.facebook.com/">
+                        <a href="https://www.facebook.com/profile.php?id=61552125573882&sk=about_family_and_relationships">
                             <img className="reseaux__icon" src={FacebookLogo} alt="" />
                         </a>
                     </div>
                     <div className="reseaux__content">
-                        <a href="https://www.instagram.com/">
+                        <a href="https://www.instagram.com/reservetonlogis/">
                             <img className="reseaux__icon" src={InstagramLogo} alt="" />
                         </a>
                     </div>
                     <div className="reseaux__content">
-                        <a href="https://www.tiktok.com/fr">
+                        <a href="https://www.tiktok.com/@reservetonlogis?_t=8gMlVWNYHHV&_r=1">
                             <img className="reseaux__icon" src={TiktokLogo} alt="" />
                         </a>
                     </div>

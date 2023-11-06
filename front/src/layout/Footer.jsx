@@ -15,9 +15,15 @@ function Footer() {
                 <div className="footer__follow">
                     <span>Nous suivre </span>
                     <div className="footer__social">
-                        <img src={iconFacebook} alt="" />
-                        <img src={iconTiktok} alt="" />
-                        <img src={iconInsta} alt="" />
+                        <a href="https://www.facebook.com/profile.php?id=61552125573882&sk=about_family_and_relationships">
+                            <img src={iconFacebook} alt="" className="footer__icon" />
+                        </a>
+                        <a href="https://www.tiktok.com/@reservetonlogis?_t=8gMlVWNYHHV&_r=1">
+                            <img src={iconTiktok} alt="" className="footer__icon" />
+                        </a>
+                        <a href="https://www.instagram.com/reservetonlogis/">
+                            <img src={iconInsta} alt="" className="footer__icon" />
+                        </a>
                     </div>
                 </div>
                 <div className="footer__information">
