@@ -9,6 +9,7 @@ const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 
 
+
 dotenv.config();
 
 const generateAccessToken = (id) => {
@@ -21,6 +22,7 @@ const generateAccessToken = (id) => {
     console.log(token); // Ajoutez cette ligne pour déboguer
     return token;
 };
+
 
 
 /**
@@ -295,26 +297,40 @@ const connectClient = async (req, res, next) => {
  * @throws {Error} - Si il y a une erreur lors de la récupération des chambres.
  */
 const getClientReservationById = async (req, res) => {
+    console.log('La fonction getClientReservationById a été appelée');
     try {
-        const idClient = await req.headers.authorization.replace('Bearer ', ''); // Récupérer l'ID du client depuis l'en-tête
-        console.log('ID du client', idClient);
-
-        // Information de la reservation
-        const reservationData = await Reservations.find({id_client: idClient});
-        
-
-        let result = [];
-        for (let i = 0; i < reservationData.length; i++) {
-            const idChambre = reservationData[i].id_chambre;
-            const chambreData = await Chambre.find({id: idChambre});
-            result.push({
-                reservation: reservationData[i],
-                chambre: chambreData
-            })
+        const token = req.header('Authorization');
+        console.log(token);
+        if (!token) {
+            return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
         }
 
+        const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
+
+        const idClient = decodedToken.id;
+        console.log(idClient,"idclient");
+        
+
+        // Information de la reservation
+        const reservationData = await Reservations.find({ id_client: idClient });
+
+
+        if (!reservationData || reservationData.length === 0) {
+            return res.status(404).json({ message: 'Aucune réservation trouvée pour ce client.' });
+        }
+
+
+        // Information de la chambre en fonction de reservationData
+        const chambreData = await Chambre.find({});
+        console.log("chambre",chambreData);
+        const idChambres = reservationData.map(reservation => reservation.id_chambre);
+        // On récupère les chambres en fonction des id_chambre
+        const chambre = chambreData.filter(chambre => idChambres.includes(chambre.id));
+        
         addLog("info", `getClientReservationById du client ${idClient}`, "client.controller.js");
-        return res.status(200).json(result)
+        
+        return res.status(200).json({ chambre });
+    
     } catch (e){
         addLog("error", e, "client.controller.js");
     }
@@ -328,6 +344,9 @@ module.exports = {
     updateClient,
     connectClient,
     getClientReservationById,
-    findOneClients
+    findOneClients,
+    generateAccessToken
 };
+
+
 
