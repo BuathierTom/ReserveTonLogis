@@ -379,9 +379,9 @@ module.exports = {
     connectClient,
     getClientReservationById,
     findOneClients,
-    generateAccessToken
+    generateAccessToken,
     findOneClients,
-    updatePassword
+    updatePassword,
 };
 
 
