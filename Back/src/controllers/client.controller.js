@@ -19,11 +19,8 @@ const generateAccessToken = (id) => {
         addLog("error", `Erreur, le token n'a pas pu être généré`, "client.controller.js");
         return res.status(404).send({ Error: `Erreur, le token n'a pas pu être généré` });
     }
-    console.log(token); // Ajoutez cette ligne pour déboguer
     return token;
 };
-
-
 
 /**
  * Récupere tous les clients de la base.
@@ -56,7 +53,6 @@ const findClients = async (req, res) => {
  * @throws {Error} - Si le token JWT est manquant dans l'en-tête Authorization.
  */
 const findOneClients = async (req, res) => {
-    console.log('La fonction findOneClients a été appelée');
     try {
         const token = req.header('Authorization');
         if (!token) {
@@ -112,15 +108,23 @@ const createClient = async (req, res, next) => {
 
         // Hacher le mot de passe
         const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+        // Hacher l'adresse 
+        const hashedAdresse = await bcrypt.hash(adresse, 10); // 10 est le nombre de salages
+        // Hacher la ville
+        const hashedVille = await bcrypt.hash(ville, 10); // 10 est le nombre de salages
+        // Hacher le code postal
+        const hashedCodePostal = await bcrypt.hash(codePostal, 10); // 10 est le nombre de salages
+        // Hacher le numéro de téléphone
+        const hashedTelephone = await bcrypt.hash(telephone, 10); // 10 est le nombre de salages
 
         const newClient = new Client({
             id: newId,
             nom: nom,
             prenom: prenom,
-            adresse: adresse,
-            telephone: telephone,
-            ville: ville,
-            codePostal: codePostal,
+            adresse: hashedAdresse,
+            telephone: hashedTelephone,
+            ville: hashedVille,
+            codePostal: hashedCodePostal,
             email: email,
             password: hashedPassword,
         });
@@ -174,7 +178,6 @@ const deleteClient = async (req, res, next) => {
         // On verifie si l'utilisateur existe
         const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
         const id = decodedToken.id;
-        console.log(id);
 
         // On récuperer les réservation de ce client et on supprime les réservations
         const reservationData = await Reservations.find({ id_client: id });
@@ -275,7 +278,6 @@ const connectClient = async (req, res, next) => {
         }
         // On génère un token
         const token = generateAccessToken(verif.id);
-        console.log(token); // Assurez-vous que cela renvoie un token valide ici
         // Vous pouvez maintenant renvoyer le token au client
         return res.status(200).json({ token: token });
     } catch (e) {
@@ -296,10 +298,8 @@ const connectClient = async (req, res, next) => {
  * @throws {Error} - Si il y a une erreur lors de la récupération des chambres.
  */
 const getClientReservationById = async (req, res) => {
-    console.log('La fonction getClientReservationById a été appelée');
     try {
         const token = req.header('Authorization');
-        console.log(token);
         if (!token) {
             return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
         }
@@ -307,7 +307,6 @@ const getClientReservationById = async (req, res) => {
         const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
 
         const idClient = decodedToken.id;
-        console.log(idClient,"idclient");
         
 
         // Information de la reservation

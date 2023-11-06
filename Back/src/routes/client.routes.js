@@ -2,9 +2,68 @@ const express = require("express");
 const router = express.Router();
 const { findClients, createClient, deleteClient, updateClient, connectClient, getClientReservationById, findOneClients, updatePassword } = require("../controllers/client.controller.js");
 
-// Permet de récupérer tous les clients
+/**
+ * @swagger
+ * /clients/getAll:
+ *  get:
+ *      summary: Récupère tous les clients de la base.
+ *      responses:
+ *        200:
+ *          description: Opération réussie. Retourne la liste de tous les clients.
+ *          content:
+ *            application/json:
+ *              example:
+ *              - _id: "651d7ea02a10f6207ad47ef8"
+ *                id: 1
+ *                nom: "Gambert"
+ *                prenom: "Adrien"
+ *                adresse: "12 rue les bains"
+ *                telephone: "0612345678"
+ *                email: "masterprod@gmail.com"
+ *                password: "$2b$10$elC6nwU4Mg8TaJLrikrhI.TFR7Mwx0DxZ8wzw3LRS57OF0rJi"
+ *                __v: 0
+ *        500:
+ *          description: Erreur serveur. Une erreur s'est produite lors de la récupération des clients.
+ */
 router.get("/getAll", findClients)
-// Permet de récupérer un client en fonction de son id
+/**
+ * @swagger
+ * /clients/get:
+ *  get:
+ *      summary: Récupère un client en fonction de son ID.
+ *      security:
+ *        - BearerAuth: []
+ *      parameters:
+ *        - in: query
+ *          name: id
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: ID du client à récupérer.
+ *      responses:
+ *        200:
+ *          description: Opération réussie. Retourne le client correspondant à l'ID.
+ *          content:
+ *            application/json:
+ *              example:
+ *                _id: "651d7ea02a10f6207ad47ef8"
+ *                id: 1
+ *                nom: "Gambert"
+ *                prenom: "Adrien"
+ *                adresse: "12 rue les bains"
+ *                telephone: "0612345678"
+ *                email: "masterprod@gmail.com"
+ *                password: "$2b$10$elC6nwU4Mg8TaJLrikrhI.TFR7Mwx0DxZ8wzw3LRS57OF0rJi"
+ *                __v: 0
+ *        400:
+ *          description: Requête invalide. L'ID du client est manquant ou incorrect.
+ *        404:
+ *          description: Client non trouvé. Aucun client correspondant à l'ID spécifié.
+ *        401:
+ *          description: Non autorisé. L'utilisateur n'a pas fourni de token JWT valide.
+ *        500:
+ *          description: Erreur serveur. Une erreur s'est produite lors de la récupération du client.
+ */
 router.get("/get", findOneClients)
 // Permet de récupérer une reservation en fonction de l'id du client
 router.get("/getReservation", getClientReservationById)

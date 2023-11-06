@@ -13,6 +13,50 @@ const chambres = require("./src/routes/chambre.routes.js");
 const reservations = require("./src/routes/reservation.routes.js");
 const saison = require("./src/routes/saison.routes.js");
 
+// SWAGGER
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Documentation API',
+    version: '1.0.0',
+    description:
+      `API pour un site de gestion de réservations pour 3 chambres d'hôtes chez un particulier.`,
+  },
+  servers: [
+    {
+      url: 'http://localhost:5000',
+      description: 'Development server',
+    },
+  ],
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+    },
+  },
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+};
+  
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./src/routes/*.js'],
+};
+  
+const swaggerSpec = swaggerJSDoc(options);
+
+// SWAGGER
+
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,5 +74,6 @@ const startServer = async () => {
     app.use("/chambres", chambres);
     app.use("/reservations", reservations);
     app.use("/saison", saison);
+    app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 startServer();
