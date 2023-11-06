@@ -108,15 +108,23 @@ const createClient = async (req, res, next) => {
 
         // Hacher le mot de passe
         const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+        // Hacher l'adresse 
+        const hashedAdresse = await bcrypt.hash(adresse, 10); // 10 est le nombre de salages
+        // Hacher la ville
+        const hashedVille = await bcrypt.hash(ville, 10); // 10 est le nombre de salages
+        // Hacher le code postal
+        const hashedCodePostal = await bcrypt.hash(codePostal, 10); // 10 est le nombre de salages
+        // Hacher le numéro de téléphone
+        const hashedTelephone = await bcrypt.hash(telephone, 10); // 10 est le nombre de salages
 
         const newClient = new Client({
             id: newId,
             nom: nom,
             prenom: prenom,
-            adresse: adresse,
-            telephone: telephone,
-            ville: ville,
-            codePostal: codePostal,
+            adresse: hashedAdresse,
+            telephone: hashedTelephone,
+            ville: hashedVille,
+            codePostal: hashedCodePostal,
             email: email,
             password: hashedPassword,
         });
