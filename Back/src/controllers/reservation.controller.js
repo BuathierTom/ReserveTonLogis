@@ -5,8 +5,7 @@ const Chambre = require('../models/chambre.model.js');
 const { transporter } = require('../mail/transporter.mail.js');
 const dotenv = require('dotenv');
 const fs = require('fs');
-
-const { addLog } = require("../services/logs/logs");
+const { addLog } = require("../services/logs/logs.js");
 
 dotenv.config();
 
@@ -88,12 +87,7 @@ const createReservation = async (req, res) => {
         // On récupere les données
         const { date_arrive, date_depart, nb_personnes, prix_total, id_client, id_chambre } = req.body;
 
-        // On verifie que l'utilisateur existe
-        const verifClient = await Client.findOne({id: id_client})
-        if (!verifClient) {
-            addLog("error", `Error, le client avec l'id : ${id_client} n'existe pas`, "reservation.controller.js");
-            return res.status(404).send({Error: `Error, le client n'existe pas`});
-        }
+        
 
         // On verifie que l'utilisateur n'a pas deja une réservation en cours dans la meme chambre dans les memes dates
         const verifReservation = await Reservations.find({id_client: id_client, id_chambre: id_chambre, date_arrive: date_arrive, date_depart: date_depart})

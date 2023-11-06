@@ -16,6 +16,8 @@ function Account() {
       setBlockVisibility(updatedVisibility);
     };
 
+    
+
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
         if (storedToken) {
@@ -23,6 +25,8 @@ function Account() {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${storedToken}`,
             };
+    
+            // Récupération des données du client
             fetch('http://localhost:5000/clients/get', {
                 method: "GET",
                 headers,
@@ -33,32 +37,27 @@ function Account() {
                 console.log(data); 
             })
             .catch((error) => {
-                console.error("Erreur lors de la récupération des données", error);
+                console.error("Erreur lors de la récupération des données du client", error);
             });
-            
+    
+            // Récupération des données de réservation
+            fetch('http://localhost:5000/clients/getReservation', {
+                method: "GET",
+                headers,
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setReservation(data);
+                console.log(data); 
+            })
+            .catch((error) => {
+                console.error("Erreur lors de la récupération des données de réservation", error);
+            });
         }
-    }, []); 
+    }, []);
 
-    useEffect(() => {
     
-        const requestOptions = {
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${account.id}`
-            }
-        };
     
-        fetch('http://localhost:5000/clients/getReservation', requestOptions)
-        .then((response) => response.json())
-        .then((data) => {
-            setReservation(data);
-            console.log(data);
-        })
-        .catch((error) => {
-            console.error("Erreur lors de la récupération des données", error);
-        });
-    
-    }, [account]);
     
     
     return (
@@ -83,14 +82,25 @@ function Account() {
                                     <button className="account__button" onClick={() => toggleBlockVisibility(0)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
                                 </div>
                                 {blockVisibility[0] && (
-                                    
                                     <div className="account__reservations-block">
-                                        <div className="account__reservations-block--reservation">
-                                            <p className="account__reservations-block--reservation-title">{reservation[0].chambre[0].nom}</p>
-                                            <p className="account__reservations-block--reservation-date">Du {reservation[0].reservation.date_arrive} au {reservation[0].reservation.date_depart}</p>
-                                            <p className="account__reservations-block--reservation-price">Prix : {reservation[0].reservation.prix_total} €</p>
-                                            <img src={require(`../../assets/img-room/${reservation[0].chambre[0].image1}.jpg`)} alt="chambre" className="account__reservations-block--reservation-img" />
-                                        </div>
+                                        {reservation.map((reservationItem, index) => (
+                                            <div key={index} className="account__reservations-block--reservation">
+                                                <p className="account__reservations-block--reservation-title">
+                                                    Chambre {reservationItem.chambre.nom}
+                                                </p>
+                                                <p className="account__reservations-block--reservation-date">
+                                                    Du {reservationItem.date_arrive} au {reservationItem.date_depart}
+                                                </p>
+                                                <p className="account__reservations-block--reservation-price">
+                                                    Prix : {reservationItem.prix_total} €
+                                                </p>
+                                                <img
+                                                    src={require(`../../assets/img-room/${reservationItem.chambre.image1}.jpg`)}
+                                                    alt="chambre"
+                                                    className="account__img"
+                                                />
+                                            </div>
+                                        ))}
                                     </div>
                                 )}
                                 </div>
