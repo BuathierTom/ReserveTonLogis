@@ -47,8 +47,8 @@ function Account() {
             })
             .then((response) => response.json())
             .then((data) => {
-                setReservation(data);
-                console.log(data); 
+                setReservation(data.reservationsAvecChambres);
+                console.log(data.reservationsAvecChambres);
             })
             .catch((error) => {
                 console.error("Erreur lors de la récupération des données de réservation", error);
@@ -56,9 +56,6 @@ function Account() {
         }
     }, []);
 
-    
-    
-    
     
     return (
         <>
@@ -83,24 +80,25 @@ function Account() {
                                 </div>
                                 {blockVisibility[0] && (
                                     <div className="account__reservations-block">
-                                        {reservation.map((reservationItem, index) => (
-                                            <div key={index} className="account__reservations-block--reservation">
-                                                <p className="account__reservations-block--reservation-title">
-                                                    Chambre {reservationItem.chambre.nom}
-                                                </p>
-                                                <p className="account__reservations-block--reservation-date">
-                                                    Du {reservationItem.date_arrive} au {reservationItem.date_depart}
-                                                </p>
-                                                <p className="account__reservations-block--reservation-price">
-                                                    Prix : {reservationItem.prix_total} €
-                                                </p>
-                                                <img
-                                                    src={require(`../../assets/img-room/${reservationItem.chambre.image1}.jpg`)}
+                                            <ul>
+                                                {reservation.map((reservation) => (
+                                                <li key={reservation.id_reservation}>
+                                                 
+                                              
+                                                    <h3>Chambre {reservation.chambre.nom}</h3>
+                                                    <img
+                                                    src={require(`../../assets/img-room/${reservation.chambre.image}.jpg`)}
                                                     alt="chambre"
                                                     className="account__img"
                                                 />
-                                            </div>
-                                        ))}
+                                                    <p>Date d'arrivée : {reservation.date_arrive}</p>
+                                                    <p>Date de départ : {reservation.date_depart}</p>
+                                                    <p>Prix de la chambre : {reservation.chambre.prix} €</p>
+                                                    <p>Superficie de la chambre : {reservation.chambre.superficie} m²</p>
+                                                    <p>Nombre de personnes : {reservation.nb_personnes}</p>
+                                                </li>
+                                                ))}
+                                            </ul>
                                     </div>
                                 )}
                                 </div>

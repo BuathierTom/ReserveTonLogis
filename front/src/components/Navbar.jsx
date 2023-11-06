@@ -14,7 +14,6 @@ function NavBar () {
 
     }
     , []);
-    console.log(connected);
 
 
 
@@ -37,7 +36,9 @@ function NavBar () {
     return (
         <>
             <div className="nav-bar__logo">
-                <img className="nav-bar__img" src={Image} alt="Logo" href="/" />
+                <a href="/">
+                <img className="nav-bar__img" src={Image} alt="Logo" />
+                </a>
             </div>
 
             {windowWidth < 768 ? ( 

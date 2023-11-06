@@ -312,6 +312,7 @@ const getClientReservationById = async (req, res) => {
 
         // Information de la reservation
         const reservationData = await Reservations.find({ id_client: idClient });
+        console.log("reservationData",reservationData);
 
 
         if (!reservationData || reservationData.length === 0) {
@@ -320,20 +321,37 @@ const getClientReservationById = async (req, res) => {
 
 
         // Information de la chambre en fonction de reservationData
-        const chambreData = await Chambre.find({});
-        console.log("chambre",chambreData);
-        const idChambres = reservationData.map(reservation => reservation.id_chambre);
-        // On récupère les chambres en fonction des id_chambre
-        const chambre = chambreData.filter(chambre => idChambres.includes(chambre.id));
-        
-        addLog("info", `getClientReservationById du client ${idClient}`, "client.controller.js");
-        
-        return res.status(200).json({ chambre });
-    
-    } catch (e){
-        addLog("error", e, "client.controller.js");
-    }
+        const idChambres = reservationData.map((reservation) => reservation.id_chambre);
 
+        // Récupérez les chambres en fonction des id_chambre
+        const chambreData = await Chambre.find({ id: { $in: idChambres } });
+    
+        // Créez un tableau avec les informations essentielles pour chaque réservation
+        const reservationsAvecChambresSimplifiees = reservationData.map((reservation) => {
+          const chambreAssociee = chambreData.find((chambre) => chambre.id === reservation.id_chambre);
+          return {
+            id_reservation: reservation.id_reservation,
+            date_arrive: reservation.date_arrive,
+            date_depart: reservation.date_depart,
+            nb_personnes: reservation.nb_personnes,
+            prix_total: reservation.prix_total,
+            chambre: {
+              nom: chambreAssociee.nom,
+              description: chambreAssociee.description,
+              prix: chambreAssociee.prix,
+              superficie: chambreAssociee.superficie,
+              image: chambreAssociee.image1,
+
+            },
+          };
+        });
+    
+        // Envoyez les données simplifiées à votre application React
+        return res.status(200).json({ reservationsAvecChambres: reservationsAvecChambresSimplifiees });
+      } catch (e) {
+        addLog("error", e, "client.controller.js");
+        res.status(500).json({ message: "Une erreur est survenue lors de la récupération des données." });
+      }
 };
 
 /**
