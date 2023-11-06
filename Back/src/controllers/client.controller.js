@@ -336,6 +336,18 @@ const getClientReservationById = async (req, res) => {
 
 };
 
+/**
+ * Met à jour le mot de passe d'un client en fonction de son email et de son mot de passe.
+ * 
+ * @function updatePassword
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant le client.
+ * @throws {Error} - Si il y a une erreur lors de la mise à jour du mot de passe du client.
+ * @throws {Error} - Si le client n'existe pas.
+ * @throws {Error} - Si le mot de passe est incorrect.
+ * @throws {Error} - Si le mot de passe est identique à l'ancien.
+ */
 const updatePassword = async (req, res) => {
     try {
         // Fonction pour update le mot de passe
