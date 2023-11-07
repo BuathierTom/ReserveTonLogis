@@ -368,7 +368,7 @@ const getClientReservationById = async (req, res) => {
 const updatePassword = async (req, res) => {
     try {
         // Fonction pour update le mot de passe
-        const { email, password } = req.body;
+        const { email, password, newPassword } = req.body;
 
         // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
@@ -384,8 +384,15 @@ const updatePassword = async (req, res) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
+        // On vérifie si le nouveau mot de passe est identique à l'ancien
+        const verifNewPassword = await bcrypt.compare(newPassword, verif.password);
+        if (verifNewPassword) {
+            addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
+            return res.status(404).send({ Error: `Error, le nouveau mot de passe est identique à l'ancien` });
+        }
+
         // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+        const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
 
         const updateClient = await Client.updateOne({ "email": email }, {
             password: hashedPassword,

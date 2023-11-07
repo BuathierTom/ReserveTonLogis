@@ -23,26 +23,12 @@ const swaggerDefinition = {
     title: 'Documentation API',
     version: '1.0.0',
     description:
-      `API pour un site de gestion de réservations pour 3 chambres d'hôtes chez un particulier.`,
+      `API pour un site de gestion de reservations pour 3 chambres d'hôtes chez un particulier.`,
   },
   servers: [
     {
       url: 'http://localhost:5000',
       description: 'Development server',
-    },
-  ],
-  components: {
-    securitySchemes: {
-      bearerAuth: {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-      },
-    },
-  },
-  security: [
-    {
-      bearerAuth: [],
     },
   ],
 };
