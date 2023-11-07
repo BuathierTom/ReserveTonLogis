@@ -8,6 +8,9 @@ function Account() {
     const [blockVisibility, setBlockVisibility] = useState([false, false, false, false]);
     const [account, setAccount] = useState([]);
     const [reservation, setReservation] = useState([]);
+    const [password, setPassword] = useState("");
+
+
     
 
     const toggleBlockVisibility = (index) => {
@@ -55,6 +58,32 @@ function Account() {
             });
         }
     }, []);
+
+    const updatePassword = () => {
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+          const headers = {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${storedToken}`,
+          };
+      
+          fetch('http://localhost:5000/clients/updatePassword', {
+            method: "PUT",
+            headers,
+            body: JSON.stringify({ password }),
+          })
+          .then((response) => {
+            if (response.ok) {
+              console.log("Mot de passe mis à jour avec succès !");
+            } else {
+              console.error("Erreur lors de la mise à jour du mot de passe");
+            }
+          })
+          .catch((error) => {
+            console.error("Erreur lors de la récupération des données de réservation", error);
+          });
+        }
+      };
 
     
     
@@ -161,7 +190,16 @@ function Account() {
                                     {blockVisibility[3] && (
                                     <div className="account__security-block">
                                         <div className="account__security-block--info">
-                                            <a href="#" className="account__security-block--info-link">Modifier mon mot de passe</a>
+                                            <button className="account__security-block--info-link-button" onClick={() => toggleBlockVisibility(4)}>Modifier mon mot de passe</button>
+                                            {blockVisibility[4] && (
+                                                <div className="account__security-block--info-block">
+                                                    <p className="account__security-block--info-block-title">Veuillez saisir votre nouveau mot de passe :</p>
+                                                    <div className="account__security-block--info-link">
+                                                        <input type="password" className="account__input" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                                        <button className="account__security-block--info-button" onClick={updatePassword}>Valider</button>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                     )}
