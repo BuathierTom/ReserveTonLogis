@@ -405,6 +405,31 @@ const updatePassword = async (req, res) => {
     }
 };
 
+// Fonction pour se deconnecter
+const disconnectClient = async (req, res) => {
+    try {
+        // On récupère le token
+        const token = req.header('Authorization');
+        if (!token) {
+            return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
+        }
+
+        // On vérifie si l'utilisateur existe
+        const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
+        const id = decodedToken.id;
+        const client = await Client.findOne({ id: id });
+        if (!client) {
+            return res.status(404).send({ Error: `Aucun client trouvé avec l'ID : ${id}` });
+        }
+
+        // On déconnecte le client
+        addLog("info", `disconnectClient du client ${email}`, "client.controller.js");
+        return res.status(200).json({ message: "Vous êtes déconnecté." });
+    } catch (e){
+        addLog("error", e, "client.controller.js");
+    }
+};
+
 module.exports = {
     findClients,
     createClient,
