@@ -181,14 +181,58 @@
         padding: $l-pd;
         margin-top: $l-mg;
 
+        &--info-button{
+            @include button;
+            margin-top: $l-mg;
+            @include desktop{
+                margin-left: $l-mg;
+                margin-top: 0;
+            }
+        }
+
         &--info-link{
+            color: $senary;
+            font-size: $xs-sz;
+            margin-right: $l-mg;
+            margin-top: $l-mg;
+            margin-left: $s-mg;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            @include desktop {
+                font-size: $s-sz;
+                display: flex;
+                flex-direction: row;
+            }
+        }
+
+        &--info-link-button{
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
             color: $senary;
             font-size: $xs-sz;
             font-weight: $bold;
             margin-right: $l-mg;
+
             @include desktop {
                 font-size: $s-sz;
             }
+
+        }
+
+        &--info-block-title{
+            color: $senary;
+            font-size: $xs-sz;
+            margin-top: $l-mg;
+            @include desktop {
+                font-size: $s-sz;
+            }
+        }
+
+        &--info-block{
+            margin-left: $s-mg;
         }
     }
 
@@ -210,5 +254,25 @@
         font-size: $m-sz;
         font-weight: $semi-bold;
     }
+
+    &__input{
+        border-radius: $l-rad;
+        border-style: solid;
+        border-color: $senary;
+        padding: $xs-pd;
+        font-family: 'Crimsom Text', serif;
+        width: 100%;
+
+        &:focus{
+            outline: none;
+        }
+
+        @include desktop{
+            display: flex;
+            width: 70%;
+        }
+    }
+
+
 
 }

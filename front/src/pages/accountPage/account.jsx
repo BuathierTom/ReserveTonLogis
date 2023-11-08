@@ -8,6 +8,12 @@ function Account() {
     const [blockVisibility, setBlockVisibility] = useState([false, false, false, false]);
     const [account, setAccount] = useState([]);
     const [reservation, setReservation] = useState([]);
+    const email = account.email;
+    const[newPassword, setNewPassword] = useState("");
+    const password = account.password;
+
+
+
     
 
     const toggleBlockVisibility = (index) => {
@@ -55,6 +61,67 @@ function Account() {
             });
         }
     }, []);
+
+    const passwordChange = async (e) => {
+        e.preventDefault();
+
+        const formData = new URLSearchParams();
+        formData.append("email", email);
+        formData.append("password", password);
+        formData.append("newPassword", newPassword);
+        
+        try {
+            const response = await fetch('http://localhost:5000/clients/updatePassword', {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (response.status === 200) {
+                alert("Votre mot de passe a bien été modifié");
+                window.location.href = "/connexion";
+            }
+            else {
+                alert(data.Error);
+            }
+        }   
+        catch (error) {
+            console.error(error);
+        }
+    };
+
+    const deleteAccount = async (e) => {
+        e.preventDefault();
+
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            const headers = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${storedToken}`,
+            };
+        
+            try {
+                const response = await fetch('http://localhost:5000/clients/delete', {
+                    method: "DELETE",
+                    headers,
+
+                });
+
+                if (response.status === 200) {
+                    alert("Votre compte a bien été supprimé");
+                    window.location.href = "/connexion";
+                }
+
+            }   
+            catch (error) {
+                console.error(error);
+            }
+        }
+    };
+
+
+
 
     
     return (
@@ -159,14 +226,23 @@ function Account() {
                                     {blockVisibility[3] && (
                                     <div className="account__security-block">
                                         <div className="account__security-block--info">
-                                            <a href="#" className="account__security-block--info-link">Modifier mon mot de passe</a>
+                                            <button className="account__security-block--info-link-button" onClick={() => toggleBlockVisibility(4)}>Modifier mon mot de passe</button>
+                                            {blockVisibility[4] && (
+                                                <div className="account__security-block--info-block">
+                                                    <p className="account__security-block--info-block-title">Veuillez saisir votre nouveau mot de passe :</p>
+                                                    <div className="account__security-block--info-link">
+                                                        <input type="password" className="account__input" placeholder="Nouveau mot de passe" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                                                        <button className="account__security-block--info-button" onClick={passwordChange}>Valider</button>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                     )}
                             </div>
                         </div>
                         <div className="account__delete">
-                                <button className="account__delete-button">Supprimer mon compte</button>
+                            <button className="account__delete-button" onClick={deleteAccount}>Supprimer mon compte</button>
                         </div>
                     </div>
                 </section>  
