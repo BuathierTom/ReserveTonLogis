@@ -73,10 +73,70 @@ router.post("/create", createClient)
 router.post("/delete", deleteClient)
 // Permet de modifier un client
 router.post("/update", updateClient)
-// Permet de connecter un client
+/**
+ * @swagger
+ * /clients/connect:
+ *  post:
+ *      summary: Connectez-vous en utilisant un email et un mot de passe.
+ *      parameters:
+ *        - in: formData
+ *          name: email
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: E-mail du client à récupérer.
+ *        - in: formData
+ *          name: password
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: Mot de passe du client à récupérer. 
+ *      responses:
+ *        200:
+ *          description: Connexion réussie. L'utilisateur est connecté.
+ *        400:
+ *          description: Requête invalide. Les paramètres email ou password sont manquants ou incorrects.
+ *        401:
+ *          description: Échec de l'authentification. Les informations d'identification sont incorrectes.
+ *        500:
+ *          description: Erreur serveur. Une erreur s'est produite lors de la connexion.
+ */
 router.post("/connect", connectClient)
-// Permet de modifier un mot de passe
-router.post("/updatePassword", updatePassword)
+
+/**
+ * @swagger
+ * /clients/connect:
+ *  post:
+ *      summary: Change le mot de passe d'un client en utilisant un email et un mot de passe.
+ *      parameters:
+ *        - in: formData
+ *          name: email
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: E-mail du client à récupérer.
+ *        - in: formData
+ *          name: password
+ *          schema:
+ *            type: string
+ *          required: true
+ *        - in: formData
+ *          name: newPassword
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: Nouveau mot de passe du client à récupérer. 
+ *      responses:
+ *        200:
+ *          description: Connexion réussie. L'utilisateur est connecté.
+ *        400:
+ *          description: Requête invalide. Les paramètres email ou password sont manquants ou incorrects.
+ *        401:
+ *          description: Échec de l'authentification. Les informations d'identification sont incorrectes.
+ *        500:
+ *          description: Erreur serveur. Une erreur s'est produite lors de la connexion.
+ */
+router.post("/updatePassword", updatePassword);
 
 
 

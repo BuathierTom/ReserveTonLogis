@@ -319,19 +319,37 @@ const getClientReservationById = async (req, res) => {
 
 
         // Information de la chambre en fonction de reservationData
-        const chambreData = await Chambre.find({});
-        const idChambres = reservationData.map(reservation => reservation.id_chambre);
-        // On récupère les chambres en fonction des id_chambre
-        const chambre = chambreData.filter(chambre => idChambres.includes(chambre.id));
-        
-        addLog("info", `getClientReservationById du client ${idClient}`, "client.controller.js");
-        
-        return res.status(200).json({ chambre });
-    
-    } catch (e){
-        addLog("error", e, "client.controller.js");
-    }
+        const idChambres = reservationData.map((reservation) => reservation.id_chambre);
 
+        // Récupérez les chambres en fonction des id_chambre
+        const chambreData = await Chambre.find({ id: { $in: idChambres } });
+    
+        // Créez un tableau avec les informations essentielles pour chaque réservation
+        const reservationsAvecChambresSimplifiees = reservationData.map((reservation) => {
+          const chambreAssociee = chambreData.find((chambre) => chambre.id === reservation.id_chambre);
+          return {
+            id_reservation: reservation.id_reservation,
+            date_arrive: reservation.date_arrive,
+            date_depart: reservation.date_depart,
+            nb_personnes: reservation.nb_personnes,
+            prix_total: reservation.prix_total,
+            chambre: {
+              nom: chambreAssociee.nom,
+              description: chambreAssociee.description,
+              prix: chambreAssociee.prix,
+              superficie: chambreAssociee.superficie,
+              image: chambreAssociee.image1,
+
+            },
+          };
+        });
+    
+        // Envoyez les données simplifiées à votre application React
+        return res.status(200).json({ reservationsAvecChambres: reservationsAvecChambresSimplifiees });
+      } catch (e) {
+        addLog("error", e, "client.controller.js");
+        res.status(500).json({ message: "Une erreur est survenue lors de la récupération des données." });
+      }
 };
 
 /**
@@ -349,7 +367,7 @@ const getClientReservationById = async (req, res) => {
 const updatePassword = async (req, res) => {
     try {
         // Fonction pour update le mot de passe
-        const { email, password } = req.body;
+        const { email, password, newPassword } = req.body;
 
         // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
@@ -365,8 +383,15 @@ const updatePassword = async (req, res) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
+        // On vérifie si le nouveau mot de passe est identique à l'ancien
+        const verifNewPassword = await bcrypt.compare(newPassword, verif.password);
+        if (verifNewPassword) {
+            addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
+            return res.status(404).send({ Error: `Error, le nouveau mot de passe est identique à l'ancien` });
+        }
+
         // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+        const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
 
         const updateClient = await Client.updateOne({ "email": email }, {
             password: hashedPassword,

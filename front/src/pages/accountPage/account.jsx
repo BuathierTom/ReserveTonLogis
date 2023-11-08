@@ -8,6 +8,12 @@ function Account() {
     const [blockVisibility, setBlockVisibility] = useState([false, false, false, false]);
     const [account, setAccount] = useState([]);
     const [reservation, setReservation] = useState([]);
+    const email = account.email;
+    const[newPassword, setNewPassword] = useState("");
+    const password = account.password;
+
+
+
     
 
     const toggleBlockVisibility = (index) => {
@@ -47,8 +53,8 @@ function Account() {
             })
             .then((response) => response.json())
             .then((data) => {
-                setReservation(data);
-                console.log(data); 
+                setReservation(data.reservationsAvecChambres);
+                console.log(data.reservationsAvecChambres);
             })
             .catch((error) => {
                 console.error("Erreur lors de la récupération des données de réservation", error);
@@ -56,9 +62,67 @@ function Account() {
         }
     }, []);
 
-    
-    
-    
+    const passwordChange = async (e) => {
+        e.preventDefault();
+
+        const formData = new URLSearchParams();
+        formData.append("email", email);
+        formData.append("password", password);
+        formData.append("newPassword", newPassword);
+        
+        try {
+            const response = await fetch('http://localhost:5000/clients/updatePassword', {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (response.status === 200) {
+                alert("Votre mot de passe a bien été modifié");
+                window.location.href = "/connexion";
+            }
+            else {
+                alert(data.Error);
+            }
+        }   
+        catch (error) {
+            console.error(error);
+        }
+    };
+
+    const deleteAccount = async (e) => {
+        e.preventDefault();
+
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            const headers = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${storedToken}`,
+            };
+        
+            try {
+                const response = await fetch('http://localhost:5000/clients/delete', {
+                    method: "DELETE",
+                    headers,
+
+                });
+
+                if (response.status === 200) {
+                    alert("Votre compte a bien été supprimé");
+                    window.location.href = "/connexion";
+                }
+
+            }   
+            catch (error) {
+                console.error(error);
+            }
+        }
+    };
+
+
+
+
     
     return (
         <>
@@ -83,24 +147,25 @@ function Account() {
                                 </div>
                                 {blockVisibility[0] && (
                                     <div className="account__reservations-block">
-                                        {reservation.map((reservationItem, index) => (
-                                            <div key={index} className="account__reservations-block--reservation">
-                                                <p className="account__reservations-block--reservation-title">
-                                                    Chambre {reservationItem.chambre.nom}
-                                                </p>
-                                                <p className="account__reservations-block--reservation-date">
-                                                    Du {reservationItem.date_arrive} au {reservationItem.date_depart}
-                                                </p>
-                                                <p className="account__reservations-block--reservation-price">
-                                                    Prix : {reservationItem.prix_total} €
-                                                </p>
-                                                <img
-                                                    src={require(`../../assets/img-room/${reservationItem.chambre.image1}.jpg`)}
+                                            <ul>
+                                                {reservation.map((reservation) => (
+                                                <li key={reservation.id_reservation}>
+                                                 
+                                              
+                                                    <h3>Chambre {reservation.chambre.nom}</h3>
+                                                    <img
+                                                    src={require(`../../assets/img-room/${reservation.chambre.image}.jpg`)}
                                                     alt="chambre"
                                                     className="account__img"
                                                 />
-                                            </div>
-                                        ))}
+                                                    <p>Date d'arrivée : {reservation.date_arrive}</p>
+                                                    <p>Date de départ : {reservation.date_depart}</p>
+                                                    <p>Prix de la chambre : {reservation.chambre.prix} €</p>
+                                                    <p>Superficie de la chambre : {reservation.chambre.superficie} m²</p>
+                                                    <p>Nombre de personnes : {reservation.nb_personnes}</p>
+                                                </li>
+                                                ))}
+                                            </ul>
                                     </div>
                                 )}
                                 </div>
@@ -161,14 +226,23 @@ function Account() {
                                     {blockVisibility[3] && (
                                     <div className="account__security-block">
                                         <div className="account__security-block--info">
-                                            <a href="#" className="account__security-block--info-link">Modifier mon mot de passe</a>
+                                            <button className="account__security-block--info-link-button" onClick={() => toggleBlockVisibility(4)}>Modifier mon mot de passe</button>
+                                            {blockVisibility[4] && (
+                                                <div className="account__security-block--info-block">
+                                                    <p className="account__security-block--info-block-title">Veuillez saisir votre nouveau mot de passe :</p>
+                                                    <div className="account__security-block--info-link">
+                                                        <input type="password" className="account__input" placeholder="Nouveau mot de passe" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                                                        <button className="account__security-block--info-button" onClick={passwordChange}>Valider</button>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                     )}
                             </div>
                         </div>
                         <div className="account__delete">
-                                <button className="account__delete-button">Supprimer mon compte</button>
+                            <button className="account__delete-button" onClick={deleteAccount}>Supprimer mon compte</button>
                         </div>
                     </div>
                 </section>  
