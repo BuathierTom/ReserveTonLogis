@@ -105,7 +105,6 @@ const createReservation = async (req, res) => {
             return res.status(404).send({Error: `Error, la date d'arrivée est supérieur à la date de départ`});
         }
 
-        // On récupere l'email du client avec l'id_client qu'il y a dans reservation
         console.log("je suis au niveau du client");
         const clientData = await Client.find({id: id_client});
         console.log(clientData);
