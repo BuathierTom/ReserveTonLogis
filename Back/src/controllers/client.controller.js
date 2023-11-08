@@ -98,23 +98,23 @@ const createClient = async (req, res, next) => {
 
         // Hacher le mot de passe
         const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
-        // Hacher l'adresse 
-        const hashedAdresse = await bcrypt.hash(adresse, 10); // 10 est le nombre de salages
-        // Hacher la ville
-        const hashedVille = await bcrypt.hash(ville, 10); // 10 est le nombre de salages
-        // Hacher le code postal
-        const hashedCodePostal = await bcrypt.hash(codePostal, 10); // 10 est le nombre de salages
-        // Hacher le numéro de téléphone
-        const hashedTelephone = await bcrypt.hash(telephone, 10); // 10 est le nombre de salages
+        // // Hacher l'adresse 
+        // const hashedAdresse = await bcrypt.hash(adresse, 10); // 10 est le nombre de salages
+        // // Hacher la ville
+        // const hashedVille = await bcrypt.hash(ville, 10); // 10 est le nombre de salages
+        // // Hacher le code postal
+        // const hashedCodePostal = await bcrypt.hash(codePostal, 10); // 10 est le nombre de salages
+        // // Hacher le numéro de téléphone
+        // const hashedTelephone = await bcrypt.hash(telephone, 10); // 10 est le nombre de salages
 
         const newClient = new Client({
             id: newId,
             nom: nom,
             prenom: prenom,
-            adresse: hashedAdresse,
-            telephone: hashedTelephone,
-            ville: hashedVille,
-            codePostal: hashedCodePostal,
+            adresse: adresse,
+            telephone: telephone,
+            ville: ville,
+            codePostal: codePostal,
             email: email,
             password: hashedPassword,
         });
@@ -159,7 +159,7 @@ const createClient = async (req, res, next) => {
  */
 const deleteClient = async (req, res, next) => {
     try {
-        // on recupere le jsonwebtoken du client
+        // on recupere le jsonwebtoken du client    
         const token = req.header('Authorization');
         if (!token) {
             return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
@@ -176,14 +176,19 @@ const deleteClient = async (req, res, next) => {
             const deleteReservation = await Reservations.deleteOne({ "id_reservation": idReservation })
         }
 
-        const deleteClient = await Client.deleteOne({ "email": email })
+        const clientData = await Client.findOne({ id: id });
+
+        const deleteClient = await Client.deleteOne({ "email": clientData.email })
+
+        // On redirige vers la page d'accueil
+        res.redirect('/connexion');
 
         // On envoie un mail de confirmation de suppression
         const emailContent = fs.readFileSync('./src/mail/deleteClient.mail.html', 'utf-8');
         //Envoi de l'e-mail au client
         const mailOptions = {
             from: process.env.MAIL_USER,
-            to: email,
+            to: clientData.email,
             subject: 'Suppression de votre compte',
             html: emailContent,
         };
@@ -365,6 +370,7 @@ const updatePassword = async (req, res) => {
     try {
         // Fonction pour update le mot de passe
         const { email, password, newPassword } = req.body;
+    
 
         // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
@@ -372,6 +378,11 @@ const updatePassword = async (req, res) => {
             addLog("error", `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
             return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
+        console.log(verif.password)
+        console.log(password)
+
+        console.log(verif.password)
+        console.log(password)
 
         console.log("je suis laaaaaaaaaaaaaaaaaaaa")
         

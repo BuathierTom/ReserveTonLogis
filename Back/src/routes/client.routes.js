@@ -26,20 +26,19 @@ const { findClients, createClient, deleteClient, updateClient, connectClient, ge
  *          description: Erreur serveur. Une erreur s'est produite lors de la récupération des clients.
  */
 router.get("/getAll", findClients)
+
 /**
  * @swagger
  * /clients/get:
  *  get:
  *      summary: Récupère un client en fonction de son ID.
- *      security:
- *        - BearerAuth: []
  *      parameters:
- *        - in: query
- *          name: id
- *          schema:
- *            type: integer
- *          required: true
- *          description: ID du client à récupérer.
+ *      - in: header
+ *        name: x-access-token
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: Token d'authentification.
  *      responses:
  *        200:
  *          description: Opération réussie. Retourne le client correspondant à l'ID.
@@ -108,6 +107,8 @@ router.post("/connect", connectClient)
  * /clients/updatePassword:
  *  post:
  *      summary: Change le mot de passe d'un client en utilisant un email et un mot de passe.
+ *      consumes:
+ *        - application/x-www-form-urlencoded
  *      parameters:
  *        - in: formData
  *          name: email
