@@ -7,21 +7,11 @@ const { transporter } = require('../mail/transporter.mail.js');
 const { addLog } = require("../services/logs/logs");
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
+const jwtUtils = require ('../utils/jwtUtils.js')
 
 
 
 dotenv.config();
-
-const generateAccessToken = (id) => {
-    const token = jwt.sign({ id }, process.env.TOKEN_SECRET, { expiresIn: '30d' });
-
-    if (!token) {
-        addLog("error", `Erreur, le token n'a pas pu être généré`, "client.controller.js");
-        return res.status(404).send({ Error: `Erreur, le token n'a pas pu être généré` });
-    }
-    return token;
-};
-
 /**
  * Récupere tous les clients de la base.
  * 
@@ -277,7 +267,7 @@ const connectClient = async (req, res, next) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
         // On génère un token
-        const token = generateAccessToken(verif.id);
+        const token = jwtUtils.generateAccessToken(verif.id);
         // Vous pouvez maintenant renvoyer le token au client
         return res.status(200).json({ token: token });
     } catch (e) {
@@ -299,18 +289,22 @@ const connectClient = async (req, res, next) => {
  */
 const getClientReservationById = async (req, res) => {
     try {
+        console.log("je suis la");
         const token = req.header('Authorization');
         if (!token) {
             return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
         }
+        console.log(token);
 
         const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
 
         const idClient = decodedToken.id;
+        console.log(idClient);
         
 
         // Information de la reservation
         const reservationData = await Reservations.find({ id_client: idClient });
+        console.log(reservationData);
 
 
         if (!reservationData || reservationData.length === 0) {
@@ -320,6 +314,7 @@ const getClientReservationById = async (req, res) => {
 
         // Information de la chambre en fonction de reservationData
         const idChambres = reservationData.map((reservation) => reservation.id_chambre);
+        console.log(idChambres, "id chambreeeeeeeeeeee")
 
         // Récupérez les chambres en fonction des id_chambre
         const chambreData = await Chambre.find({ id: { $in: idChambres } });
@@ -343,6 +338,8 @@ const getClientReservationById = async (req, res) => {
             },
           };
         });
+
+        console.log("resaaaaaaaaaaaaaaaaaaaaaaaaaa",reservationsAvecChambresSimplifiees);
     
         // Envoyez les données simplifiées à votre application React
         return res.status(200).json({ reservationsAvecChambres: reservationsAvecChambresSimplifiees });
@@ -438,7 +435,6 @@ module.exports = {
     connectClient,
     getClientReservationById,
     findOneClients,
-    generateAccessToken,
     findOneClients,
     updatePassword,
 };

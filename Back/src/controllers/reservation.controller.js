@@ -1,7 +1,7 @@
 const Reservations = require('../models/reservation.model.js');
 const Client = require('../models/client.model.js');
 const Chambre = require('../models/chambre.model.js');
-
+const jwt = require('jsonwebtoken');
 const { transporter } = require('../mail/transporter.mail.js');
 const dotenv = require('dotenv');
 const fs = require('fs');
@@ -85,7 +85,18 @@ const getReservationById = async (req, res) => {
 const createReservation = async (req, res) => {
     try {
         // On récupere les données
-        const { date_arrive, date_depart, nb_personnes, id_client, id_chambre } = req.body;
+        const token = req.header('Authorization');
+        if (!token) {
+            return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
+        }
+
+        const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
+        console.log("decode",decodedToken);
+
+        const id_client = decodedToken.id;
+        console.log(id_client)
+
+        const { date_arrive, date_depart, nb_personnes, id_chambre } = req.body;
         console.log(req.body)
 
         // On verifie que l'utilisateur n'a pas deja une réservation en cours dans la meme chambre dans les memes dates
