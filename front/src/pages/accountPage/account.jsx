@@ -2,6 +2,7 @@ import NavBar from "../../components/Navbar";
 import { useState, useEffect } from "react";
 import React from "react";
 import IconFleche from "../../assets/img/imgIcon/icons8-flèche-vers-le-bas-50.png";
+import { Link } from "react-router-dom";
 
 
 function Account() {
@@ -65,6 +66,10 @@ function Account() {
     const passwordChange = async (e) => {
         e.preventDefault();
 
+        console.log(email);
+        console.log(password);
+        console.log(newPassword);
+
         const formData = new URLSearchParams();
         formData.append("email", email);
         formData.append("password", password);
@@ -122,7 +127,6 @@ function Account() {
 
 
 
-
     
     return (
         <>
@@ -152,17 +156,22 @@ function Account() {
                                                 <li key={reservation.id_reservation}>
                                                  
                                               
-                                                    <h3>Chambre {reservation.chambre.nom}</h3>
-                                                    <img
-                                                    src={require(`../../assets/img-room/${reservation.chambre.image}.jpg`)}
-                                                    alt="chambre"
-                                                    className="account__img"
-                                                />
-                                                    <p>Date d'arrivée : {reservation.date_arrive}</p>
-                                                    <p>Date de départ : {reservation.date_depart}</p>
-                                                    <p>Prix de la chambre : {reservation.chambre.prix} €</p>
-                                                    <p>Superficie de la chambre : {reservation.chambre.superficie} m²</p>
-                                                    <p>Nombre de personnes : {reservation.nb_personnes}</p>
+                                                    <h3 className="account__reservations-block--reservation-title">Chambre {reservation.chambre.nom}</h3>
+                                                    <div className="account__reservations-block--reservation-details">
+                                                        <div className="account__reservations-block--reservation-details--info">
+                                                            <p className="account__reservations-block--reservation-details--info-p">Arrivée : {reservation.date_arrive}</p>
+                                                            <p className="account__reservations-block--reservation-details--info-p">Départ : {reservation.date_depart}</p>
+                                                            <p className="account__reservations-block--reservation-details--info-p">Prix : {reservation.chambre.prix} €</p>
+                                                            <p className="account__reservations-block--reservation-details--info-p">Personnes : {reservation.nb_personnes}</p>
+                                                        </div>
+                                                        <img
+                                                            src={require(`../../assets/img-room/${reservation.chambre.image}.jpg`)}
+                                                            alt="chambre"
+                                                            className="account__img"
+                                                        />
+
+                                                    </div>
+                                                    <span className="account__reservations-block--reservation-span"></span>
                                                 </li>
                                                 ))}
                                             </ul>
