@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function ReservationComponent( {room} ) {
+  const [personnes, setpersonnes] = useState(1);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const differenceEnMilliseconds = endDate - startDate
@@ -22,16 +23,20 @@ function ReservationComponent( {room} ) {
       console.error("La date de départ ne peut pas être antérieure à la date d'arrivée.");
     }
   };
+  const handlepersonnesChange = (e) => {
+    setpersonnes(e.target.value);
+  };
 
 
   const onclickapi = () => {
     const formattedStartDate = startDate.toISOString().split('T')[0];
     const formattedEndDate = endDate.toISOString().split('T')[0];
     const formData = new URLSearchParams();
-    formData.append("dateArrivee", formattedStartDate);
-    formData.append("dateDepart", formattedEndDate);
-    formData.append("idChambre", 1);
-    formData.append("idClient", 30);
+    formData.append("date_arrive", formattedStartDate);
+    formData.append("date_depart", formattedEndDate);
+    formData.append("id_chambre", window.location.href.split("/")[4]);
+    formData.append("id_client", 30);
+    formData.append("nb_personnes", personnes);
 
 
     fetch("http://localhost:5000/reservations/create", {
@@ -42,7 +47,12 @@ function ReservationComponent( {room} ) {
     .then((response) => response.json())
     .then((data) => {
         console.log(data);
-  
+        if (data.Error) {
+            alert(data.Error);
+        } else {
+            alert("Votre réservation a bien été créée");
+            window.location.href = "/account";
+        }
     })
     .catch((error) => {
         console.error("Erreur lors de la création d'une réservation", error);
@@ -74,7 +84,7 @@ function ReservationComponent( {room} ) {
 
         <div className="room__reservation-peoples">
             <span className="room__span">Personnes</span>
-            <select className="room__select">
+            <select className="room__select" value={personnes} onChange={handlepersonnesChange}>
                 <option value="1">1 personne</option>
                 <option value="2">2 personnes</option>
             </select>
