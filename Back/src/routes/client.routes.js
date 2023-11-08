@@ -105,7 +105,7 @@ router.post("/connect", connectClient)
 
 /**
  * @swagger
- * /clients/connect:
+ * /clients/updatePassword:
  *  post:
  *      summary: Change le mot de passe d'un client en utilisant un email et un mot de passe.
  *      parameters:
@@ -120,6 +120,7 @@ router.post("/connect", connectClient)
  *          schema:
  *            type: string
  *          required: true
+ *          desription: Ancien mot de passe du client à récupérer.
  *        - in: formData
  *          name: newPassword
  *          schema:
@@ -128,7 +129,7 @@ router.post("/connect", connectClient)
  *          description: Nouveau mot de passe du client à récupérer. 
  *      responses:
  *        200:
- *          description: Connexion réussie. L'utilisateur est connecté.
+ *          description: Mot de passe mis à jour avec succès.
  *        400:
  *          description: Requête invalide. Les paramètres email ou password sont manquants ou incorrects.
  *        401:

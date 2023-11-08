@@ -376,22 +376,22 @@ const updatePassword = async (req, res) => {
             return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
 
-        // On vérifie si le mot de passe est correct
-        const verifPassword = await bcrypt.compare(password, verif.password);
-        if (!verifPassword) {
+        console.log("je suis laaaaaaaaaaaaaaaaaaaa")
+        
+        if (password !=verif.password) {
             addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
-        // On vérifie si le nouveau mot de passe est identique à l'ancien
-        const verifNewPassword = await bcrypt.compare(newPassword, verif.password);
-        if (verifNewPassword) {
+        console.log("je suis la");
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
+        console.log(hashedPassword);
+
+        if (hashedPassword === verif.password) {
             addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le nouveau mot de passe est identique à l'ancien` });
         }
-
-        // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
 
         const updateClient = await Client.updateOne({ "email": email }, {
             password: hashedPassword,
@@ -400,6 +400,31 @@ const updatePassword = async (req, res) => {
         addLog("info", `updatePassword du client ${email}`, "client.controller.js");
         return res.status(200).send(updateClient)
 
+    } catch (e){
+        addLog("error", e, "client.controller.js");
+    }
+};
+
+// Fonction pour se deconnecter
+const disconnectClient = async (req, res) => {
+    try {
+        // On récupère le token
+        const token = req.header('Authorization');
+        if (!token) {
+            return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
+        }
+
+        // On vérifie si l'utilisateur existe
+        const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
+        const id = decodedToken.id;
+        const client = await Client.findOne({ id: id });
+        if (!client) {
+            return res.status(404).send({ Error: `Aucun client trouvé avec l'ID : ${id}` });
+        }
+
+        // On déconnecte le client
+        addLog("info", `disconnectClient du client ${email}`, "client.controller.js");
+        return res.status(200).json({ message: "Vous êtes déconnecté." });
     } catch (e){
         addLog("error", e, "client.controller.js");
     }

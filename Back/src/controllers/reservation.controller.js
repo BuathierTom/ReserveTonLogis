@@ -96,7 +96,13 @@ const createReservation = async (req, res) => {
             return res.status(404).send({Error: `Error, le client a deja une réservation en cours dans la meme chambre dans les memes dates`});
         }
 
-        console.log( "je suis la");
+        // On verifie que dans toutes les reservations si a la meme date d'arrivée et de départ il n'y a pas deja une reservation dans la meme chambre par un autre client
+        const verifReservation2 = await Reservations.find({id_chambre: id_chambre, date_arrive: date_arrive, date_depart: date_depart})
+        if (verifReservation2.length !== 0) {
+            console.log("Error, il y a deja une réservation dans la meme chambre dans les memes dates");
+            addLog("error", `Error, il y a deja une réservation dans la meme chambre dans les memes dates`, "reservation.controller.js");
+            return res.status(404).send({Error: `Error, il y a deja une réservation dans la meme chambre dans les memes dates`});
+        }
 
         // On verifie que les dates données sont bonnes
         if (date_arrive > date_depart) {
@@ -105,7 +111,6 @@ const createReservation = async (req, res) => {
             return res.status(404).send({Error: `Error, la date d'arrivée est supérieur à la date de départ`});
         }
 
-        // On récupere l'email du client avec l'id_client qu'il y a dans reservation
         console.log("je suis au niveau du client");
         const clientData = await Client.find({id: id_client});
         console.log(clientData);
