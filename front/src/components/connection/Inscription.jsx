@@ -28,6 +28,7 @@ function Inscription () {
         formData.append("codePostal", codePostal);
         formData.append("telephone", telephone);
         formData.append("password", password);
+
         
         // fetch request to the server
         try {
