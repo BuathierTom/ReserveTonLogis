@@ -9,6 +9,7 @@ import IconWifi from "../../assets/img/imgIcon/icons8-wifi-48.png";
 import iconDraps from "../../assets/img/imgIcon/draps.png";
 import iconCars from "../../assets/img/imgIcon/cars.png";
 import iconTv from "../../assets/img/imgIcon/tv.png";
+import ReservationComponent from "../../components/ReservationComponent";
 import DatePicker from "react-datepicker";
 import Calendar from "react-calendar"; // Importez le composant Calendar
 import 'react-datepicker/dist/react-datepicker.css'; // Importez les styles par défaut
@@ -16,21 +17,13 @@ import "react-calendar/dist/Calendar.css"; // Importez le CSS du composant Calen
 
 
 
-function Room(){
+function Room( ) {
     const [room, setRoom] = useState([]); 
     const [weatherData, setWeatherData] = useState(null);
     const giteLocation = [47.553903, 4.815041];
     const [isOpened, setIsOpened] = useState(false);
-    const [value, onChange] = useState(new Date());  // Utilisez useState pour gérer la valeur du calendrier
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const nextDay = new Date();
-    nextDay.setDate(new Date().getDate() + 1);
-    const differenceEnMilliseconds = endDate - startDate
-    const gap = Math.floor(differenceEnMilliseconds / (1000 * 60 * 60 * 24)+1);
-
     
-
+    
 
     useEffect(() => {
         ApiCall().then(data => {
@@ -43,30 +36,7 @@ function Room(){
         setIsOpened(!isOpened);
     }
 
-    const onclickapi = () => {
-        fetch("http://localhost:5000/reservations/create", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                dateArrivee: startDate,
-                dateDepart: endDate,
-                idChambre: 1,
-                idClient: 1,
-            }),
-        })
-
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-        })
-        .catch((error) => {
-            console.error("Erreur lors de la création d'une réservation", error);
-        });
-    }
-
-
+  
 
     useEffect(() => {
         fetch(`https://api.weatherapi.com/v1/current.json?key=7889403755cb4ebc976103914230510&q=${giteLocation[0]},${giteLocation[1]}&aqi=no`)
@@ -199,46 +169,12 @@ function Room(){
                                 </div>
                             </div>
                         </div>
-                        <div className="room__reservation">
-                            <div className="room__reservation-price">
-                                <span className="room__reservation-price">{room.prix}€ </span>
-                                <span className="room__reservation-text">par nuit</span>
-                            </div>
-                            <div className="room__reservation-context-container">
-                                <div className="room__reservation-context">
-                                    <div className="room__reservation-flex">
-                                        <div className="room__reservation-arrive">
-                                        <span className="room__span">Arrivé</span>
-                                        <DatePicker dateFormat = "dd/MM/yyyy"  selected={startDate} onChange={(date) => setStartDate(date)} />
-                                        </div>
-                                        <div className="room__reservation-departure">
-                                        <span className="room__span">Départ</span>
-                                        <DatePicker dateFormat = "dd/MM/yyyy"  selected={endDate} onChange={(date) => setEndDate(date)} />
-                                        </div>
-                                        
-                                    </div>
-
-                                    <div className="room__reservation-peoples">
-                                        <span className="room__span">Personnes</span>
-                                        <select className="room__select">
-                                            <option value="1">1 personne</option>
-                                            <option value="2">2 personnes</option>
-                                        </select>
-                                    </div>
-                                    <div className="room__reservation-info">
-                                        <span className="room__span"> {room.prix} x {gap}  nuit(s)</span>
-                                      
-
-                                    </div>
-                                </div>        
-                            </div>
-
-                            <button className="room__button room_reservation-button" onClick={onclickapi}>Réserver</button>
-
-                        </div>
+                       
                     </div>
 
-
+                    <div className="room_reservation">
+                        <ReservationComponent room={room} />
+                    </div>
                 </div>             
             ))}
 

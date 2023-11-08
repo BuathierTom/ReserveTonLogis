@@ -85,25 +85,30 @@ const getReservationById = async (req, res) => {
 const createReservation = async (req, res) => {
     try {
         // On récupere les données
-        const { date_arrive, date_depart, nb_personnes, prix_total, id_client, id_chambre } = req.body;
-
-        
+        const { date_arrive, date_depart, nb_personnes, id_client, id_chambre } = req.body;
+        console.log(req.body)
 
         // On verifie que l'utilisateur n'a pas deja une réservation en cours dans la meme chambre dans les memes dates
         const verifReservation = await Reservations.find({id_client: id_client, id_chambre: id_chambre, date_arrive: date_arrive, date_depart: date_depart})
         if (verifReservation.length !== 0) {
+            console.log("Error, le client a deja une réservation en cours dans la meme chambre dans les memes dates");
             addLog("error", `Error, le client avec l'id : ${id_client} a deja une réservation en cours dans la meme chambre dans les memes dates`, "reservation.controller.js");
             return res.status(404).send({Error: `Error, le client a deja une réservation en cours dans la meme chambre dans les memes dates`});
         }
 
+        console.log( "je suis la");
+
         // On verifie que les dates données sont bonnes
         if (date_arrive > date_depart) {
             addLog("error", `Error, la date d'arrivée est supérieur à la date de départ`, "reservation.controller.js");
+            console.log("Error, la date d'arrivée est supérieur à la date de départ");
             return res.status(404).send({Error: `Error, la date d'arrivée est supérieur à la date de départ`});
         }
 
         // On récupere l'email du client avec l'id_client qu'il y a dans reservation
+        console.log("je suis au niveau du client");
         const clientData = await Client.find({id: id_client});
+        console.log(clientData);
         const email = clientData[0].email;
 
         // On créé un id en fonction du dernier id de la collection
@@ -114,18 +119,20 @@ const createReservation = async (req, res) => {
         } else {
             newId = maxId[0].id_reservation + 1;
         }
+        
+        console.log(newId);
 
         const newReservation = new Reservations({
             id_reservation: newId,
             date_arrive: date_arrive,
             date_depart: date_depart,
             nb_personnes: nb_personnes,
-            prix_total: prix_total,
             id_client: id_client,
             id_chambre: id_chambre,
         });
 
         const reservationAdd = await newReservation.save();
+        console.log(reservationAdd);
 
         // On envoie un mail de confirmation de suppression
         const emailContent = fs.readFileSync('./src/mail/createReservation.mail.html', 'utf-8');

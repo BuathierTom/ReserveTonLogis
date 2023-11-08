@@ -311,7 +311,6 @@ const getClientReservationById = async (req, res) => {
 
         // Information de la reservation
         const reservationData = await Reservations.find({ id_client: idClient });
-        console.log("reservationData",reservationData);
 
 
         if (!reservationData || reservationData.length === 0) {
