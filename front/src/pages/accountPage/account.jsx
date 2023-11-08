@@ -108,13 +108,42 @@ function Account() {
         
             try {
                 const response = await fetch('http://localhost:5000/clients/delete', {
-                    method: "DELETE",
+                    method: "POST",
                     headers,
 
                 });
 
                 if (response.status === 200) {
                     alert("Votre compte a bien été supprimé");
+                    window.location.href = "/connexion";
+                }
+
+            }   
+            catch (error) {
+                console.error(error);
+            }
+        }
+    };
+
+    const decoAccount = async (e) => {
+        e.preventDefault();
+
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            const headers = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${storedToken}`,
+            };
+        
+            try {
+                const response = await fetch('http://localhost:5000/clients/deconnexion', {
+                    method: "POST",
+                    headers,
+
+                });
+
+                if (response.status === 200) {
+                    alert("Vous êtes déconnecté");
                     window.location.href = "/connexion";
                 }
 
@@ -223,7 +252,7 @@ function Account() {
                                 </div>
                                     {blockVisibility[2] && (
                                     <div className="account__parametres-block">
-                                        Contenu des paramètres
+                                        <button className="account__parametres-block--button" onClick={decoAccount}>Se déconnecter</button>
                                     </div>
                                     )}
                             </div>
