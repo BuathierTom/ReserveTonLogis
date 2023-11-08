@@ -376,22 +376,22 @@ const updatePassword = async (req, res) => {
             return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
 
-        // On vérifie si le mot de passe est correct
-        const verifPassword = await bcrypt.compare(password, verif.password);
-        if (!verifPassword) {
+        console.log("je suis laaaaaaaaaaaaaaaaaaaa")
+        
+        if (password !=verif.password) {
             addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
-        // On vérifie si le nouveau mot de passe est identique à l'ancien
-        const verifNewPassword = await bcrypt.compare(newPassword, verif.password);
-        if (verifNewPassword) {
+        console.log("je suis la");
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
+        console.log(hashedPassword);
+
+        if (hashedPassword === verif.password) {
             addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le nouveau mot de passe est identique à l'ancien` });
         }
-
-        // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
 
         const updateClient = await Client.updateOne({ "email": email }, {
             password: hashedPassword,

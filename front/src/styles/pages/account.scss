@@ -11,7 +11,13 @@
 
 .account{
     &__img {
+        margin-top: $xxl-mg;
         width: 10rem;
+        box-shadow: 0 0 0.5rem 0.2rem $secondary;
+
+        @include desktop{
+            margin-top: 0;
+        }
     }
     &__container{
         display: flex;
@@ -37,7 +43,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             align-items: start;
-            gap: 3.5rem;
+            gap: 8rem;
 
         }
     }
@@ -47,7 +53,7 @@
         flex-direction: column;
         justify-content: space-between;
         background-color: rgb(250, 248, 240,0.85);
-        padding: $l-pd;
+        padding: $xxl-pd;
 
         @include desktop{
             justify-content: center;
@@ -89,10 +95,47 @@
             color: $senary;
             font-size: $xs-sz;
             font-weight: $bold;
+            text-align: center;
+            margin: $xxl-mg;
             @include desktop {
-                font-size: $s-sz;
+                font-size: $m-sz;
             }
 
+        }
+
+        &--reservation-details{
+            display: flex;
+            flex-direction: column;
+            justify-content:center;
+            align-items: center;
+            @include desktop{
+                flex-direction: row;
+                margin: $xxxl-mg;
+                justify-content: space-between;
+
+
+            }
+
+            &--info{
+                display: flex;
+                flex-direction: column;
+                margin-top: $l-mg;
+            }
+
+            &--info-p{
+                color: $quinary;
+                font-size: $xs-sz;
+                font-weight: $semi-bold;
+                @include desktop {
+                    font-size: $s-sz;
+                }
+            }
+        }
+
+        &--reservation-span{
+            @include stick;
+            height: 0.1rem;
+            width: 100%;
         }
 
         @include desktop{
@@ -107,7 +150,7 @@
         flex-direction: column;
         justify-content: space-between;
         background-color: rgb(223, 254, 212,0.85);
-        padding: $l-pd;
+        padding: $xxl-pd;
     }
 
     &__parametres{
@@ -115,7 +158,7 @@
         flex-direction: column;
         justify-content: space-between;
         background-color: rgb(250, 248, 240,0.85);
-        padding: $l-pd;
+        padding: $xxl-pd;
 
         @include desktop{
             background-color: rgb(223, 254, 212,0.85);
@@ -131,11 +174,12 @@
         @include desktop{
             background-color: rgb(250, 248, 240,0.85);
         }
-        padding: $l-pd;
+        padding: $xxl-pd;
     }
 
     &__title{
         color: $secondary;
+        font-weight: $semi-bold;
         font-size: $xs-sz;
         @include desktop {
             font-size: $l-sz;
@@ -195,7 +239,6 @@
             font-size: $xs-sz;
             margin-right: $l-mg;
             margin-top: $l-mg;
-            margin-left: $s-mg;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -239,7 +282,8 @@
     &__delete{
         display: flex;
         justify-content: center;
-        margin-bottom: $xxxl-mg;     
+        margin-top: 4rem;
+        margin-bottom: 4rem;
     }
 
     &__delete-button{
