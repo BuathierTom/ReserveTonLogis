@@ -80,6 +80,20 @@
                 .text {
                     padding: 1rem;
                 }
+
+                button {
+                    background-color: #4bab77;
+                    border: none;
+                    color: white;
+                    padding: 15px 32px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 16px;
+                    border-radius: 5px;
+                    margin: 10px;
+                    
+                }
         
             </style>
         </head>
@@ -88,29 +102,52 @@
             <header>
                 <h1>
                     <img class="logo" src="https://i.ibb.co/7rv35Sg/logo.png" alt="Logo de ReserveTonLogis"> 
-                    Confirmation  de la création de votre compte
+                    Validation de l'inscription
                 </h1>
             </header>
             <div class="content">
                 <div class = "text">
-                    <p> Cher(e) client(e), </p>
-                    <p> Nous vous souhaitons la bienvenue sur notre site de réservation de logement.</p>
-                    <p> Veuillez cliquer sur le lien de vérification ci dessous afin de valider l'accès pour votre compte. <a href="./valideClient.mail.html">Lien de vérification.</a></p>
-                    <p> Chez nous, vous découvrirez une variété d'options de logement, des chambres 
-                        confortables aux appartements élégants, en passant par des maisons de vacances pittoresques, 
-                        afin de répondre à tous vos besoins et préférences. Que vous planifiiez une escapade romantique, 
-                        des vacances en famille ou un voyage d'affaires, notre plateforme conviviale vous offre la 
-                        possibilité de rechercher, de comparer et de réserver facilement l'hébergement qui correspond 
-                        parfaitement à votre séjour. Nous sommes là pour vous accompagner tout au long de votre voyage, 
-                        alors n'hésitez pas à explorer nos offres, à poser des questions ou à demander de l'aide à notre 
-                        équipe d'assistance dédiée. Nous vous souhaitons un voyage inoubliable et un séjour des 
-                        plus agréables dans nos logements de qualité. Merci de nous faire confiance pour votre 
-                        réservation de logement. Bon voyage !</p>
-                        <p>Cordialement,</p>
-
-                        <p class="p-fin">
-                            L'équipe de ReserveTonLogis 
-                        </p>
+                    <p>Merci de cliquer sur le bouton ci-dessous pour valider votre inscription.</p>
+                    <button id="validateButton">Valider l'inscription</button>
+                    <button id="cancelButton">Annuler</button>
+                    <script>
+                        // Lorsque l'utilisateur clique sur le bouton "Valider l'inscription"
+                        document.getElementById('validateButton').addEventListener('click', function() {
+                            // Effectuez une requête AJAX ou redirigez l'utilisateur vers une URL de validation
+                            // en utilisant JavaScript pour communiquer avec votre serveur
+                            // Vous devrez ajouter cette logique en fonction de votre application.
+                
+                            // Par exemple, vous pouvez utiliser fetch pour envoyer une requête au serveur :
+                            fetch('/api/validate', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ token: 'le-jeton-d\'activation' }),
+                            })
+                             .then(response => {
+                                if (response.status === 200) {
+                                    // L'inscription est validée, affichez un message de confirmation.
+                                    alert('Inscription validée avec succès.');
+                                } else {
+                                    alert('Erreur lors de la validation de l\'inscription.');
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error);
+                            });
+                        });
+                
+                        // Lorsque l'utilisateur clique sur le bouton "Annuler"
+                        document.getElementById('cancelButton').addEventListener('click', function() {
+                            // Vous pouvez ajouter une logique pour annuler l'inscription ici,
+                            // par exemple en supprimant le compte utilisateur si nécessaire.
+                            // Cela dépend de votre application.
+                            alert('Inscription annulée.');
+                            // Redirigez l'utilisateur vers la page d'accueil de votre application.
+                            window.location.href = 'hhtps://google.com';
+                        });
+                    </script>
                 </div>
                 <div class="logo-container">
                     <a href="https://www.instagram.com/reservetonlogis/"><img class="logo-reseau" src="https://icones.pro/wp-content/uploads/2021/02/instagram-icone-vert.png" alt="Instagram ReserveTonLogis"></a>
