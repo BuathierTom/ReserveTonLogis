@@ -99,7 +99,6 @@ const createReservation = async (req, res) => {
         // On verifie que l'utilisateur n'a pas deja une réservation en cours dans la meme chambre dans les memes dates
         const verifReservation = await Reservations.find({id_client: id_client, id_chambre: id_chambre, date_arrive: date_arrive, date_depart: date_depart})
         if (verifReservation.length !== 0) {
-            console.log("Error, le client a deja une réservation en cours dans la meme chambre dans les memes dates");
             addLog("error", `Error, le client avec l'id : ${id_client} a deja une réservation en cours dans la meme chambre dans les memes dates`, "reservation.controller.js");
             return res.status(404).send({Error: `Error, le client a deja une réservation en cours dans la meme chambre dans les memes dates`});
         }
@@ -129,8 +128,6 @@ const createReservation = async (req, res) => {
             newId = maxId[0].id_reservation + 1;
         }
         
-        console.log(newId);
-
         const newReservation = new Reservations({
             id_reservation: newId,
             date_arrive: date_arrive,

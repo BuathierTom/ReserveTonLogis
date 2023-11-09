@@ -15,7 +15,7 @@ const saison = require("./src/routes/saison.routes.js");
 
 // SWAGGER
 const swaggerUi = require('swagger-ui-express')
-const swaggerFile = require('./src/services/swagger/swagger-output.json')
+const swaggerFile = require('./src/services/swagger/swagger.json')
 
 app.use(cors());
 app.use(express.json());
