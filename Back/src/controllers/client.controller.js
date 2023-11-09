@@ -321,23 +321,18 @@ const connectClient = async (req, res, next) => {
  */
 const getClientReservationById = async (req, res) => {
     try {
-        console.log("je suis la");
         const token = req.header('Authorization');
         if (!token) {
             return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
         }
-        console.log(token);
 
         const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
 
         const idClient = decodedToken.id;
-        console.log(idClient);
         
 
         // Information de la reservation
         const reservationData = await Reservations.find({ id_client: idClient });
-        console.log(reservationData);
-
 
         if (!reservationData || reservationData.length === 0) {
             return res.status(404).json({ message: 'Aucune réservation trouvée pour ce client.' });
@@ -346,7 +341,6 @@ const getClientReservationById = async (req, res) => {
 
         // Information de la chambre en fonction de reservationData
         const idChambres = reservationData.map((reservation) => reservation.id_chambre);
-        console.log(idChambres, "id chambreeeeeeeeeeee")
 
         // Récupérez les chambres en fonction des id_chambre
         const chambreData = await Chambre.find({ id: { $in: idChambres } });
@@ -371,8 +365,6 @@ const getClientReservationById = async (req, res) => {
           };
         });
 
-        console.log("resaaaaaaaaaaaaaaaaaaaaaaaaaa",reservationsAvecChambresSimplifiees);
-    
         // Envoyez les données simplifiées à votre application React
         return res.status(200).json({ reservationsAvecChambres: reservationsAvecChambresSimplifiees });
       } catch (e) {
@@ -417,8 +409,6 @@ const updatePassword = async (req, res) => {
             return res.status(404).send({ Error: `Error, le nouveau mot de passe est identique à l'ancien` });
         }
 
-        console.log(hashedPassword)
-
         const updateClient = await Client.updateOne({ "email": email }, {
             password: hashedPassword,
         })
@@ -448,13 +438,13 @@ const clientContact = async (req, res) => {
         };
 
         try {
-            addLog("info", `Mail de confirmation de suppression du compte envoyé à ${email}`, "client.controller.js");
+            addLog("info", `Mail de contact envoyé par le client :${email}`, "client.controller.js");
             await transporter.sendMail(mailOptions);
         } catch (error) {
             addLog("error", error, "client.controller.js");
         }
 
-        addLog("info", `clientContact du client ${email}`, "client.controller.js");
+        addLog("info", `clientContact du client : ${email}`, "client.controller.js");
         return res.status(200).send("Mail envoyé");
     } catch(e) {
         addLog("error", e, "client.controller.js");

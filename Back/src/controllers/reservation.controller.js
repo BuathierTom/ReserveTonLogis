@@ -278,21 +278,16 @@ const findDatesForChambres = async (req, res) => {
     try {
         const id_chambre = req.params.id;
         
-        let dates = []; 
-
         const reservationsData = await Reservations.find({id_chambre: id_chambre});
 
         // On ne recupere de chaque resultats que les dates d'arrivée et de départ
         let result = [];
         for (let j = 0; j < reservationsData.length; j++) {
             result.push({date_arrive: reservationsData[j].date_arrive, date_depart: reservationsData[j].date_depart})
-        }
-
-        dates.push({[id_chambre]: result})
-        
+        }        
 
         addLog("info", `findDatesForChambres de toutes les dates de reservations`, "reservation.controller.js");
-        return res.status(200).json(dates)
+        return res.status(200).json(result)
     } catch (e){
         addLog("error", e, "reservation.controller.js");
     }

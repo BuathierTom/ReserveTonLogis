@@ -104,30 +104,28 @@
       }
     },
     "/clients/getReservation": {
-      "/get": {
+      "get": {
         "tags": [
           "Clients"
         ],
         "summary": "Permet de récupérer une reservation en fonction de l'id du client",
-        "parameters": [
+        "security": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
+            "Bearer": [] 
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Opération réussie. Retourne la reservation correspondant à l'ID"
           },
           "401": {
-            "description": "Unauthorized"
+            "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Not Found"
+            "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal Server Error"
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -137,23 +135,65 @@
         "tags": [
           "Clients"
         ],
-        "description": "",
+        "summary": "Crée un nouveau client",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nom": {
-                  "example": "any"
-                },
-                "promotion": {
-                  "example": "any"
-                }
-              }
-            }
+            "in": "formData",
+            "name": "nom",
+            "type": "string",
+            "required": true,
+            "description": "Votre nom"
+          },
+          {
+            "in": "formData",
+            "name": "prenom",
+            "type": "string",
+            "required": true,
+            "description": "Votre prenom"
+          },
+          {
+            "in": "formData",
+            "name": "adresse",
+            "type": "string",
+            "required": true,
+            "description": "Votre adresse"
+          },
+          {
+            "in": "formData",
+            "name": "telephone",
+            "type": "string",
+            "required": true,
+            "description": "Votre telephone"
+          },
+          {
+            "in": "formData",
+            "name": "ville",
+            "type": "string",
+            "required": true,
+            "description": "Votre ville"
+          },
+          {
+            "in": "formData",
+            "name": "codePostal",
+            "type": "string",
+            "required": true,
+            "description": "Votre code postal"
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "required": true,
+            "description": "Votre email"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "required": true,
+            "description": "Votre mot de passe"
           }
+
         ],
         "responses": {
           "200": {
