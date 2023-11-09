@@ -27,6 +27,11 @@ function Account() {
       setBlockVisibility(updatedVisibility);
     };
 
+    const onClickDisconnect = () => {
+        localStorage.clear();
+        window.location.href = "/connexion";
+    }
+
     
 
     useEffect(() => {
@@ -148,8 +153,9 @@ function Account() {
                         const data = await response.json();
                         if (response.status === 200) {
                             localStorage.clear();
-                            window.location.href = "/connexion";
                             window.location.reload();
+                            window.location.href = "/connexion";
+
                         }
                         else {
                             alert(data.Error);
@@ -218,7 +224,7 @@ function Account() {
                                     <button className="account__button" onClick={() => toggleBlockVisibility(0)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
                                 </div>
                                 {blockVisibility[0] && (
-                                    <div className="account__reservations-block">
+                                    <div className="account__reservations-block account__block">
                                             <ul>
                                             {reservation == null ? ( 
                                                     <p>Aucune réservation trouvée.</p>
@@ -300,8 +306,8 @@ function Account() {
                                     <button className="account__button" onClick={() => toggleBlockVisibility(2)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
                                 </div>
                                     {blockVisibility[2] && (
-                                    <div className="account__parametres-block">
-                                        <button className="account__parametres-block--button" onClick={decoAccount}>Se déconnecter</button>
+                                    <div className="account__block account__parametres-block">
+                                        <button className="account__parametres-block--button" onClick={onClickDisconnect}>Se déconnecter</button>
                                     </div>
                                     )}
                             </div>
@@ -311,7 +317,7 @@ function Account() {
                                     <button className="account__button" onClick={() => toggleBlockVisibility(3)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
                                 </div>
                                     {blockVisibility[3] && (
-                                    <div className="account__security-block">
+                                    <div className="account__block account__security-block">
                                         <div className="account__security-block--info">
                                             <button className="account__security-block--info-link-button" onClick={() => toggleBlockVisibility(4)}>Modifier mon mot de passe</button>
                                             {blockVisibility[4] && (
