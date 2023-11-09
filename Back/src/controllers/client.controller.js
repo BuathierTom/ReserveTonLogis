@@ -427,6 +427,12 @@ const clientContact = async (req, res) => {
     try{
         const { nom, prenom, email, message } = req.body;
 
+        // On verifie que les champs ne sont pas vide
+        if (!nom || !prenom || !email || !message) {
+            addLog("error", `Error, un ou plusieurs champs sont vides`, "client.controller.js");
+            return res.status(404).send({ Error: `Error, un ou plusieurs champs sont vides` });
+        }
+
         // On ajoute dans le message l'email du client
         const messageClient = message + " <br> Email du client : " + email;
 

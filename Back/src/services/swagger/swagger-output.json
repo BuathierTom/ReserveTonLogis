@@ -63,7 +63,7 @@
         "tags": [
           "Clients"
         ],
-        "summary": "Récupère un client en fonction de son ID.",
+        "summary": "Récupère un client en fonction de son token",
         "security": [
           {
             "Bearer": [] 
@@ -193,50 +193,63 @@
             "required": true,
             "description": "Votre mot de passe"
           }
-
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Opération réussie. Retourne le client créé.",
+            "examples": {
+              "application/json": [
+                {
+                  "id": 54,
+                  "nom": "U2FsdGVkX1+sbxYhz6J85FIgYOJI80uTYCrh5BnYer4=",
+                  "prenom": "U2FsdGVkX1+SJRXFR72iFEpg2CYvVOY8XwODbx4DTZY=",
+                  "adresse": "U2FsdGVkX19UkwxFmpPv4EG8sZuZlMt0IaBjaZec2eKbQ66OMx7pC9F/ebQfZBdg",
+                  "telephone": "U2FsdGVkX1+/ZxBkkur0NV69kp0M53CjiLWt493XOyE=",
+                  "ville": "U2FsdGVkX1+9/+5ojL4rRKx2dVwiJZLCoeXFuQZMKF0=",
+                  "codePostal": "U2FsdGVkX1+zm5ReV0iYmp3JKKCQcx1oQ5aq68ydbmM=",
+                  "email": "tom@gmail.com",
+                  "password": "$2b$10$gvRD1O03h5uX/u2qG8mJf.va.J/ZwTtITj6AsBgLU2ctaEoIMdGju",
+                  "_id": "654d0526cfee7152a302daa9",
+                  "__v": 0
+                }
+              ] 
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Not Found"
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
     },
     "/clients/delete": {
-      "post": {
+      "delete": {
         "tags": [
           "Clients"
         ],
-        "description": "",
-        "parameters": [
+        "summary": "Supprime un client en fonction de son token",
+        "security": [
           {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "example": "any"
-                }
-              }
-            }
+            "Bearer": [] 
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Opération réussie. Retourne le client supprimé."
           },
           "401": {
-            "description": "Unauthorized"
+            "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Not Found"
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -246,37 +259,63 @@
         "tags": [
           "Clients"
         ],
-        "description": "",
+        "summary": "Modifie un client",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "example": "any"
-                },
-                "date_arrive": {
-                  "example": "any"
-                },
-                "date_depart": {
-                  "example": "any"
-                },
-                "nb_personnes": {
-                  "example": "any"
-                },
-                "prix_total": {
-                  "example": "any"
-                },
-                "id_client": {
-                  "example": "any"
-                },
-                "id_chambre": {
-                  "example": "any"
-                }
-              }
-            }
+            "in": "formData",
+            "name": "nom",
+            "type": "string",
+            "required": false,
+            "description": "Votre nom"
+          },
+          {
+            "in": "formData",
+            "name": "prenom",
+            "type": "string",
+            "required": false,
+            "description": "Votre prenom"
+          },
+          {
+            "in": "formData",
+            "name": "adresse",
+            "type": "string",
+            "required": false,
+            "description": "Votre adresse"
+          },
+          {
+            "in": "formData",
+            "name": "telephone",
+            "type": "string",
+            "required": false,
+            "description": "Votre telephone"
+          },
+          {
+            "in": "formData",
+            "name": "ville",
+            "type": "string",
+            "required": false,
+            "description": "Votre ville"
+          },
+          {
+            "in": "formData",
+            "name": "codePostal",
+            "type": "string",
+            "required": false,
+            "description": "Votre code postal"
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "required": false,
+            "description": "Votre email"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "required": false,
+            "description": "Votre mot de passe"
           }
         ],
         "responses": {
