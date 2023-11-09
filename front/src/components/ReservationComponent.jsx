@@ -12,12 +12,12 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
   const gap = Math.floor(differenceEnMilliseconds / (1000 * 60 * 60 * 24) );
   const total = room.prix * gap + fee + deposit;
 
+
   // Utilisez useEffect pour mettre à jour le DatePicker lorsque les dates d'arrivée ou de départ changent
   useEffect(() => {
     setStartDate(arrivalDate || new Date());
     setEndDate(departureDate || new Date());
   }, [arrivalDate, departureDate]);
-  console.log(arrivalDate, departureDate);
 
     
   const handleStartDateChange = (date) => {
@@ -81,7 +81,7 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
 
   return (
   
-  <>
+  <div className="room__reservation">
     <div className="room__price-container">
       <span className="room__reservation-price">{room.prix}€ </span>
       <span className="room__reservation-text">par nuit</span>
@@ -91,11 +91,19 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
         <div className="room__reservation-flex">
             <div className="room__reservation-arrival">
             <span className="room__span">Arrivée</span>
+            {window.innerWidth <= 767 ? (
+            <DatePicker className="room__date-display" selected={startDate} onChange={handleStartDateChange} name="startDate" dateFormat="dd/MM/yyyy" />
+            ) : (
             <p className='room__date-display' dateformat="dd/MM/yyyy" selected={startDate} onChange={handleStartDateChange} name="startDate">{startDate.toLocaleDateString()}</p>
+            )}
         </div>
         <div className="room__reservation-departure">
             <span className="room__span">Départ</span>
+            {window.innerWidth <= 767 ? (
+            <DatePicker className="room__date-display" selected={endDate} onChange={handleEndDateChange} name="endDate" dateFormat="dd/MM/yyyy" />
+            ) : (
             <p className='room__date-display' dateformat="dd/MM/yyyy" selected={endDate} onChange={handleEndDateChange} name="endDate">{endDate.toLocaleDateString()}</p>
+            )}
         </div>
             
         </div>
@@ -133,7 +141,7 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
 </div>
 
 
-</>
+</div>
   );
 }
 

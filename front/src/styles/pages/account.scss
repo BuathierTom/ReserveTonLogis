@@ -55,6 +55,9 @@
         justify-content: space-between;
         background-color: rgb(250, 248, 240,0.85);
         padding: $xxl-pd;
+        max-height: 40rem;
+        overflow: hidden;
+        overflow-y: scroll;
 
         @include desktop{
             justify-content: center;
@@ -87,10 +90,15 @@
         }
     }
 
+ 
+
     &__reservations-block{
         background-color: rgb(250, 248, 240,0.85);
         padding: $l-pd;
         margin-top: $l-mg;
+        max-height: 30rem;
+        overflow: hidden;
+        overflow-y: scroll;
 
         &--reservation-title{
             color: $senary;
@@ -109,6 +117,8 @@
             flex-direction: column;
             justify-content:center;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
             @include desktop{
                 flex-direction: row;
                 margin: $xxxl-mg;

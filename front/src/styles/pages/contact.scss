@@ -180,8 +180,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: $xl-mg;
         margin: 2rem 0;
+        flex-wrap: wrap;
         @include tablet{
             gap: $xxxl-mg;
         }

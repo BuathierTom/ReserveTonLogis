@@ -73,6 +73,14 @@ const findOneClients = async (req, res) => {
         // Decrypter telephone
         const decryptTelephone = crypto.AES.decrypt(client.telephone, process.env.CRYPTO_SECRET);
         client.telephone = decryptTelephone.toString(crypto.enc.Utf8);
+
+        // Decrypter nom
+        const decryptNom = crypto.AES.decrypt(client.nom, process.env.CRYPTO_SECRET);
+        client.nom = decryptNom.toString(crypto.enc.Utf8);
+
+        // Decrypter prenom
+        const decryptPrenom = crypto.AES.decrypt(client.prenom, process.env.CRYPTO_SECRET);
+        client.prenom = decryptPrenom.toString(crypto.enc.Utf8);
         
         return res.status(200).json(client);
     } catch (e) {
@@ -122,11 +130,15 @@ const createClient = async (req, res, next) => {
         const encryptedCodePostal = crypto.AES.encrypt(codePostal, process.env.CRYPTO_SECRET);
         // Crypter le téléphone
         const encryptedTelephone = crypto.AES.encrypt(telephone, process.env.CRYPTO_SECRET);
+        // Crypter le nom
+        const encryptedNom = crypto.AES.encrypt(nom, process.env.CRYPTO_SECRET);
+        // Crypter le prénom
+        const encryptedPrenom = crypto.AES.encrypt(prenom, process.env.CRYPTO_SECRET);
         
         const newClient = new Client({
             id: newId,
-            nom: nom,
-            prenom: prenom,
+            nom: encryptedNom,
+            prenom: encryptedPrenom,
             adresse: encryptedAdresse,
             telephone: encryptedTelephone,
             ville: encryptedVille,
@@ -194,17 +206,16 @@ const deleteClient = async (req, res, next) => {
 
         const clientData = await Client.findOne({ id: id });
 
-        const deleteClient = await Client.deleteOne({ "email": clientData.email })
+        const email = clientData.email;
 
-        // On redirige vers la page d'accueil
-        res.redirect('/connexion');
+        const deleteClient = await Client.deleteOne({ "email": email })
 
         // On envoie un mail de confirmation de suppression
-        const emailContent = fs.readFileSync('./src/mail/deleteClient.mail.html', 'utf-8');
+        const emailContent = fs.readFileSync('./src/mail/deleteClient.html', 'utf-8');
         //Envoi de l'e-mail au client
         const mailOptions = {
             from: process.env.MAIL_USER,
-            to: clientData.email,
+            to: email,
             subject: 'Suppression de votre compte',
             html: emailContent,
         };
@@ -386,7 +397,7 @@ const updatePassword = async (req, res) => {
     try {
         // Fonction pour update le mot de passe
         const { email, password, newPassword } = req.body;
-
+    
         // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
         if (!verif) {
@@ -395,8 +406,13 @@ const updatePassword = async (req, res) => {
         }
         console.log(verif.password)
         console.log(password)
+        console.log(newPassword)
 
-        // on crypte le mot de passe et on verifie si il est correct
+        console.log(verif.password)
+        console.log(password)
+
+        console.log("je suis laaaaaaaaaaaaaaaaaaaa")
+        
         if (password !=verif.password) {
             addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
@@ -404,10 +420,12 @@ const updatePassword = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
 
-        if (hashedPassword === verif.password) {
+        if (await bcrypt.compare(newPassword, verif.password)) {
             addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le nouveau mot de passe est identique à l'ancien` });
         }
+
+        console.log(hashedPassword)
 
         const updateClient = await Client.updateOne({ "email": email }, {
             password: hashedPassword,
