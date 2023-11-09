@@ -10,6 +10,7 @@
 }
 
 .account{
+
     &__img {
         margin-top: $xxl-mg;
         width: 10rem;
@@ -78,6 +79,7 @@
         @include desktop{
             font-size: $l-sz;
         }
+
     }
 
     &__button-img{

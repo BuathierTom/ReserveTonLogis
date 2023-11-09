@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import ReservationComponent from './ReservationComponent';
+import ApiCallDateReservation from '../api/ApiCallDateReservation';
 
 function CalendarReservation( {room, isOpen } ) {
   const [arrivalDate, setArrivalDate] = useState(null);
   const [departureDate, setDepartureDate] = useState(null);
   const [isSelectingArrival, setIsSelectingArrival] = useState(true);
   const [isOpenedResize, setIsOpenedResize] = useState(false);
+  const [dateReservation, setdateReservation] = useState([])
 
 
 
   console.log(isOpen);
 
+  useEffect(() => {
+    ApiCallDateReservation().then(data => {
+        setdateReservation(data);
+    })
+}
+, []);
+
+console.log(dateReservation)
 
 
   function handleDateClick(date) {

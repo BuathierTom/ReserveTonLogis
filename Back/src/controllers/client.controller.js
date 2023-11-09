@@ -81,6 +81,7 @@ const findOneClients = async (req, res) => {
         // Decrypter prenom
         const decryptPrenom = crypto.AES.decrypt(client.prenom, process.env.CRYPTO_SECRET);
         client.prenom = decryptPrenom.toString(crypto.enc.Utf8);
+
         
         return res.status(200).json(client);
     } catch (e) {
