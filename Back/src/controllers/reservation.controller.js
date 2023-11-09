@@ -265,6 +265,41 @@ const deleteReservation = async (req, res) => {
     }
 };
 
+/**
+ * Récupere toutes les dates de reservations en fonction de l'id de la chambre.
+ * 
+ * @function findDatesForChambres
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un tableau JSON contenant toutes les dates de reservations.
+ * @throws {Error} - Si il y a une erreur lors de la récupération des dates de reservations.
+ */
+const findDatesForChambres = async (req, res) => {
+    try {
+        const id_dates = [1, 2, 3];
+        
+        let dates = []; 
+
+        // On récupere les dates de reservations en fonction de l'id de la chambre et on push l'id devant les resultats
+        for (let i = 0; i < id_dates.length; i++) {
+            const reservationsData = await Reservations.find({id_chambre: id_dates[i]});
+
+            // On ne recupere de chaque resultats que les dates d'arrivée et de départ
+            let result = [];
+            for (let j = 0; j < reservationsData.length; j++) {
+                result.push({date_arrive: reservationsData[j].date_arrive, date_depart: reservationsData[j].date_depart})
+            }
+
+            dates.push({[id_dates[i]]: result})
+        }
+
+        addLog("info", `findDatesForChambres de toutes les dates de reservations`, "reservation.controller.js");
+        return res.status(200).json(dates)
+    } catch (e){
+        addLog("error", e, "reservation.controller.js");
+    }
+};
+
 
 module.exports = {
     getAllReservations,
@@ -272,4 +307,5 @@ module.exports = {
     getReservationById,
     updateReservation,
     deleteReservation,
+    findDatesForChambres,
 };

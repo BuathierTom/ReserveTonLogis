@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllReservations, createReservation, getReservationById, updateReservation, deleteReservation } = require('../controllers/reservation.controller.js');
+const { getAllReservations, createReservation, getReservationById, updateReservation, deleteReservation, findDatesForChambres } = require('../controllers/reservation.controller.js');
 
 // Permet de récupérer toutes les reservations
 router.get('/getAll', getAllReservations);
@@ -12,6 +12,7 @@ router.post('/create', createReservation);
 router.post('/update', updateReservation);
 // Permet de supprimer une reservation
 router.post('/delete', deleteReservation);
-
+// Permet de récupérer les dates de réservation en fonction de la chambre
+router.get('/getDatesReservations', findDatesForChambres);
 
 module.exports = router;

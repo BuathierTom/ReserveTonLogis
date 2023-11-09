@@ -9,6 +9,7 @@ const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const jwtUtils = require ('../utils/jwtUtils.js')
 
+const crypto = require("crypto-js")
 
 
 dotenv.config();
@@ -57,6 +58,29 @@ const findOneClients = async (req, res) => {
         if (!client) {
             return res.status(404).send({ Error: `Aucun client trouvé avec l'ID : ${id}` });
         }
+        // Decrypter adresse
+        const decryptAdresse = crypto.AES.decrypt(client.adresse, process.env.CRYPTO_SECRET);
+        client.adresse = decryptAdresse.toString(crypto.enc.Utf8);
+
+        // Decrypter ville
+        const decryptVille = crypto.AES.decrypt(client.ville, process.env.CRYPTO_SECRET);
+        client.ville = decryptVille.toString(crypto.enc.Utf8);
+
+        // Decrypter code postal
+        const decryptCodePostal = crypto.AES.decrypt(client.codePostal, process.env.CRYPTO_SECRET);
+        client.codePostal = decryptCodePostal.toString(crypto.enc.Utf8);
+
+        // Decrypter telephone
+        const decryptTelephone = crypto.AES.decrypt(client.telephone, process.env.CRYPTO_SECRET);
+        client.telephone = decryptTelephone.toString(crypto.enc.Utf8);
+
+        // Decrypter nom
+        const decryptNom = crypto.AES.decrypt(client.nom, process.env.CRYPTO_SECRET);
+        client.nom = decryptNom.toString(crypto.enc.Utf8);
+
+        // Decrypter prenom
+        const decryptPrenom = crypto.AES.decrypt(client.prenom, process.env.CRYPTO_SECRET);
+        client.prenom = decryptPrenom.toString(crypto.enc.Utf8);
         
         return res.status(200).json(client);
     } catch (e) {
@@ -98,23 +122,27 @@ const createClient = async (req, res, next) => {
 
         // Hacher le mot de passe
         const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
-        // // Hacher l'adresse 
-        // const hashedAdresse = await bcrypt.hash(adresse, 10); // 10 est le nombre de salages
-        // // Hacher la ville
-        // const hashedVille = await bcrypt.hash(ville, 10); // 10 est le nombre de salages
-        // // Hacher le code postal
-        // const hashedCodePostal = await bcrypt.hash(codePostal, 10); // 10 est le nombre de salages
-        // // Hacher le numéro de téléphone
-        // const hashedTelephone = await bcrypt.hash(telephone, 10); // 10 est le nombre de salages
-
+        // Crypter l'adresse
+        const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
+        // Crypter la ville
+        const encryptedVille = crypto.AES.encrypt(ville, process.env.CRYPTO_SECRET);
+        // Crypter le code postal
+        const encryptedCodePostal = crypto.AES.encrypt(codePostal, process.env.CRYPTO_SECRET);
+        // Crypter le téléphone
+        const encryptedTelephone = crypto.AES.encrypt(telephone, process.env.CRYPTO_SECRET);
+        // Crypter le nom
+        const encryptedNom = crypto.AES.encrypt(nom, process.env.CRYPTO_SECRET);
+        // Crypter le prénom
+        const encryptedPrenom = crypto.AES.encrypt(prenom, process.env.CRYPTO_SECRET);
+        
         const newClient = new Client({
             id: newId,
-            nom: nom,
-            prenom: prenom,
-            adresse: adresse,
-            telephone: telephone,
-            ville: ville,
-            codePostal: codePostal,
+            nom: encryptedNom,
+            prenom: encryptedPrenom,
+            adresse: encryptedAdresse,
+            telephone: encryptedTelephone,
+            ville: encryptedVille,
+            codePostal: encryptedCodePostal,
             email: email,
             password: hashedPassword,
         });
@@ -178,17 +206,16 @@ const deleteClient = async (req, res, next) => {
 
         const clientData = await Client.findOne({ id: id });
 
-        const deleteClient = await Client.deleteOne({ "email": clientData.email })
+        const email = clientData.email;
 
-        // On redirige vers la page d'accueil
-        res.redirect('/connexion');
+        const deleteClient = await Client.deleteOne({ "email": email })
 
         // On envoie un mail de confirmation de suppression
-        const emailContent = fs.readFileSync('./src/mail/deleteClient.mail.html', 'utf-8');
+        const emailContent = fs.readFileSync('./src/mail/deleteClient.html', 'utf-8');
         //Envoi de l'e-mail au client
         const mailOptions = {
             from: process.env.MAIL_USER,
-            to: clientData.email,
+            to: email,
             subject: 'Suppression de votre compte',
             html: emailContent,
         };
@@ -371,7 +398,6 @@ const updatePassword = async (req, res) => {
         // Fonction pour update le mot de passe
         const { email, password, newPassword } = req.body;
     
-
         // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
         if (!verif) {
@@ -380,6 +406,7 @@ const updatePassword = async (req, res) => {
         }
         console.log(verif.password)
         console.log(password)
+        console.log(newPassword)
 
         console.log(verif.password)
         console.log(password)
@@ -391,15 +418,14 @@ const updatePassword = async (req, res) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
-        console.log("je suis la");
-
         const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
-        console.log(hashedPassword);
 
-        if (hashedPassword === verif.password) {
+        if (await bcrypt.compare(newPassword, verif.password)) {
             addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le nouveau mot de passe est identique à l'ancien` });
         }
+
+        console.log(hashedPassword)
 
         const updateClient = await Client.updateOne({ "email": email }, {
             password: hashedPassword,
@@ -408,31 +434,6 @@ const updatePassword = async (req, res) => {
         addLog("info", `updatePassword du client ${email}`, "client.controller.js");
         return res.status(200).send(updateClient)
 
-    } catch (e){
-        addLog("error", e, "client.controller.js");
-    }
-};
-
-// Fonction pour se deconnecter
-const disconnectClient = async (req, res) => {
-    try {
-        // On récupère le token
-        const token = req.header('Authorization');
-        if (!token) {
-            return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
-        }
-
-        // On vérifie si l'utilisateur existe
-        const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
-        const id = decodedToken.id;
-        const client = await Client.findOne({ id: id });
-        if (!client) {
-            return res.status(404).send({ Error: `Aucun client trouvé avec l'ID : ${id}` });
-        }
-
-        // On déconnecte le client
-        addLog("info", `disconnectClient du client ${email}`, "client.controller.js");
-        return res.status(200).json({ message: "Vous êtes déconnecté." });
     } catch (e){
         addLog("error", e, "client.controller.js");
     }

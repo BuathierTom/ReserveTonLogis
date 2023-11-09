@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { findChambre, findchambreMany, updateChambre, deleteChambre } = require ('../controllers/chambre.controller.js');
+const { findChambre, findchambreMany, updateChambre, deleteChambre } = require ('../controllers/Chambre.controller.js');
 
 // Permet de récupérer toutes les chambres
 router.get("/getAll", findchambreMany);
