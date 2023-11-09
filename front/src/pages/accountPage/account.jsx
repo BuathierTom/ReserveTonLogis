@@ -4,7 +4,10 @@ import React from "react";
 import IconFleche from "../../assets/img/imgIcon/icons8-flèche-vers-le-bas-50.png";
 import { format } from 'date-fns';
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
+const MySwal = withReactContent(Swal);
 
 function Account() {
     const [blockVisibility, setBlockVisibility] = useState([false, false, false, false]);
@@ -76,7 +79,7 @@ function Account() {
         formData.append("email", email);
         formData.append("password", password);
         formData.append("newPassword", newPassword);
-        
+
         try {
             const response = await fetch('http://localhost:5000/clients/updatePassword', {
                 method: "POST",
@@ -85,12 +88,22 @@ function Account() {
 
             const data = await response.json();
 
+            console.log(response.status);
+
             if (response.status === 200) {
-                alert("Votre mot de passe a bien été modifié");
-                window.location.href = "/connexion";
+                MySwal.fire({
+                    icon: 'success',
+                    title: 'Votre mot de passe a bien été modifié !',
+                    showConfirmButton: false,
+                    timer: 4000
+                })
             }
             else {
-                alert(data.Error);
+                MySwal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Le nouveau mot de passe est identique à l\'ancien !',
+                })
             }
         }   
         catch (error) {
@@ -98,34 +111,50 @@ function Account() {
         }
     };
 
-    const deleteAccount = async (e) => {
+    const deleteAccount = (e) => {
         e.preventDefault();
-
+    
         const storedToken = localStorage.getItem("token");
         if (storedToken) {
             const headers = {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${storedToken}`,
             };
-        
-            try {
-                const response = await fetch('http://localhost:5000/clients/delete', {
-                    method: "POST",
-                    headers,
-
-                });
-
-                if (response.status === 200) {
-                    alert("Votre compte a bien été supprimé");
-                    window.location.href = "/connexion";
+    
+            MySwal.fire({
+                title: 'Êtes-vous sûr(e) ?',
+                text: "Vous ne pourrez pas revenir en arrière !",
+                icon: 'question',
+                iconColor: '#4BAB77',
+                showCancelButton: true,
+                confirmButtonColor: '#4BAB77',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Annuler',
+                confirmButtonText: 'Oui, supprimer mon compte !'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        const response = await fetch('http://localhost:5000/clients/delete', {
+                            method: "POST",
+                            headers,
+                        });
+                        const data = await response.json();
+                        if (response.status === 200) {
+                            localStorage.clear();
+                            window.location.href = "/connexion";
+                        }
+                        else {
+                            alert(data.Error);
+                        }
+                    } catch (error) {
+                        console.error(error);
+                    }
                 }
-
-            }   
-            catch (error) {
-                console.error(error);
-            }
+            });
         }
     };
+    
+
 
     const decoAccount = async (e) => {
         e.preventDefault();

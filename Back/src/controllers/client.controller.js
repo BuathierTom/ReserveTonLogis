@@ -194,17 +194,16 @@ const deleteClient = async (req, res, next) => {
 
         const clientData = await Client.findOne({ id: id });
 
-        const deleteClient = await Client.deleteOne({ "email": clientData.email })
+        const email = clientData.email;
 
-        // On redirige vers la page d'accueil
-        res.redirect('/connexion');
+        const deleteClient = await Client.deleteOne({ "email": email })
 
         // On envoie un mail de confirmation de suppression
-        const emailContent = fs.readFileSync('./src/mail/deleteClient.mail.html', 'utf-8');
+        const emailContent = fs.readFileSync('./src/mail/deleteClient.html', 'utf-8');
         //Envoi de l'e-mail au client
         const mailOptions = {
             from: process.env.MAIL_USER,
-            to: clientData.email,
+            to: email,
             subject: 'Suppression de votre compte',
             html: emailContent,
         };
@@ -395,6 +394,7 @@ const updatePassword = async (req, res) => {
         }
         console.log(verif.password)
         console.log(password)
+        console.log(newPassword)
 
         // on crypte le mot de passe et on verifie si il est correct
         if (password !=verif.password) {
@@ -404,10 +404,12 @@ const updatePassword = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
 
-        if (hashedPassword === verif.password) {
+        if (await bcrypt.compare(newPassword, verif.password)) {
             addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le nouveau mot de passe est identique à l'ancien` });
         }
+
+        console.log(hashedPassword)
 
         const updateClient = await Client.updateOne({ "email": email }, {
             password: hashedPassword,
