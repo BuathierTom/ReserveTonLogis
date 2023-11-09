@@ -320,10 +320,16 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Opération réussie. Retourne le client modifié"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Not Found"
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }

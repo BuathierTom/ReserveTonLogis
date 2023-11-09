@@ -246,23 +246,38 @@ const deleteClient = async (req, res, next) => {
  */
 const updateClient = async (req, res, next) => {
     try {
-        const { id, nom, prenom, adresse, telephone, ville, codePostal, email, password } = req.body;
+        const { nom, prenom, adresse, telephone, ville, codePostal, email, password } = req.body;
         // On verifie si l'utilisateur existe
-        const verif = await Client.findOne({ "id": id })
+        const verif = await Client.findOne({ "email": email })
         if (!verif) {
-            addLog("error", `Error, l'utilisateur avec l'id : ${id} n'existe pas`, "client.controller.js");
+            addLog("error", `Error, l'utilisateur avec l'id : ${email} n'existe pas`, "client.controller.js");
             return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
+        
+        // Hacher le mot de passe
+        const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+        // Crypter l'adresse
+        const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
+        // Crypter la ville
+        const encryptedVille = crypto.AES.encrypt(ville, process.env.CRYPTO_SECRET);
+        // Crypter le code postal
+        const encryptedCodePostal = crypto.AES.encrypt(codePostal, process.env.CRYPTO_SECRET);
+        // Crypter le téléphone
+        const encryptedTelephone = crypto.AES.encrypt(telephone, process.env.CRYPTO_SECRET);
+        // Crypter le nom
+        const encryptedNom = crypto.AES.encrypt(nom, process.env.CRYPTO_SECRET);
+        // Crypter le prénom
+        const encryptedPrenom = crypto.AES.encrypt(prenom, process.env.CRYPTO_SECRET);
 
-        const updateClient = await Client.updateOne({ "id": id }, {
-            nom: nom,
-            prenom: prenom,
-            adresse: adresse,
-            telephone: telephone,
-            ville: ville,
-            codePostal: codePostal,
+        const updateClient = await Client.updateOne({ "email": email }, {
+            nom: encryptedNom,
+            prenom: encryptedPrenom,
+            adresse: encryptedAdresse,
+            telephone: encryptedTelephone,
+            ville: encryptedVille,
+            codePostal: encryptedCodePostal,
             email: email,
-            password: password,
+            password: hashedPassword,
         })
 
         addLog("info", `updateClient du client ${email}`, "client.controller.js");
