@@ -145,11 +145,7 @@ const createClient = async (req, res, next) => {
             subject: 'Bienvenue chez RéserveTonLogis.com !',
             html: emailContent,
         };
-        // Decrypter
-        // const decryptAdresse = crypto.AES.decrypt(adresse, process.env.CRYPTO_SECRET).toString();
-        // console.log(decryptAdresse)
-        // const test = crypto.AES.encrypt("Bertrand", process.env.CRYPTO_SECRET).toString();
-        // console.log(crypto.AES.decrypt(test, process.env.CRYPTO_SECRET).toString())
+
         try {
             addLog("info", `Mail de confirmation de création du compte envoyé à ${email}`, "client.controller.js");
             await transporter.sendMail(mailOptions);
