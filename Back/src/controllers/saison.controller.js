@@ -140,11 +140,10 @@ const deleteSaison = async (req, res) => {
 
         addLog("info", `deleteSaison de la saison ${id}`, "saison.controller.js");
         return res.status(200).send(deletesaison)
-        } catch (e) {
-            addLog("error", e, "saison.controller.js");
-        }
-    };
-
+    } catch (e) {
+        addLog("error", e, "saison.controller.js");
+    }
+};
 
 module.exports = {
     findSaison,
