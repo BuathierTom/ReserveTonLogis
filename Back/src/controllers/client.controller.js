@@ -73,6 +73,14 @@ const findOneClients = async (req, res) => {
         // Decrypter telephone
         const decryptTelephone = crypto.AES.decrypt(client.telephone, process.env.CRYPTO_SECRET);
         client.telephone = decryptTelephone.toString(crypto.enc.Utf8);
+
+        // Decrypter nom
+        const decryptNom = crypto.AES.decrypt(client.nom, process.env.CRYPTO_SECRET);
+        client.nom = decryptNom.toString(crypto.enc.Utf8);
+
+        // Decrypter prenom
+        const decryptPrenom = crypto.AES.decrypt(client.prenom, process.env.CRYPTO_SECRET);
+        client.prenom = decryptPrenom.toString(crypto.enc.Utf8);
         
         return res.status(200).json(client);
     } catch (e) {
@@ -122,11 +130,15 @@ const createClient = async (req, res, next) => {
         const encryptedCodePostal = crypto.AES.encrypt(codePostal, process.env.CRYPTO_SECRET);
         // Crypter le téléphone
         const encryptedTelephone = crypto.AES.encrypt(telephone, process.env.CRYPTO_SECRET);
+        // Crypter le nom
+        const encryptedNom = crypto.AES.encrypt(nom, process.env.CRYPTO_SECRET);
+        // Crypter le prénom
+        const encryptedPrenom = crypto.AES.encrypt(prenom, process.env.CRYPTO_SECRET);
         
         const newClient = new Client({
             id: newId,
-            nom: nom,
-            prenom: prenom,
+            nom: encryptedNom,
+            prenom: encryptedPrenom,
             adresse: encryptedAdresse,
             telephone: encryptedTelephone,
             ville: encryptedVille,
@@ -386,7 +398,7 @@ const updatePassword = async (req, res) => {
     try {
         // Fonction pour update le mot de passe
         const { email, password, newPassword } = req.body;
-
+    
         // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
         if (!verif) {
@@ -396,7 +408,11 @@ const updatePassword = async (req, res) => {
         console.log(verif.password)
         console.log(password)
 
-        // on crypte le mot de passe et on verifie si il est correct
+        console.log(verif.password)
+        console.log(password)
+
+        console.log("je suis laaaaaaaaaaaaaaaaaaaa")
+        
         if (password !=verif.password) {
             addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
