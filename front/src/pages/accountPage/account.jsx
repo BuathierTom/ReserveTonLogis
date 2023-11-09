@@ -2,6 +2,7 @@ import NavBar from "../../components/Navbar";
 import { useState, useEffect } from "react";
 import React from "react";
 import IconFleche from "../../assets/img/imgIcon/icons8-flèche-vers-le-bas-50.png";
+import { format } from 'date-fns';
 import { Link } from "react-router-dom";
 
 
@@ -55,6 +56,7 @@ function Account() {
             .then((response) => response.json())
             .then((data) => {
                 setReservation(data.reservationsAvecChambres);
+                console.log(data);
                 console.log(data.reservationsAvecChambres);
             })
             .catch((error) => {
@@ -188,8 +190,8 @@ function Account() {
                                                     <h3 className="account__reservations-block--reservation-title">Chambre {reservation.chambre.nom}</h3>
                                                     <div className="account__reservations-block--reservation-details">
                                                         <div className="account__reservations-block--reservation-details--info">
-                                                            <p className="account__reservations-block--reservation-details--info-p">Arrivée : {reservation.date_arrive}</p>
-                                                            <p className="account__reservations-block--reservation-details--info-p">Départ : {reservation.date_depart}</p>
+                                                            <p className="account__reservations-block--reservation-details--info-p">Arrivée : {reservation.date_arrive ? format(new Date(reservation.date_arrive), 'dd/MM/yyyy') : ""}</p>
+                                                            <p className="account__reservations-block--reservation-details--info-p">Départ : {reservation.date_depart ? format(new Date(reservation.date_depart), 'dd/MM/yyyy') : ""}</p>
                                                             <p className="account__reservations-block--reservation-details--info-p">Prix : {reservation.chambre.prix} €</p>
                                                             <p className="account__reservations-block--reservation-details--info-p">Personnes : {reservation.nb_personnes}</p>
                                                         </div>

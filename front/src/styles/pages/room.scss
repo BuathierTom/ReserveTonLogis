@@ -9,6 +9,7 @@
         @include desktop {
             padding: 0 6rem;
             gap: 2rem;
+            margin-bottom: 5rem;
         }
 
     }
@@ -147,13 +148,18 @@
         }
     }
 
-    &__container-description-characteristics {
+    &__grid-description {
+        
         @include desktop {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            }
+    }
+
+    &__container-description-characteristics {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: 1fr 2fr 3fr;
-        gap: 2rem;
-        }
+        gap: 3rem;
     }
 
     &__container-description {

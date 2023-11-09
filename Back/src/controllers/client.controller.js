@@ -7,21 +7,12 @@ const { transporter } = require('../mail/transporter.mail.js');
 const { addLog } = require("../services/logs/logs");
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
+const jwtUtils = require ('../utils/jwtUtils.js')
 
+const crypto = require("crypto-js")
 
 
 dotenv.config();
-
-const generateAccessToken = (id) => {
-    const token = jwt.sign({ id }, process.env.TOKEN_SECRET, { expiresIn: '30d' });
-
-    if (!token) {
-        addLog("error", `Erreur, le token n'a pas pu être généré`, "client.controller.js");
-        return res.status(404).send({ Error: `Erreur, le token n'a pas pu être généré` });
-    }
-    return token;
-};
-
 /**
  * Récupere tous les clients de la base.
  * 
@@ -67,6 +58,21 @@ const findOneClients = async (req, res) => {
         if (!client) {
             return res.status(404).send({ Error: `Aucun client trouvé avec l'ID : ${id}` });
         }
+        // Decrypter adresse
+        const decryptAdresse = crypto.AES.decrypt(client.adresse, process.env.CRYPTO_SECRET);
+        client.adresse = decryptAdresse.toString(crypto.enc.Utf8);
+
+        // Decrypter ville
+        const decryptVille = crypto.AES.decrypt(client.ville, process.env.CRYPTO_SECRET);
+        client.ville = decryptVille.toString(crypto.enc.Utf8);
+
+        // Decrypter code postal
+        const decryptCodePostal = crypto.AES.decrypt(client.codePostal, process.env.CRYPTO_SECRET);
+        client.codePostal = decryptCodePostal.toString(crypto.enc.Utf8);
+
+        // Decrypter telephone
+        const decryptTelephone = crypto.AES.decrypt(client.telephone, process.env.CRYPTO_SECRET);
+        client.telephone = decryptTelephone.toString(crypto.enc.Utf8);
         
         return res.status(200).json(client);
     } catch (e) {
@@ -108,23 +114,23 @@ const createClient = async (req, res, next) => {
 
         // Hacher le mot de passe
         const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
-        // // Hacher l'adresse 
-        // const hashedAdresse = await bcrypt.hash(adresse, 10); // 10 est le nombre de salages
-        // // Hacher la ville
-        // const hashedVille = await bcrypt.hash(ville, 10); // 10 est le nombre de salages
-        // // Hacher le code postal
-        // const hashedCodePostal = await bcrypt.hash(codePostal, 10); // 10 est le nombre de salages
-        // // Hacher le numéro de téléphone
-        // const hashedTelephone = await bcrypt.hash(telephone, 10); // 10 est le nombre de salages
-
+        // Crypter l'adresse
+        const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
+        // Crypter la ville
+        const encryptedVille = crypto.AES.encrypt(ville, process.env.CRYPTO_SECRET);
+        // Crypter le code postal
+        const encryptedCodePostal = crypto.AES.encrypt(codePostal, process.env.CRYPTO_SECRET);
+        // Crypter le téléphone
+        const encryptedTelephone = crypto.AES.encrypt(telephone, process.env.CRYPTO_SECRET);
+        
         const newClient = new Client({
             id: newId,
             nom: nom,
             prenom: prenom,
-            adresse: adresse,
-            telephone: telephone,
-            ville: ville,
-            codePostal: codePostal,
+            adresse: encryptedAdresse,
+            telephone: encryptedTelephone,
+            ville: encryptedVille,
+            codePostal: encryptedCodePostal,
             email: email,
             password: hashedPassword,
         });
@@ -139,7 +145,11 @@ const createClient = async (req, res, next) => {
             subject: 'Bienvenue chez RéserveTonLogis.com !',
             html: emailContent,
         };
-
+        // Decrypter
+        // const decryptAdresse = crypto.AES.decrypt(adresse, process.env.CRYPTO_SECRET).toString();
+        // console.log(decryptAdresse)
+        // const test = crypto.AES.encrypt("Bertrand", process.env.CRYPTO_SECRET).toString();
+        // console.log(crypto.AES.decrypt(test, process.env.CRYPTO_SECRET).toString())
         try {
             addLog("info", `Mail de confirmation de création du compte envoyé à ${email}`, "client.controller.js");
             await transporter.sendMail(mailOptions);
@@ -282,7 +292,7 @@ const connectClient = async (req, res, next) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
         // On génère un token
-        const token = generateAccessToken(verif.id);
+        const token = jwtUtils.generateAccessToken(verif.id);
         // Vous pouvez maintenant renvoyer le token au client
         return res.status(200).json({ token: token });
     } catch (e) {
@@ -304,18 +314,22 @@ const connectClient = async (req, res, next) => {
  */
 const getClientReservationById = async (req, res) => {
     try {
+        console.log("je suis la");
         const token = req.header('Authorization');
         if (!token) {
             return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
         }
+        console.log(token);
 
         const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
 
         const idClient = decodedToken.id;
+        console.log(idClient);
         
 
         // Information de la reservation
         const reservationData = await Reservations.find({ id_client: idClient });
+        console.log(reservationData);
 
 
         if (!reservationData || reservationData.length === 0) {
@@ -325,6 +339,7 @@ const getClientReservationById = async (req, res) => {
 
         // Information de la chambre en fonction de reservationData
         const idChambres = reservationData.map((reservation) => reservation.id_chambre);
+        console.log(idChambres, "id chambreeeeeeeeeeee")
 
         // Récupérez les chambres en fonction des id_chambre
         const chambreData = await Chambre.find({ id: { $in: idChambres } });
@@ -348,6 +363,8 @@ const getClientReservationById = async (req, res) => {
             },
           };
         });
+
+        console.log("resaaaaaaaaaaaaaaaaaaaaaaaaaa",reservationsAvecChambresSimplifiees);
     
         // Envoyez les données simplifiées à votre application React
         return res.status(200).json({ reservationsAvecChambres: reservationsAvecChambresSimplifiees });
@@ -408,31 +425,6 @@ const updatePassword = async (req, res) => {
     }
 };
 
-// Fonction pour se deconnecter
-const disconnectClient = async (req, res) => {
-    try {
-        // On récupère le token
-        const token = req.header('Authorization');
-        if (!token) {
-            return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
-        }
-
-        // On vérifie si l'utilisateur existe
-        const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
-        const id = decodedToken.id;
-        const client = await Client.findOne({ id: id });
-        if (!client) {
-            return res.status(404).send({ Error: `Aucun client trouvé avec l'ID : ${id}` });
-        }
-
-        // On déconnecte le client
-        addLog("info", `disconnectClient du client ${email}`, "client.controller.js");
-        return res.status(200).json({ message: "Vous êtes déconnecté." });
-    } catch (e){
-        addLog("error", e, "client.controller.js");
-    }
-};
-
 module.exports = {
     findClients,
     createClient,
@@ -441,7 +433,6 @@ module.exports = {
     connectClient,
     getClientReservationById,
     findOneClients,
-    generateAccessToken,
     findOneClients,
     updatePassword,
 };
