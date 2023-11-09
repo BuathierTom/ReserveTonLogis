@@ -18,7 +18,7 @@
         "tags": [
           "Clients"
         ],
-        "description": "Récupère tous les clients de la base.",
+        "summary": "Récupère tous les clients de la base.",
         "responses": {
           "200": {
             "description": "OK. Retourne la liste de tous les clients.",
@@ -34,12 +34,23 @@
                   "email": "test@gmail.com",
                   "password": "$2b$10$elC6nwU4Mg8TaJLrikrhI.TFR7Mwx0DxZ8wzw3LRS57OF0rJi",
                   "__v": 0
+                },
+                {
+                  "_id": "651d7ea02a10f6207ad47ef8",
+                  "id": 34,
+                  "nom": "Buathier",
+                  "prenom": "Tom",
+                  "adresse": "12 rue les betes",
+                  "telephone": "0765436254",
+                  "email": "test.test@gmail.com",
+                  "password": "$2b$10$elC6nwU4Mg8TaJLrikrhI.TFR7Mwx0DxZ8wzw3LRS57OF0rJi",
+                  "__v": 0
                 }
               ] 
             }
           },
-          "401": {
-            "$ref": "#/components/responses/401"
+          "404": {
+            "$ref": "#/components/responses/404"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -52,7 +63,7 @@
         "tags": [
           "Clients"
         ],
-        "description": "",
+        "summary": "Récupère un client en fonction de son ID.",
         "security": [
           {
             "Bearer": [] 
@@ -61,14 +72,34 @@
 
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Opération réussie. Retourne le client correspondant à l'ID.",
+            "examples": {
+              "application/json": [
+                {
+                  "_id": "651d7ea02a10f6207ad47ef8",
+                  "id": 45,
+                  "nom": "Gambert",
+                  "prenom": "Adrien",
+                  "adresse": "12 rue les bains",
+                  "telephone": "0612345678",
+                  "email": "test@gmail.com",
+                  "password": "$2b$10$elC6nwU4Mg8TaJLrikrhI.TFR7Mwx0DxZ8wzw3LRS57OF0rJi",
+                  "__v": 0
+                }
+              ] 
+            }
           },
+
           "401": {
-            "description": "Unauthorized"
+            "$ref": "#/components/responses/401"
           },
           "404": {
-            "description": "Not Found"
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
+
         }
       }
     },
@@ -77,7 +108,7 @@
         "tags": [
           "Clients"
         ],
-        "description": "",
+        "summary": "Permet de récupérer une reservation en fonction de l'id du client",
         "parameters": [
           {
             "name": "Authorization",
