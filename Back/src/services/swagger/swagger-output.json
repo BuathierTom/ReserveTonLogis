@@ -1,0 +1,420 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Documentation API",
+    "version": "1.0.0",
+    "description": "API pour un site de gestion de reservations pour 3 chambres d'hôtes chez un particulier."
+  },
+
+  "servers": [
+    {
+      "url": "http://localhost:5000/",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/clients/getAll": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "Récupère tous les clients de la base.",
+        "responses": {
+          "200": {
+            "description": "OK. Retourne la liste de tous les clients.",
+            "examples": {
+              "application/json": [
+                {
+                  "_id": "651d7ea02a10f6207ad47ef8",
+                  "id": 1,
+                  "nom": "Gambert",
+                  "prenom": "Adrien",
+                  "adresse": "12 rue les bains",
+                  "telephone": "0612345678",
+                  "email": "test@gmail.com",
+                  "password": "$2b$10$elC6nwU4Mg8TaJLrikrhI.TFR7Mwx0DxZ8wzw3LRS57OF0rJi",
+                  "__v": 0
+                }
+              ] 
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/clients/get": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "",
+        "security": [
+          {
+            "Bearer": [] 
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/clients/getReservation": {
+      "/get": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/clients/create": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nom": {
+                  "example": "any"
+                },
+                "promotion": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/clients/delete": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/clients/update": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                },
+                "date_arrive": {
+                  "example": "any"
+                },
+                "date_depart": {
+                  "example": "any"
+                },
+                "nb_personnes": {
+                  "example": "any"
+                },
+                "prix_total": {
+                  "example": "any"
+                },
+                "id_client": {
+                  "example": "any"
+                },
+                "id_chambre": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/clients/connect": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "Connectez-vous en utilisant un email et un mot de passe.",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "required": true,
+            "description": "Votre email"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "required": true,
+            "description": "Votre mot de passe"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/clients/updatePassword": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "newPassword": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+
+
+
+
+
+
+
+
+
+
+
+    
+    "/get/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/update/{id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nom": {
+                  "example": "any"
+                },
+                "promotion": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/delete/{id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/getDatesReservations": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+
+"components": {
+
+  "responses":{
+    "200":{
+      "description": "OK. La requête a abouti."
+    },
+    "401":{
+      "description": "Échec de l'authentification. Les informations d'identification sont incorrectes."
+    },
+    "404":{
+      "description": "Requête invalide. Les paramètres sont manquant/incorrects."
+    },
+    "500":{
+      "description": "Erreur serveur. Une erreur s'est produite lors de la récupération des clients."
+    }
+      
+  }
+},
+
+"security": {
+  "Bearer": []
+}
+
+
+}
