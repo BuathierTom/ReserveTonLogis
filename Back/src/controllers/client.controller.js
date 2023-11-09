@@ -7,21 +7,12 @@ const { transporter } = require('../mail/transporter.mail.js');
 const { addLog } = require("../services/logs/logs");
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
+const jwtUtils = require ('../utils/jwtUtils.js')
+
 const crypto = require("crypto-js")
 
 
 dotenv.config();
-
-const generateAccessToken = (id) => {
-    const token = jwt.sign({ id }, process.env.TOKEN_SECRET, { expiresIn: '30d' });
-
-    if (!token) {
-        addLog("error", `Erreur, le token n'a pas pu être généré`, "client.controller.js");
-        return res.status(404).send({ Error: `Erreur, le token n'a pas pu être généré` });
-    }
-    return token;
-};
-
 /**
  * Récupere tous les clients de la base.
  * 
@@ -188,7 +179,7 @@ const createClient = async (req, res, next) => {
  */
 const deleteClient = async (req, res, next) => {
     try {
-        // on recupere le jsonwebtoken du client
+        // on recupere le jsonwebtoken du client    
         const token = req.header('Authorization');
         if (!token) {
             return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
@@ -205,14 +196,19 @@ const deleteClient = async (req, res, next) => {
             const deleteReservation = await Reservations.deleteOne({ "id_reservation": idReservation })
         }
 
-        const deleteClient = await Client.deleteOne({ "email": email })
+        const clientData = await Client.findOne({ id: id });
+
+        const deleteClient = await Client.deleteOne({ "email": clientData.email })
+
+        // On redirige vers la page d'accueil
+        res.redirect('/connexion');
 
         // On envoie un mail de confirmation de suppression
         const emailContent = fs.readFileSync('./src/mail/deleteClient.mail.html', 'utf-8');
         //Envoi de l'e-mail au client
         const mailOptions = {
             from: process.env.MAIL_USER,
-            to: email,
+            to: clientData.email,
             subject: 'Suppression de votre compte',
             html: emailContent,
         };
@@ -296,7 +292,7 @@ const connectClient = async (req, res, next) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
         // On génère un token
-        const token = generateAccessToken(verif.id);
+        const token = jwtUtils.generateAccessToken(verif.id);
         // Vous pouvez maintenant renvoyer le token au client
         return res.status(200).json({ token: token });
     } catch (e) {
@@ -318,18 +314,22 @@ const connectClient = async (req, res, next) => {
  */
 const getClientReservationById = async (req, res) => {
     try {
+        console.log("je suis la");
         const token = req.header('Authorization');
         if (!token) {
             return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
         }
+        console.log(token);
 
         const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
 
         const idClient = decodedToken.id;
+        console.log(idClient);
         
 
         // Information de la reservation
         const reservationData = await Reservations.find({ id_client: idClient });
+        console.log(reservationData);
 
 
         if (!reservationData || reservationData.length === 0) {
@@ -339,6 +339,7 @@ const getClientReservationById = async (req, res) => {
 
         // Information de la chambre en fonction de reservationData
         const idChambres = reservationData.map((reservation) => reservation.id_chambre);
+        console.log(idChambres, "id chambreeeeeeeeeeee")
 
         // Récupérez les chambres en fonction des id_chambre
         const chambreData = await Chambre.find({ id: { $in: idChambres } });
@@ -362,6 +363,8 @@ const getClientReservationById = async (req, res) => {
             },
           };
         });
+
+        console.log("resaaaaaaaaaaaaaaaaaaaaaaaaaa",reservationsAvecChambresSimplifiees);
     
         // Envoyez les données simplifiées à votre application React
         return res.status(200).json({ reservationsAvecChambres: reservationsAvecChambresSimplifiees });
@@ -387,6 +390,7 @@ const updatePassword = async (req, res) => {
     try {
         // Fonction pour update le mot de passe
         const { email, password, newPassword } = req.body;
+    
 
         // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
@@ -394,6 +398,11 @@ const updatePassword = async (req, res) => {
             addLog("error", `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
             return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
+        console.log(verif.password)
+        console.log(password)
+
+        console.log(verif.password)
+        console.log(password)
 
         console.log("je suis laaaaaaaaaaaaaaaaaaaa")
         
@@ -432,7 +441,6 @@ module.exports = {
     connectClient,
     getClientReservationById,
     findOneClients,
-    generateAccessToken,
     findOneClients,
     updatePassword,
 };

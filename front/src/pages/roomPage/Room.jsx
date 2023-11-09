@@ -11,7 +11,7 @@ import iconCars from "../../assets/img/imgIcon/cars.png";
 import iconTv from "../../assets/img/imgIcon/tv.png";
 import ReservationComponent from "../../components/ReservationComponent";
 import DatePicker from "react-datepicker";
-import Calendar from "react-calendar"; // Importez le composant Calendar
+import CalendarReservation from "../../components/CalendarReservation";
 import 'react-datepicker/dist/react-datepicker.css'; // Importez les styles par défaut
 import "react-calendar/dist/Calendar.css"; // Importez le CSS du composant Calendar
 
@@ -22,8 +22,7 @@ function Room( ) {
     const [weatherData, setWeatherData] = useState(null);
     const giteLocation = [47.553903, 4.815041];
     const [isOpened, setIsOpened] = useState(false);
-    
-    
+
 
     useEffect(() => {
         ApiCall().then(data => {
@@ -116,7 +115,9 @@ function Room( ) {
                     </div>
 
 
+                    <div className="room__grid-description">
 
+                    
                     <div className="room__container-description-characteristics">
 
                     <div className="room__container-info">
@@ -133,13 +134,6 @@ function Room( ) {
                         </div>
                        
                     </div>
-                    {/* 
-                        <div className="room__calendar">
-                        <Calendar onChange={onChange} value={value} />
-                        </div>
-                        */}
-
-
 
                         <div className="room__container-description">
                             <p className="room__description">{room.description}</p>
@@ -172,9 +166,13 @@ function Room( ) {
                        
                     </div>
 
-                    <div className="room_reservation">
-                        <ReservationComponent room={room} />
+                    <div className="room__reservation-calendar">
+                        < CalendarReservation room={room} />
                     </div>
+
+                    </div>
+
+                   
                 </div>             
             ))}
 
