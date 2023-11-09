@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { findClients, createClient, deleteClient, updateClient, connectClient, getClientReservationById, findOneClients, updatePassword } = require("../controllers/client.controller.js");
+const { findClients, createClient, deleteClient, updateClient, connectClient, getClientReservationById, findOneClients, updatePassword, clientContact } = require("../controllers/client.controller.js");
 
 // Permet de récupérer tous les clients
 router.get("/getAll", findClients)
@@ -18,6 +18,8 @@ router.post("/update", updateClient)
 router.post("/connect", connectClient)
 // Permet de modifier le mot de passe d'un client
 router.post("/updatePassword", updatePassword);
+// Permet d'envoyer un mail grace au formulaire de contact
+router.post("/clientContact", clientContact);
 
 
 
