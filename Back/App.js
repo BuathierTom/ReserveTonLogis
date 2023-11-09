@@ -12,6 +12,7 @@ const clients = require("./src/routes/client.routes.js");
 const chambres = require("./src/routes/chambre.routes.js");
 const reservations = require("./src/routes/reservation.routes.js");
 const saison = require("./src/routes/saison.routes.js");
+// const tokenroute = require('./src/routes/token.routes'); 
 
 const { swaggerUi, swaggerSpec } = require('./src/services/swagger/config-swagger.js');
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
     res.send("Hello world !");
 });
 
+// app.use('/token', tokenroute); 
 const startServer = async () => {
     connectToDatabase();
     app.listen(port, () => {
