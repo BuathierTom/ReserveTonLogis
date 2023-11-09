@@ -4,24 +4,50 @@
         padding: $l-pd; 
         border: 0.15rem solid rgb(203, 203, 203);
         border-radius: $xs-rad;
+        
+    }
+
+    &__reservation-fixed{
+        position: fixed;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(255 255 255 / 0.8);
+        backdrop-filter: blur(10px);
+        padding: 0 $l-pd;
+
+
+        @include desktop{
+            position: relative;
+            padding: 0;
         }
+    }
+    &__calendar {
+        display: none;
+        @include desktop{
+        display: block;
+        }
+    }
     &__reservation-flex {
         display: flex;
     }
 
-    &__reservation-calendar {
-        margin-top: 2rem;
-    }
+
     &__reservation-arrival {
         width: 50%;
         border: 0.05rem solid rgb(203, 203, 203);
         padding: $xxs-pd;
+        display: grid;
     }
 
     &__reservation-departure {
         border: 0.05rem solid rgb(203, 203, 203);
         width: 50%;
         padding: $xxs-pd;
+        display: grid;
     }
 
     &__price-container {
@@ -54,6 +80,12 @@
     }
 
     &__date-display {
+        background: transparent;
+        border: none;
+        width: 90px;
+        color: $secondary;
+        outline: none   ;
+        
         padding-left: 0.3rem;        
     }
 

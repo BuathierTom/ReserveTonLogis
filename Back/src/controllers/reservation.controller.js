@@ -91,18 +91,14 @@ const createReservation = async (req, res) => {
         }
 
         const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
-        console.log("decode",decodedToken);
 
         const id_client = decodedToken.id;
-        console.log(id_client)
 
         const { date_arrive, date_depart, nb_personnes, id_chambre } = req.body;
-        console.log(req.body)
 
         // On verifie que l'utilisateur n'a pas deja une réservation en cours dans la meme chambre dans les memes dates
         const verifReservation = await Reservations.find({id_client: id_client, id_chambre: id_chambre, date_arrive: date_arrive, date_depart: date_depart})
         if (verifReservation.length !== 0) {
-            console.log("Error, le client a deja une réservation en cours dans la meme chambre dans les memes dates");
             addLog("error", `Error, le client avec l'id : ${id_client} a deja une réservation en cours dans la meme chambre dans les memes dates`, "reservation.controller.js");
             return res.status(404).send({Error: `Error, le client a deja une réservation en cours dans la meme chambre dans les memes dates`});
         }
@@ -110,7 +106,6 @@ const createReservation = async (req, res) => {
         // On verifie que dans toutes les reservations si a la meme date d'arrivée et de départ il n'y a pas deja une reservation dans la meme chambre par un autre client
         const verifReservation2 = await Reservations.find({id_chambre: id_chambre, date_arrive: date_arrive, date_depart: date_depart})
         if (verifReservation2.length !== 0) {
-            console.log("Error, il y a deja une réservation dans la meme chambre dans les memes dates");
             addLog("error", `Error, il y a deja une réservation dans la meme chambre dans les memes dates`, "reservation.controller.js");
             return res.status(404).send({Error: `Error, il y a deja une réservation dans la meme chambre dans les memes dates`});
         }
@@ -118,13 +113,10 @@ const createReservation = async (req, res) => {
         // On verifie que les dates données sont bonnes
         if (date_arrive > date_depart) {
             addLog("error", `Error, la date d'arrivée est supérieur à la date de départ`, "reservation.controller.js");
-            console.log("Error, la date d'arrivée est supérieur à la date de départ");
             return res.status(404).send({Error: `Error, la date d'arrivée est supérieur à la date de départ`});
         }
 
-        console.log("je suis au niveau du client");
         const clientData = await Client.find({id: id_client});
-        console.log(clientData);
         const email = clientData[0].email;
 
         // On créé un id en fonction du dernier id de la collection
@@ -136,8 +128,6 @@ const createReservation = async (req, res) => {
             newId = maxId[0].id_reservation + 1;
         }
         
-        console.log(newId);
-
         const newReservation = new Reservations({
             id_reservation: newId,
             date_arrive: date_arrive,
@@ -148,7 +138,6 @@ const createReservation = async (req, res) => {
         });
 
         const reservationAdd = await newReservation.save();
-        console.log(reservationAdd);
 
         // On envoie un mail de confirmation de suppression
         const emailContent = fs.readFileSync('./src/mail/createReservation.mail.html', 'utf-8');
@@ -276,25 +265,18 @@ const deleteReservation = async (req, res) => {
  */
 const findDatesForChambres = async (req, res) => {
     try {
-        const id_dates = [1, 2, 3];
+        const id_chambre = req.params.id;
         
-        let dates = []; 
+        const reservationsData = await Reservations.find({id_chambre: id_chambre});
 
-        // On récupere les dates de reservations en fonction de l'id de la chambre et on push l'id devant les resultats
-        for (let i = 0; i < id_dates.length; i++) {
-            const reservationsData = await Reservations.find({id_chambre: id_dates[i]});
-
-            // On ne recupere de chaque resultats que les dates d'arrivée et de départ
-            let result = [];
-            for (let j = 0; j < reservationsData.length; j++) {
-                result.push({date_arrive: reservationsData[j].date_arrive, date_depart: reservationsData[j].date_depart})
-            }
-
-            dates.push({[id_dates[i]]: result})
-        }
+        // On ne recupere de chaque resultats que les dates d'arrivée et de départ
+        let result = [];
+        for (let j = 0; j < reservationsData.length; j++) {
+            result.push({date_arrive: reservationsData[j].date_arrive, date_depart: reservationsData[j].date_depart})
+        }        
 
         addLog("info", `findDatesForChambres de toutes les dates de reservations`, "reservation.controller.js");
-        return res.status(200).json(dates)
+        return res.status(200).json(result)
     } catch (e){
         addLog("error", e, "reservation.controller.js");
     }

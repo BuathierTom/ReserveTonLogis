@@ -82,6 +82,7 @@ const findOneClients = async (req, res) => {
         // Decrypter prenom
         const decryptPrenom = crypto.AES.decrypt(client.prenom, process.env.CRYPTO_SECRET);
         client.prenom = decryptPrenom.toString(crypto.enc.Utf8);
+
         
         return res.status(200).json(client);
     } catch (e) {
@@ -214,17 +215,16 @@ const deleteClient = async (req, res, next) => {
 
         const clientData = await Client.findOne({ id: id });
 
-        const deleteClient = await Client.deleteOne({ "email": clientData.email })
+        const email = clientData.email;
 
-        // On redirige vers la page d'accueil
-        res.redirect('/connexion');
+        const deleteClient = await Client.deleteOne({ "email": email })
 
         // On envoie un mail de confirmation de suppression
-        const emailContent = fs.readFileSync('./src/mail/deleteClient.mail.html', 'utf-8');
+        const emailContent = fs.readFileSync('./src/mail/deleteClient.html', 'utf-8');
         //Envoi de l'e-mail au client
         const mailOptions = {
             from: process.env.MAIL_USER,
-            to: clientData.email,
+            to: email,
             subject: 'Suppression de votre compte',
             html: emailContent,
         };
@@ -254,23 +254,38 @@ const deleteClient = async (req, res, next) => {
  */
 const updateClient = async (req, res, next) => {
     try {
-        const { id, nom, prenom, adresse, telephone, ville, codePostal, email, password } = req.body;
+        const { nom, prenom, adresse, telephone, ville, codePostal, email, password } = req.body;
         // On verifie si l'utilisateur existe
-        const verif = await Client.findOne({ "id": id })
+        const verif = await Client.findOne({ "email": email })
         if (!verif) {
-            addLog("error", `Error, l'utilisateur avec l'id : ${id} n'existe pas`, "client.controller.js");
+            addLog("error", `Error, l'utilisateur avec l'id : ${email} n'existe pas`, "client.controller.js");
             return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
+        
+        // Hacher le mot de passe
+        const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+        // Crypter l'adresse
+        const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
+        // Crypter la ville
+        const encryptedVille = crypto.AES.encrypt(ville, process.env.CRYPTO_SECRET);
+        // Crypter le code postal
+        const encryptedCodePostal = crypto.AES.encrypt(codePostal, process.env.CRYPTO_SECRET);
+        // Crypter le téléphone
+        const encryptedTelephone = crypto.AES.encrypt(telephone, process.env.CRYPTO_SECRET);
+        // Crypter le nom
+        const encryptedNom = crypto.AES.encrypt(nom, process.env.CRYPTO_SECRET);
+        // Crypter le prénom
+        const encryptedPrenom = crypto.AES.encrypt(prenom, process.env.CRYPTO_SECRET);
 
-        const updateClient = await Client.updateOne({ "id": id }, {
-            nom: nom,
-            prenom: prenom,
-            adresse: adresse,
-            telephone: telephone,
-            ville: ville,
-            codePostal: codePostal,
+        const updateClient = await Client.updateOne({ "email": email }, {
+            nom: encryptedNom,
+            prenom: encryptedPrenom,
+            adresse: encryptedAdresse,
+            telephone: encryptedTelephone,
+            ville: encryptedVille,
+            codePostal: encryptedCodePostal,
             email: email,
-            password: password,
+            password: hashedPassword,
         })
 
         addLog("info", `updateClient du client ${email}`, "client.controller.js");
@@ -346,13 +361,10 @@ const getClientReservationById = async (req, res) => {
         const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
 
         const idClient = decodedToken.id;
-        console.log(idClient);
         
 
         // Information de la reservation
         const reservationData = await Reservations.find({ id_client: idClient });
-        console.log(reservationData);
-
 
         if (!reservationData || reservationData.length === 0) {
             return res.status(404).json({ message: 'Aucune réservation trouvée pour ce client.' });
@@ -361,7 +373,6 @@ const getClientReservationById = async (req, res) => {
 
         // Information de la chambre en fonction de reservationData
         const idChambres = reservationData.map((reservation) => reservation.id_chambre);
-        console.log(idChambres, "id chambreeeeeeeeeeee")
 
         // Récupérez les chambres en fonction des id_chambre
         const chambreData = await Chambre.find({ id: { $in: idChambres } });
@@ -386,8 +397,6 @@ const getClientReservationById = async (req, res) => {
           };
         });
 
-        console.log("resaaaaaaaaaaaaaaaaaaaaaaaaaa",reservationsAvecChambresSimplifiees);
-    
         // Envoyez les données simplifiées à votre application React
         return res.status(200).json({ reservationsAvecChambres: reservationsAvecChambresSimplifiees });
       } catch (e) {
@@ -419,13 +428,6 @@ const updatePassword = async (req, res) => {
             addLog("error", `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
             return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
-        console.log(verif.password)
-        console.log(password)
-
-        console.log(verif.password)
-        console.log(password)
-
-        console.log("je suis laaaaaaaaaaaaaaaaaaaa")
         
         if (password !=verif.password) {
             addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
@@ -434,7 +436,7 @@ const updatePassword = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
 
-        if (hashedPassword === verif.password) {
+        if (await bcrypt.compare(newPassword, verif.password)) {
             addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le nouveau mot de passe est identique à l'ancien` });
         }
@@ -451,6 +453,43 @@ const updatePassword = async (req, res) => {
     }
 };
 
+// Fonction pour envoyer un mail en récuperant les données dans
+const clientContact = async (req, res) => {
+    try{
+        const { nom, prenom, email, message } = req.body;
+
+        // On verifie que les champs ne sont pas vide
+        if (!nom || !prenom || !email || !message) {
+            addLog("error", `Error, un ou plusieurs champs sont vides`, "client.controller.js");
+            return res.status(404).send({ Error: `Error, un ou plusieurs champs sont vides` });
+        }
+
+        // On ajoute dans le message l'email du client
+        const messageClient = message + " <br> Email du client : " + email;
+
+        //Envoi de l'e-mail au client
+        const mailOptions = {
+            from: process.env.MAIL_USER,
+            to: process.env.MAIL_USER,
+            subject: 'Message de ' + nom + ' ' + prenom + ' via le formulaire de contact',
+            html: messageClient,
+        };
+
+        try {
+            addLog("info", `Mail de contact envoyé par le client :${email}`, "client.controller.js");
+            await transporter.sendMail(mailOptions);
+        } catch (error) {
+            addLog("error", error, "client.controller.js");
+        }
+
+        addLog("info", `clientContact du client : ${email}`, "client.controller.js");
+        return res.status(200).send("Mail envoyé");
+    } catch(e) {
+        addLog("error", e, "client.controller.js");
+    }
+};
+
+
 module.exports = {
     findClients,
     createClient,
@@ -461,6 +500,7 @@ module.exports = {
     findOneClients,
     findOneClients,
     updatePassword,
+    clientContact,
 };
 
 

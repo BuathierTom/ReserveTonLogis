@@ -8,8 +8,12 @@
         gap: 1rem;
         text-align: center;
         color: $quaternary;
-        font-size: 1.3rem;
         align-items: center ;
+        font-size: $xxs-sz;
+        @include desktop {
+            font-size: $s-sz;
+
+        }
     
     }
 
@@ -23,9 +27,10 @@
 
     &__social{
         display: flex;
-        gap: 2rem;
-        justify-content: center;
         width: 100%;
+        justify-content: center;
+        align-items: flex-end;
+        flex-wrap: wrap;
     }
 
 
@@ -35,11 +40,5 @@
         margin-top: 0.5rem;
     }
 
-    &__information{
-        font-size: 1.2rem;
-    }
 
-    &__adress{
-        font-size: 1.2rem;
-    }
 }

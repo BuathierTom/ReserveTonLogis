@@ -12,7 +12,7 @@ router.post('/create', createReservation);
 router.post('/update', updateReservation);
 // Permet de supprimer une reservation
 router.post('/delete', deleteReservation);
-// Permet de récupérer les dates de réservation en fonction de la chambre
-router.get('/getDatesReservations', findDatesForChambres);
+// Permet de récupérer les dates de réservation en fonction de l'ID de la chambre
+router.get('/getDatesReservations/:id', findDatesForChambres);
 
 module.exports = router;
