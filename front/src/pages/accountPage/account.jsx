@@ -109,7 +109,6 @@ function Account() {
                     showConfirmButton: true,
                     confirmButtonColor: '#4BAB77',
                 })
-                wait(3000);
                 window.location.reload();
 
             }

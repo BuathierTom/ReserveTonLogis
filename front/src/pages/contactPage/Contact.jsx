@@ -7,11 +7,21 @@ import TiktokLogo from "../../assets/img/logo_tiktok.webp";
 import Footer from "../../layout/Footer";
 
 import { useEffect } from "react";
+import { useState } from "react";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal);
 
 
 
 
 function Contact () {
+
+    const [email, setEmail] = useState("");
+    const [nom, setNom] = useState("");
+    const [prenom, setPrenom] = useState("");
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         function handleResize() {
@@ -33,7 +43,59 @@ function Contact () {
         return () => {
           window.removeEventListener("resize", handleResize);
         };
-      }, []);
+    }, []);
+
+    const contactmessage = async (e) => {
+        e.preventDefault();
+
+        const formData = new URLSearchParams();
+        formData.append("nom", nom);
+        formData.append("prenom", prenom);
+        formData.append("email", email);
+        formData.append("message", message);
+
+        console.log(nom)
+        console.log(prenom)
+        console.log(email)
+        console.log(message)
+
+        try{
+            const response = await fetch("http://localhost:5000/clients/clientContact", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.status === 200) {
+                MySwal.fire({
+                    icon: 'success',
+                    title: 'Votre message a bien été envoyé !',
+                    showConfirmButton: false,
+                    timer: 3000
+                })
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+            }
+            else {
+                MySwal.fire({
+                    icon: 'error',
+                    title: 'Erreur...',
+                    text: 'Le message n\'a pas pu être envoyé',
+                    showConfirmButton: true,
+                    confirmButtonColor: '#4BAB77',
+                })
+                window.location.reload();
+
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
+
+
+
+    
 
     return (
         <>
@@ -52,24 +114,23 @@ function Contact () {
                     <div className="contact__content">
                         <div className="contact__text contact__span">
                             <span>Contactez-nous</span>
-
                         </div>
 
                         <form className="contact__form">
                             <div className="contact__form-input">
-                                <input className="contact__input" type="text" placeholder="Nom" />
+                                <input className="contact__input" type="text" placeholder="Nom" value={nom} onChange={(e) => setNom(e.target.value)} required/>
                             </div>
                             <div className="contact__form-input">
-                                <input className="contact__input" type="text" placeholder="Prénom" />
+                                <input className="contact__input" type="text" placeholder="Prénom" value={prenom} onChange={(e) => setPrenom(e.target.value)} required/>
                             </div>
                             <div className="contact__form-input">
-                                <input className="contact__input" type="email" placeholder="Email" />
+                                <input className="contact__input" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
                             </div>
                             <div className="contact__form-input">
-                                <textarea className="contact__input-area" type="text" placeholder="Message" />
+                                <textarea className="contact__input-area" type="text" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} required />
                             </div>
                             <div className="contact__button">
-                                <input className="contact__input-submit" type="submit" value="Envoyer" />
+                                <button onClick={contactmessage}>Valider</button>
                             </div>
                         </form>
                     </div>
