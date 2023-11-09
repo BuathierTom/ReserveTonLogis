@@ -14,6 +14,7 @@ import DatePicker from "react-datepicker";
 import CalendarReservation from "../../components/CalendarReservation";
 import 'react-datepicker/dist/react-datepicker.css'; // Importez les styles par défaut
 import "react-calendar/dist/Calendar.css"; // Importez le CSS du composant Calendar
+import { is } from "date-fns/locale";
 
 
 
@@ -21,7 +22,7 @@ function Room( ) {
     const [room, setRoom] = useState([]); 
     const [weatherData, setWeatherData] = useState(null);
     const giteLocation = [47.553903, 4.815041];
-    const [isOpened, setIsOpened] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
 
     useEffect(() => {
@@ -30,11 +31,6 @@ function Room( ) {
         })
     }
     , []);
-
-    onclick = () => {
-        setIsOpened(!isOpened);
-    }
-
   
 
     useEffect(() => {
@@ -77,7 +73,7 @@ function Room( ) {
         <div className="room">
             <div className="room__container-fixed-reservation">
                 <div className="room__container-fixed-reservation--content--button">
-                    <button className="room__button">Réserver votre séjour</button>
+                <button className="room__button" onClick={() => setIsOpen(!isOpen)}>Réserver</button>
                 </div>
             </div>
             
@@ -167,7 +163,7 @@ function Room( ) {
                     </div>
 
                     <div className="room__reservation-calendar">
-                        < CalendarReservation room={room} />
+                        < CalendarReservation room={room} isOpen={isOpen} />
                     </div>
 
                     </div>

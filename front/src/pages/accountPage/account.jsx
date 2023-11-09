@@ -183,8 +183,12 @@ function Account() {
                                 {blockVisibility[0] && (
                                     <div className="account__reservations-block">
                                             <ul>
-                                                {reservation.map((reservation) => (
-                                                <li key={reservation.id_reservation}>
+                                            {reservation == null ? ( 
+                                                    <p>Aucune réservation trouvée.</p>
+                                                ) : (
+                                                reservation.map((reservation) => (
+                                                    <li key={reservation.id_reservation}>
+
                                                  
                                               
                                                     <h3 className="account__reservations-block--reservation-title">Chambre {reservation.chambre.nom}</h3>
@@ -195,16 +199,22 @@ function Account() {
                                                             <p className="account__reservations-block--reservation-details--info-p">Prix : {reservation.chambre.prix} €</p>
                                                             <p className="account__reservations-block--reservation-details--info-p">Personnes : {reservation.nb_personnes}</p>
                                                         </div>
+                                                        <div className="account__img-container">
                                                         <img
                                                             src={require(`../../assets/img-room/${reservation.chambre.image}.jpg`)}
                                                             alt="chambre"
                                                             className="account__img"
                                                         />
 
+                                                        </div>
+                                                        
+
                                                     </div>
                                                     <span className="account__reservations-block--reservation-span"></span>
                                                 </li>
-                                                ))}
+                                                ))
+                                            )}
+
                                             </ul>
                                     </div>
                                 )}

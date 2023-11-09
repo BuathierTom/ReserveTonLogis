@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import ReservationComponent from './ReservationComponent';
 
-function CalendarReservation( {room}) {
+function CalendarReservation( {room, isOpen } ) {
   const [arrivalDate, setArrivalDate] = useState(null);
   const [departureDate, setDepartureDate] = useState(null);
   const [isSelectingArrival, setIsSelectingArrival] = useState(true);
+  const [isOpenedResize, setIsOpenedResize] = useState(false);
+
+
+
+  console.log(isOpen);
+
+
 
   function handleDateClick(date) {
     if (isSelectingArrival) {
@@ -29,9 +36,17 @@ function CalendarReservation( {room}) {
      
     </div>
 
-    <div className='room__reservation'>
-      <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} />
+    {window.innerWidth <= 767 ? ( // En version mobile
+    isOpen && (
+        <div className='room__reservation-fixed'>
+            <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} />
+        </div>
+    )
+) : ( // En version desktop
+    <div className='room__reservation-fixed'>
+        <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} />
     </div>
+)}
 
     </>
 
