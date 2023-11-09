@@ -386,7 +386,6 @@ const updatePassword = async (req, res) => {
     try {
         // Fonction pour update le mot de passe
         const { email, password, newPassword } = req.body;
-    
 
         // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
@@ -397,20 +396,13 @@ const updatePassword = async (req, res) => {
         console.log(verif.password)
         console.log(password)
 
-        console.log(verif.password)
-        console.log(password)
-
-        console.log("je suis laaaaaaaaaaaaaaaaaaaa")
-        
+        // on crypte le mot de passe et on verifie si il est correct
         if (password !=verif.password) {
             addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
-        console.log("je suis la");
-
         const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
-        console.log(hashedPassword);
 
         if (hashedPassword === verif.password) {
             addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
