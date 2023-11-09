@@ -13,9 +13,12 @@ const chambres = require("./src/routes/chambre.routes.js");
 const reservations = require("./src/routes/reservation.routes.js");
 const saison = require("./src/routes/saison.routes.js");
 
-const { swaggerUi, swaggerSpec } = require('./src/services/swagger/config-swagger.js');
+// SWAGGER
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./src/services/swagger/swagger-output.json')
 
 app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
@@ -32,6 +35,6 @@ const startServer = async () => {
     app.use("/chambres", chambres);
     app.use("/reservations", reservations);
     app.use("/saison", saison);
-    app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 }
 startServer();

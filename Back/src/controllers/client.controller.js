@@ -405,14 +405,6 @@ const updatePassword = async (req, res) => {
             addLog("error", `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
             return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
-        console.log(verif.password)
-        console.log(password)
-        console.log(newPassword)
-
-        console.log(verif.password)
-        console.log(password)
-
-        console.log("je suis laaaaaaaaaaaaaaaaaaaa")
         
         if (password !=verif.password) {
             addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
@@ -440,6 +432,37 @@ const updatePassword = async (req, res) => {
     }
 };
 
+// Fonction pour envoyer un mail en récuperant les données dans
+const clientContact = async (req, res) => {
+    try{
+        const { nom, prenom, email, message } = req.body;
+
+        // On ajoute dans le message l'email du client
+        const messageClient = message + " <br> Email du client : " + email;
+
+        //Envoi de l'e-mail au client
+        const mailOptions = {
+            from: process.env.MAIL_USER,
+            to: process.env.MAIL_USER,
+            subject: 'Message de ' + nom + ' ' + prenom + ' via le formulaire de contact',
+            html: messageClient,
+        };
+
+        try {
+            addLog("info", `Mail de confirmation de suppression du compte envoyé à ${email}`, "client.controller.js");
+            await transporter.sendMail(mailOptions);
+        } catch (error) {
+            addLog("error", error, "client.controller.js");
+        }
+
+        addLog("info", `clientContact du client ${email}`, "client.controller.js");
+        return res.status(200).send("Mail envoyé");
+    } catch(e) {
+        addLog("error", e, "client.controller.js");
+    }
+};
+
+
 module.exports = {
     findClients,
     createClient,
@@ -450,6 +473,7 @@ module.exports = {
     findOneClients,
     findOneClients,
     updatePassword,
+    clientContact,
 };
 
 
