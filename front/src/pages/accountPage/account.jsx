@@ -95,15 +95,23 @@ function Account() {
                     icon: 'success',
                     title: 'Votre mot de passe a bien été modifié !',
                     showConfirmButton: false,
-                    timer: 4000
+                    timer: 3000
                 })
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
             }
             else {
                 MySwal.fire({
                     icon: 'error',
-                    title: 'Oops...',
+                    title: 'Erreur...',
                     text: 'Le nouveau mot de passe est identique à l\'ancien !',
+                    showConfirmButton: true,
+                    confirmButtonColor: '#4BAB77',
                 })
+                wait(3000);
+                window.location.reload();
+
             }
         }   
         catch (error) {
@@ -142,6 +150,7 @@ function Account() {
                         if (response.status === 200) {
                             localStorage.clear();
                             window.location.href = "/connexion";
+                            window.location.reload();
                         }
                         else {
                             alert(data.Error);
