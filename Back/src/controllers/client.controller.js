@@ -123,7 +123,7 @@ const createClient = async (req, res, next) => {
         }
 
         // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(password, process.env.SALAGE_HASH);
+        const hashedPassword = await bcrypt.hash(password, 10);
         // Crypter l'adresse
         const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
         // Crypter la ville
@@ -156,7 +156,7 @@ const createClient = async (req, res, next) => {
         // console.log("\nToken inscription : \n");
         // console.log(registrationToken+"\n");
         
-        const emailContent = fs.readFileSync('./src/mail/createClient.mail.html', 'utf-8', { registrationToken });
+        const emailContent = fs.readFileSync('./src/mail/createClient.mail.html', 'utf-8');
 
         //Envoi de l'e-mail au client
         const mailOptions = {
