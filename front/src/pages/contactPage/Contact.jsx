@@ -130,7 +130,7 @@ function Contact () {
                                 <textarea className="contact__input-area" type="text" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} required />
                             </div>
                             <div className="contact__button">
-                                <button onClick={contactmessage}>Valider</button>
+                                <button onClick={contactmessage} className="contact__input-submit">Valider</button>
                             </div>
                         </form>
                     </div>

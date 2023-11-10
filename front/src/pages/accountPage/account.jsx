@@ -326,12 +326,12 @@ function Account() {
                             </div>
                             <div className="account__parametres">
                                 <div className="account__div">
-                                    <p className="account__title">Paramètres</p>
+                                    <p className="account__title">Se déconnecter</p>
                                     <button className="account__button" onClick={() => toggleBlockVisibility(2)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
                                 </div>
                                     {blockVisibility[2] && (
                                     <div className="account__block account__parametres-block">
-                                        <button className="account__parametres-block--button" onClick={onClickDisconnect}>Se déconnecter</button>
+                                        <button className="account__parametres-block--button" onClick={onClickDisconnect}>Me déconnecter</button>
                                     </div>
                                     )}
                             </div>

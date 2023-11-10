@@ -15,6 +15,7 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
   const differenceEnMilliseconds = endDate - startDate;
   const gap = Math.floor(differenceEnMilliseconds / (1000 * 60 * 60 * 24) );
   const total = room.prix * gap + fee + deposit;
+  const nom = room.nom;
 
   
 
@@ -97,16 +98,18 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
             confirmButtonColor: '#4BAB77',
         })
         } else {
-            MySwal.fire({
-              icon: 'success',
-              title: 'Votre réservation a bien été prise en compte !',
-              showConfirmButton: false,
-              timer: 3000
-          })
-          setTimeout(() => {
+          MySwal.fire({
+            icon: 'success',
+            title: 'Votre réservation a bien été prise en compte !',
+            text: 'Vous avez réserver la chambre ' + nom + ' du ' + startDate.toLocaleDateString() + ' au ' + endDate.toLocaleDateString() + ' pour ' + personnes + ' personne(s).',
+            showConfirmButton: true,
+            confirmButtonColor: '#4BAB77',
+          }).then((result) => {
+            if (result.isConfirmed) {
               window.location.href = "/account";
-          }, 3000);
-        }
+            }
+          })
+        }  
     })
     .catch((error) => {
         console.error("Erreur lors de la création d'une réservation", error);
