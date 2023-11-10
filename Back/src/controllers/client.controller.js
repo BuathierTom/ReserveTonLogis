@@ -263,7 +263,7 @@ const updateClient = async (req, res, next) => {
         }
         
         // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(password, process.env.SALAGE_HASH);
+        const hashedPassword = await bcrypt.hash(password, 10);
         // Crypter l'adresse
         const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
         // Crypter la ville
@@ -434,7 +434,7 @@ const updatePassword = async (req, res) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, process.env.SALAGE_HASH); 
+        const hashedPassword = await bcrypt.hash(newPassword, 10); 
 
         if (await bcrypt.compare(newPassword, verif.password)) {
             addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
