@@ -511,6 +511,3 @@ module.exports = {
     updatePassword,
     clientContact,
 };
-
-
-
