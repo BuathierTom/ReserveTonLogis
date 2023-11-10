@@ -7,7 +7,6 @@ router.get("/getAll", findchambreMany);
 // Permet de récupérer une chambre en fonction de son id
 router.get("/get/:id", findChambre);
 
-// SURTOUT METTRE EN COMMENTAIRE A LA FIN
 // --------------------------------------
 // Permet de modifier une chambre
 router.post("/update/:id", updateChambre);

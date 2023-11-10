@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const jwtUtils = require ('../utils/jwtUtils.js')
 
 const crypto = require("crypto-js")
+const ejs = require('ejs');
 
 
 dotenv.config();
@@ -122,7 +123,7 @@ const createClient = async (req, res, next) => {
         }
 
         // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+        const hashedPassword = await bcrypt.hash(password, process.env.SALAGE_HASH);
         // Crypter l'adresse
         const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
         // Crypter la ville
@@ -149,7 +150,13 @@ const createClient = async (req, res, next) => {
         });
 
         const clientAdd = await newClient.save();
-        const emailContent = fs.readFileSync('./src/mail/createClient.mail.html', 'utf-8');
+
+        // Générez un token lors de l'inscription.
+        registrationToken = jwtUtils.generateAccessToken(newClient.id);
+        console.log("\nToken inscription : \n");
+        console.log(registrationToken+"\n");
+        
+        const emailContent = fs.readFileSync('./src/mail/createClient.mail.html', 'utf-8', { registrationToken });
 
         //Envoi de l'e-mail au client
         const mailOptions = {
@@ -166,10 +173,11 @@ const createClient = async (req, res, next) => {
             addLog("error", error, "client.controller.js");
         }
         addLog("info", `createClient du client ${email}`, "client.controller.js");
-        return res.status(200).send(clientAdd);
-    } catch (e) {
-        addLog("error", e, "client.controller.js");
-    }
+        return res.status(200).json({ client: clientAdd });
+  } catch (e) {
+    console.error(e);
+    addLog("error", e, "client.controller.js");
+  }
 };
 
 /**
@@ -246,23 +254,38 @@ const deleteClient = async (req, res, next) => {
  */
 const updateClient = async (req, res, next) => {
     try {
-        const { id, nom, prenom, adresse, telephone, ville, codePostal, email, password } = req.body;
+        const { nom, prenom, adresse, telephone, ville, codePostal, email, password } = req.body;
         // On verifie si l'utilisateur existe
-        const verif = await Client.findOne({ "id": id })
+        const verif = await Client.findOne({ "email": email })
         if (!verif) {
-            addLog("error", `Error, l'utilisateur avec l'id : ${id} n'existe pas`, "client.controller.js");
+            addLog("error", `Error, l'utilisateur avec l'id : ${email} n'existe pas`, "client.controller.js");
             return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
         }
+        
+        // Hacher le mot de passe
+        const hashedPassword = await bcrypt.hash(password, process.env.SALAGE_HASH);
+        // Crypter l'adresse
+        const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
+        // Crypter la ville
+        const encryptedVille = crypto.AES.encrypt(ville, process.env.CRYPTO_SECRET);
+        // Crypter le code postal
+        const encryptedCodePostal = crypto.AES.encrypt(codePostal, process.env.CRYPTO_SECRET);
+        // Crypter le téléphone
+        const encryptedTelephone = crypto.AES.encrypt(telephone, process.env.CRYPTO_SECRET);
+        // Crypter le nom
+        const encryptedNom = crypto.AES.encrypt(nom, process.env.CRYPTO_SECRET);
+        // Crypter le prénom
+        const encryptedPrenom = crypto.AES.encrypt(prenom, process.env.CRYPTO_SECRET);
 
-        const updateClient = await Client.updateOne({ "id": id }, {
-            nom: nom,
-            prenom: prenom,
-            adresse: adresse,
-            telephone: telephone,
-            ville: ville,
-            codePostal: codePostal,
+        const updateClient = await Client.updateOne({ "email": email }, {
+            nom: encryptedNom,
+            prenom: encryptedPrenom,
+            adresse: encryptedAdresse,
+            telephone: encryptedTelephone,
+            ville: encryptedVille,
+            codePostal: encryptedCodePostal,
             email: email,
-            password: password,
+            password: hashedPassword,
         })
 
         addLog("info", `updateClient du client ${email}`, "client.controller.js");
@@ -300,11 +323,18 @@ const connectClient = async (req, res, next) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
         // On génère un token
-        const token = jwtUtils.generateAccessToken(verif.id);
+        // const token = jwtUtils.generateAccessToken(verif.id);
         // Vous pouvez maintenant renvoyer le token au client
-        return res.status(200).json({ token: token });
+    //     return res.status(200).json({ token: token });
+    // } catch (e) {
+    //     addLog("error", e, "client.controller.js");
+    // }
+        console.log("Token connexion : \n");
+        console.log(registrationToken);
+        // Renvoi du token généré lors de l'inscription au client.
+        return res.status(200).json({ token: registrationToken });
     } catch (e) {
-        addLog("error", e, "client.controller.js");
+    addLog("error", e, "client.controller.js");
     }
 };
 
@@ -326,6 +356,7 @@ const getClientReservationById = async (req, res) => {
         if (!token) {
             return res.status(401).send({ Error: 'Token JWT manquant dans l\'en-tête Authorization' });
         }
+        // console.log(token);
 
         const decodedToken = jwt.verify( token.split(' ')[1], process.env.TOKEN_SECRET);
 
@@ -348,7 +379,7 @@ const getClientReservationById = async (req, res) => {
     
         // Créez un tableau avec les informations essentielles pour chaque réservation
         const reservationsAvecChambresSimplifiees = reservationData.map((reservation) => {
-          const chambreAssociee = chambreData.find((chambre) => chambre.id === reservation.id_chambre);
+        const chambreAssociee = chambreData.find((chambre) => chambre.id === reservation.id_chambre);
           return {
             id_reservation: reservation.id_reservation,
             date_arrive: reservation.date_arrive,
@@ -403,7 +434,7 @@ const updatePassword = async (req, res) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
+        const hashedPassword = await bcrypt.hash(newPassword, process.env.SALAGE_HASH); 
 
         if (await bcrypt.compare(newPassword, verif.password)) {
             addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
@@ -422,10 +453,25 @@ const updatePassword = async (req, res) => {
     }
 };
 
-// Fonction pour envoyer un mail en récuperant les données dans
+/**
+ * Envoi un mail de contact au client grace au formulaire de contact.
+ * 
+ * @function clientContact
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un message disant que le mail est bien envoyé.
+ * @throws {Error} - Si il y a une erreur lors de l'envoi du mail de contact.
+ * @throws {Error} - Si un ou plusieurs champs sont vides.
+ */
 const clientContact = async (req, res) => {
     try{
         const { nom, prenom, email, message } = req.body;
+
+        // On verifie que les champs ne sont pas vide
+        if (!nom || !prenom || !email || !message) {
+            addLog("error", `Error, un ou plusieurs champs sont vides`, "client.controller.js");
+            return res.status(404).send({ Error: `Error, un ou plusieurs champs sont vides` });
+        }
 
         // On ajoute dans le message l'email du client
         const messageClient = message + " <br> Email du client : " + email;
