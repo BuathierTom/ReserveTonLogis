@@ -11,7 +11,7 @@ import ImgActivity1 from "../../assets/img-activity/wine.png";
 import ImgActivity2 from "../../assets/img-activity/bike.png";
 import ImgActivity3 from "../../assets/img-activity/city.png";
 import ImgActivity4 from "../../assets/img-activity/visit.png";
-import { useEffect,useState } from "react";
+import { useEffect,useState, useRef } from "react";
 import Loader from "../loaderPage/Loader";
  
 
@@ -20,12 +20,24 @@ import Loader from "../loaderPage/Loader";
 function Home () {
     const giteLocation = [47.553903, 4.815041];
     const [isloading, setloading] = useState(true);
+    const clickableDivRef = useRef(null);
+
 
     useEffect(() => {
       setTimeout(() => {
         setloading(false);
       }, 2500);
     }, []);
+
+      
+    const handleCardClick = (event) => {
+        const link = event.currentTarget.getAttribute("data-link");
+        if (link) {
+          window.location.href = link;
+        }
+      };
+
+
     return ( 
         <>
          {isloading ? (
@@ -77,35 +89,30 @@ function Home () {
                 <span className="journey__span">Les différentes chambres d'hôtes </span>
             </div>
             <div  className="journey__container">
-                <a href="/room/1">
-                    <div className="card card-one"> 
+                    <div className="card card-one" data-link="/room/1" onClick={handleCardClick}>
                         <div className="card__content">
                         <p className="card__title">Les Marguerites</p>
                         <p className="card__p">Une chambre en toute quiétude aliant modernité et tradition dans un gîte merveilleux  </p>
                         <a href="/room/1"  className="button">Réservez dès maintenant</a>
                         </div>
                     </div>
-                </a> 
+                
 
-                <a href="/room/2">
-                    <div className="card card-two"> 
+                    <div className="card card-two" data-link="/room/2" onClick={handleCardClick}>
                         <div className="card__content">
                         <p className="card__title">Les Primevères</p>
                         <p className="card__p">Les Primevères est une chambre d'hôtes possédant deux lit simple et une salle de bain privative.</p>
                         <a href="/room/2"  className="button"> Réservez dès maintenant</a>
                         </div>
                     </div>
-                </a>
 
-                <a href="/room/3">
-                    <div className="card card-three"> 
+                    <div className="card card-three" data-link="/room/3" onClick={handleCardClick}>
                         <div className="card__content">
                         <p className="card__title">Les Oyats</p>
                         <p className="card__p"> Les Oyats est une chambre d'hôtes possédant un lit double et un confort moderne.</p>
                         <a href="/room/3"  className="button">Réservez dès maintenant</a>
                         </div>
                     </div>
-                </a>
             </div>
         </section>   
 
