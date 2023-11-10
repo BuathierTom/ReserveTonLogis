@@ -29,10 +29,17 @@ function Account() {
 
     const onClickDisconnect = () => {
         localStorage.clear();
-        window.location.href = "/connexion";
+        MySwal.fire({
+            icon: 'success',
+            title: 'Vous êtes déconnecté(e) !',
+            showConfirmButton: false,
+            timer: 3000
+        })
+        setTimeout(() => {
+            window.location.href = "/connexion";
+        }, 3000);
     }
 
-    
 
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
@@ -184,12 +191,29 @@ function Account() {
                 const response = await fetch('http://localhost:5000/clients/deconnexion', {
                     method: "POST",
                     headers,
-
                 });
 
                 if (response.status === 200) {
-                    alert("Vous êtes déconnecté");
-                    window.location.href = "/connexion";
+                    MySwal.fire({
+                        icon: 'success',
+                        title: 'Vous êtes déconnecté(e) !',
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                    setTimeout(() => {
+                        window.location.href = "/connexion";
+                    }, 3000);
+
+                }
+
+                else {
+                    MySwal.fire({
+                        icon: 'error',
+                        title: 'Erreur...',
+                        text: 'Vous n\'êtes pas déconnecté(e)',
+                        showConfirmButton: true,
+                        confirmButtonColor: '#4BAB77',
+                    })
                 }
 
             }   
