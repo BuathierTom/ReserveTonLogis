@@ -150,11 +150,6 @@ const createClient = async (req, res, next) => {
         });
 
         const clientAdd = await newClient.save();
-
-        // Générez un token lors de l'inscription.
-        // registrationToken = jwtUtils.generateAccessToken(newClient.id);
-        // console.log("\nToken inscription : \n");
-        // console.log(registrationToken+"\n");
         
         const emailContent = fs.readFileSync('./src/mail/createClient.mail.html', 'utf-8');
 
@@ -324,13 +319,6 @@ const connectClient = async (req, res, next) => {
         }
         // On génère un token
         const token = jwtUtils.generateAccessToken(verif.id);
-        // Vous pouvez maintenant renvoyer le token au client
-    //     return res.status(200).json({ token: token });
-    // } catch (e) {
-    //     addLog("error", e, "client.controller.js");
-    // }
-        // console.log("Token connexion : \n");
-        // console.log(registrationToken);
         // Renvoi du token généré lors de l'inscription au client.
         return res.status(200).json({ token: token });
     } catch (e) {
