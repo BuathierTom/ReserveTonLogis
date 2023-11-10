@@ -1,5 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal);
 
 
 function Inscription () {
@@ -40,11 +44,22 @@ function Inscription () {
   
 
             if (response.status === 200) {
-                alert("Votre compte a bien été créé");
-                window.location.href = "/connexion";
+                MySwal.fire({
+                    icon: 'success',
+                    title: 'Votre compte a bien été créé, vous pouvez vous connecter !',
+                    showConfirmButton: false,
+                    timer: 3000
+                })
+                setTimeout(() => {
+                    window.location.href = "/connexion";
+                }, 3000);
             }
             else {
-                alert(data.Error);
+                MySwal.fire({
+                    icon: 'error',
+                    title: 'Erreur...',
+                    text: 'Une erreur s\'est produite, veuillez réessayer',
+                })
             }
    
             
