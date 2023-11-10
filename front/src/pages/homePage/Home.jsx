@@ -5,6 +5,7 @@ import Map from "../../components/Map";
 import Footer from "../../layout/Footer";
 import IconBed from "../../assets/img/imgIcon/icons8-lit-50.png";
 import IconWifi from "../../assets/img/imgIcon/icons8-wifi-48.png";
+import iconCars from "../../assets/img/imgIcon/cars.png";
 import IconBath from "../../assets/img/imgIcon/icons8-baignoire-50 (1).png";
 import IconWc from "../../assets/img/imgIcon/icons8-wc-50.png";
 import ImgActivity1 from "../../assets/img-activity/wine.png";
@@ -54,28 +55,32 @@ function Home () {
 
                     <div className="presentation__container">
                         <div className="presentation__content">
-                            <p className="presentation__content-text">Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium nisi eget justo pellentesque volutpat. Nullam a ipsum odio. Vestibulum leo mi, gravida vitae leo non, viverra rutrum leo. Suspendisse sed rhoncus est, nec suscipit lorem. Maecenas quis consectetur ligula, 
-                                et molestie nisl. Nam congue maximus convallis. Aenean vulputate arcu fringilla dui ultricies, quis ultricies nibh dapibus. In malesuada laoreet arcu, non mattis elit mollis ac. Vestibulum vene
-                                natis placerat malesuada. Quisque sit amet felis non ex condimentum ullamcorper ac quis dui. Lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium nisi eget justo pellentesque volutpat. Nullam a ipsum odio. Vestibulum leo mi, gravida vitae leo non, viverra rutrum leo. Suspendisse sed rhoncus est, nec suscipit lorem. Maecenas quis consectetur ligula, 
-                                et molestie nisl. Nam congue maximus convallis.
+                            <p className="presentation__content-text">
+                                Le Domaine Des 4 Saisons est un charmant gîte qui offre une expérience chaleureuse et accueillante tout au long de l'année. Il propose trois chambres joliment nommées : Oyats, Primevères et Marguerite. Chacune de ces chambres a été soigneusement aménagée pour offrir confort et intimité à ses invités.
+                                
+                                Les équipements modernes sont également mis à la disposition des visiteurs pour assurer un séjour agréable. Chaque chambre est équipée d'une connexion wifi pour permettre aux clients de rester connectés, et une télévision est également disponible dans les chambres pour ceux qui souhaitent se détendre devant leur émission préférée.
+
+                                Le domaine offre également un parking sécurisé, assurant ainsi la tranquillité d'esprit des visiteurs en ce qui concerne la sécurité de leurs véhicules. Que vous soyez en voyage d'affaires ou en vacances, le Domaine Des 4 Saisons s'efforce de fournir une atmosphère accueillante et un service de qualité pour que votre séjour soit mémorable.
+
+                                Que vous choisissiez la chambre Oyats, Primevères ou Marguerite, chaque espace est conçu avec soin pour refléter le charme du lieu et offrir un refuge confortable. Que ce soit pour explorer la région environnante ou simplement vous détendre dans un cadre paisible, le Domaine Des 4 Saisons aspire à répondre aux besoins variés de ses clients.
                             </p>
                         </div>
                         <div className="presentation__grid-icon">
                             <div className="presentation__icon-content">
                                 <img className="presentation__icon" src={IconWifi} alt="" />
-                                <p className="presentation__text" > Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                                <p className="presentation__text" > Wifi Gratuit </p>
                             </div>
                             <div className="presentation__icon-content">
                                 <img className="presentation__icon" src={IconBed} alt="" />
-                                <p className="presentation__text" > Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                                <p className="presentation__text" > 3 chambres agréables et confortables </p>
+                            </div>
+                            <div className="presentation__icon-content">
+                                <img className="presentation__icon" src={iconCars} alt="" />
+                                <p className="presentation__text" > Parking gratuit sécurisé sur place </p>
                             </div>
                             <div className="presentation__icon-content">
                                 <img className="presentation__icon" src={IconBath} alt="" />
-                                <p className="presentation__text" > Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                            </div>
-                            <div className="presentation__icon-content">
-                                <img className="presentation__icon" src={IconWc} alt="" />
-                                <p className="presentation__text" > Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                                <p className="presentation__text" > Douches et baignoires disponibles </p>
                             </div>
                         </div>
                     </div>
@@ -118,7 +123,7 @@ function Home () {
 
         <section className="activity">  
             <div className="activity__title">
-                <span className="activity__span">Les activités proposés</span>
+                <span className="activity__span">Les activitées proposées</span>
             </div>
             <div className="activity__container">
                 <div className="activity__content activity__content--reverse">
