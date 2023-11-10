@@ -123,7 +123,7 @@ const createClient = async (req, res, next) => {
         }
 
         // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+        const hashedPassword = await bcrypt.hash(password, process.env.SALAGE_HASH);
         // Crypter l'adresse
         const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
         // Crypter la ville
@@ -263,7 +263,7 @@ const updateClient = async (req, res, next) => {
         }
         
         // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de salages
+        const hashedPassword = await bcrypt.hash(password, process.env.SALAGE_HASH);
         // Crypter l'adresse
         const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
         // Crypter la ville
@@ -434,7 +434,7 @@ const updatePassword = async (req, res) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 est le nombre de salages
+        const hashedPassword = await bcrypt.hash(newPassword, process.env.SALAGE_HASH); 
 
         if (await bcrypt.compare(newPassword, verif.password)) {
             addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
@@ -453,7 +453,16 @@ const updatePassword = async (req, res) => {
     }
 };
 
-// Fonction pour envoyer un mail en récuperant les données dans
+/**
+ * Envoi un mail de contact au client grace au formulaire de contact.
+ * 
+ * @function clientContact
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un message disant que le mail est bien envoyé.
+ * @throws {Error} - Si il y a une erreur lors de l'envoi du mail de contact.
+ * @throws {Error} - Si un ou plusieurs champs sont vides.
+ */
 const clientContact = async (req, res) => {
     try{
         const { nom, prenom, email, message } = req.body;

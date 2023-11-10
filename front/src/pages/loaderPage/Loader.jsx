@@ -24,29 +24,29 @@ function LoaderPage() {
 
   return (
     <div className="loader__container">
-      <div class="name">
+      <div className="name">
         <div className="name__block">
-        <div class="letter">R</div>
-        <div class="letter">E</div>
-        <div class="letter">S</div>
-        <div class="letter">E</div>
-        <div class="letter">R</div>
-        <div class="letter">V</div>
-        <div class="letter">E</div>
+        <div className="letter">R</div>
+        <div className="letter">E</div>
+        <div className="letter">S</div>
+        <div className="letter">E</div>
+        <div className="letter">R</div>
+        <div className="letter">V</div>
+        <div className="letter">E</div>
 
         </div>
         <div className="name__block">
-        <div class="letter">T</div>
-        <div class="letter">O</div>
-        <div class="letter">N</div>
+        <div className="letter">T</div>
+        <div className="letter">O</div>
+        <div className="letter">N</div>
         </div>
 
         <div className="name__block">
-        <div class="letter">L</div>
-        <div class="letter">O</div>
-        <div class="letter">G</div>
-        <div class="letter">I</div>
-        <div class="letter">S</div>
+        <div className="letter">L</div>
+        <div className="letter">O</div>
+        <div className="letter">G</div>
+        <div className="letter">I</div>
+        <div className="letter">S</div>
         </div>
       </div>
       <div className="loading-animation"> 

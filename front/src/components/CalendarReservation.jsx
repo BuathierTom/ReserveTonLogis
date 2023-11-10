@@ -7,12 +7,8 @@ function CalendarReservation( {room, isOpen } ) {
   const [arrivalDate, setArrivalDate] = useState(null);
   const [departureDate, setDepartureDate] = useState(null);
   const [isSelectingArrival, setIsSelectingArrival] = useState(true);
-  const [isOpenedResize, setIsOpenedResize] = useState(false);
   const [dateReservation, setdateReservation] = useState([])
 
-
-
-  console.log(isOpen);
 
   useEffect(() => {
     ApiCallDateReservation().then(data => {
@@ -21,7 +17,7 @@ function CalendarReservation( {room, isOpen } ) {
 }
 , []);
 
-console.log(dateReservation)
+console.log(isOpen);
 
 
   function handleDateClick(date) {
@@ -29,7 +25,6 @@ console.log(dateReservation)
       setArrivalDate(date);
       setIsSelectingArrival(false);
       if (departureDate && date >= departureDate) {
-        // Si la date d'arrivée est supérieure ou égale à la date de départ, ajustez la date de départ
         const nextDay = new Date(date);
         nextDay.setDate(nextDay.getDate() + 1);
         setDepartureDate(nextDay);
@@ -39,18 +34,34 @@ console.log(dateReservation)
       setIsSelectingArrival(true);
     }
   }
+  function isDateReserved(date) {
+    for (const reservation of dateReservation) {
+      const arrival = new Date(reservation.date_arrive);
+      const departure = new Date(reservation.date_depart);
+
+      if (date >= arrival && date <= departure) {
+        return true;
+      }
+
+      if (date < new Date()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   return (
     <>
     <div className='room__calendar'>
-      <Calendar onClickDay={handleDateClick} />
+        <Calendar onClickDay={handleDateClick} tileDisabled={({ date }) => isDateReserved(date)} />
      
     </div>
 
     {window.innerWidth <= 767 ? ( // En version mobile
     isOpen && (
-        <div className='room__reservation-fixed'>
-            <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} />
-        </div>
+      <div className='room__reservation-fixed'>
+      <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} />
+  </div>
     )
 ) : ( // En version desktop
     <div className='room__reservation-fixed'>

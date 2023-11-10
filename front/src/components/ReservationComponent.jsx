@@ -12,13 +12,19 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
   const gap = Math.floor(differenceEnMilliseconds / (1000 * 60 * 60 * 24) );
   const total = room.prix * gap + fee + deposit;
 
+  
 
   // Utilisez useEffect pour mettre à jour le DatePicker lorsque les dates d'arrivée ou de départ changent
   useEffect(() => {
     setStartDate(arrivalDate || new Date());
     setEndDate(departureDate || new Date());
-  }, [arrivalDate, departureDate]);
 
+  }, [arrivalDate, departureDate]);
+  
+  console.log(startDate);
+
+  console.log(startDate.toLocaleDateString());
+  console.log(endDate.toLocaleDateString());
     
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -41,11 +47,25 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
 
   const onclickapi = () => {
 
-    const formattedStartDate = startDate.toISOString().split('T')[0];
-    const formattedEndDate = endDate.toISOString().split('T')[0];
+    const formattedStartDate = new Date(
+      startDate.getUTCFullYear(),
+      startDate.getUTCMonth(),
+      startDate.getUTCDate() +2
+    );
+    
+    const formattedEndDate = new Date(
+      endDate.getUTCFullYear(),
+      endDate.getUTCMonth(),
+      endDate.getUTCDate() +2
+    );
+
+    console.log(formattedStartDate);
+    console.log(formattedEndDate);
+
     const formData = new URLSearchParams();
-    formData.append("date_arrive", formattedStartDate);
-    formData.append("date_depart", formattedEndDate);
+    //ajouter une date en + pour la date de réservation
+    formData.append("date_arrive", formattedStartDate.toISOString().split('T')[0]);
+    formData.append("date_depart", formattedEndDate.toISOString().split('T')[0]);
     formData.append("id_chambre", window.location.href.split("/")[4]);
     formData.append("nb_personnes", personnes);
     const storedToken = localStorage.getItem("token");
