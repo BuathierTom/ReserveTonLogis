@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal);
 
 function ReservationComponent( {room, arrivalDate, departureDate} ) {
   const [personnes, setPersonnes] = useState(1);
@@ -85,10 +89,23 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
     .then((data) => {
         console.log(data);
         if (data.Error) {
-            alert(data.Error);
+          MySwal.fire({
+            icon: 'error',
+            title: 'Erreur...',
+            text: data.Error,
+            showConfirmButton: true,
+            confirmButtonColor: '#4BAB77',
+        })
         } else {
-            alert("Votre réservation a bien été créée");
-            window.location.href = "/account";
+            MySwal.fire({
+              icon: 'success',
+              title: 'Votre réservation a bien été prise en compte !',
+              showConfirmButton: false,
+              timer: 3000
+          })
+          setTimeout(() => {
+              window.location.href = "/account";
+          }, 3000);
         }
     })
     .catch((error) => {
