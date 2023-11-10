@@ -135,8 +135,8 @@ const createReservation = async (req, res) => {
             for (let j = 0; j < dateListeComplete.length; j++) {
                 for (let k = 0; k < dateListeComplete[j].length; k++) {
                     if (dateListeComplete[j][k].toISOString() === dateListe[i].date_arrive.toISOString() || dateListeComplete[j][k].toISOString() === dateListe[i].date_depart.toISOString()) {
-                        addLog("error", `Error, la date d'arrivée ou la date de départ est déjà prise`, "reservation.controller.js");
-                        return res.status(404).send({Error: `Error, la date d'arrivée ou la date de départ est déjà prise`});
+                        addLog("error", `Error, La réservation se situe entre une autre reservation`, "reservation.controller.js");
+                        return res.status(404).send({Error: `Error, La réservation se situe entre une autre reservation`});
                     }
                 }
             }
