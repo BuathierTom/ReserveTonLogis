@@ -453,7 +453,16 @@ const updatePassword = async (req, res) => {
     }
 };
 
-// Fonction pour envoyer un mail en récuperant les données dans
+/**
+ * Envoi un mail de contact au client grace au formulaire de contact.
+ * 
+ * @function clientContact
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise<Object>} - Un message disant que le mail est bien envoyé.
+ * @throws {Error} - Si il y a une erreur lors de l'envoi du mail de contact.
+ * @throws {Error} - Si un ou plusieurs champs sont vides.
+ */
 const clientContact = async (req, res) => {
     try{
         const { nom, prenom, email, message } = req.body;
