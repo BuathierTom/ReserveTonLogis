@@ -78,38 +78,53 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
     if (storedToken) {
       const headers = {
           Authorization: `Bearer ${storedToken}`,
-      };
+    };
 
-    fetch("http://localhost:5000/reservations/create", {
-        headers,
-        method: "POST",
-        body: formData,
-    })
-
-    .then((response) => response.json())
-    .then((data) => {
-        console.log(data);
-        if (data.Error) {
-          MySwal.fire({
-            icon: 'error',
-            title: 'Erreur...',
-            text: data.Error,
-            showConfirmButton: true,
-            confirmButtonColor: '#4BAB77',
+    MySwal.fire({
+      icon: 'info',
+      title: 'Veuillez confirmer votre réservation',
+      text: 'Vous avez réserver la chambre ' + nom + ' du ' + startDate.toLocaleDateString() + ' au ' + endDate.toLocaleDateString() + ' pour ' + personnes + ' personne(s).',
+      showConfirmButton: true,
+      showCancelButton: true,
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Confirmer',
+      confirmButtonColor: '#4BAB77',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch("http://localhost:5000/reservations/create", {
+          headers,
+          method: "POST",
+          body: formData,
         })
-        } else {
-          MySwal.fire({
-            icon: 'success',
-            title: 'Votre réservation a bien été prise en compte !',
-            text: 'Vous avez réserver la chambre ' + nom + ' du ' + startDate.toLocaleDateString() + ' au ' + endDate.toLocaleDateString() + ' pour ' + personnes + ' personne(s).',
-            showConfirmButton: true,
-            confirmButtonColor: '#4BAB77',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.href = "/account";
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            if (data.Error) {
+              MySwal.fire({
+                icon: 'error',
+                title: 'Erreur...',
+                text: data.Error,
+                showConfirmButton: true,
+                confirmButtonColor: '#4BAB77',
+            })
+            } else {
+              MySwal.fire({
+                icon: 'success',
+                title: 'Votre réservation a bien été prise en compte !',
+                showConfirmButton: true,
+                confirmButtonColor: '#4BAB77',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = "/account";
+                }
+              })
             }
-          })
-        }  
+        })
+        .catch((error) => {
+            console.error("Erreur lors de la création d'une réservation", error);
+        });
+      }
     })
     .catch((error) => {
         console.error("Erreur lors de la création d'une réservation", error);
