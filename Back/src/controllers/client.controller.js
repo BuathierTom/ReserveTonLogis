@@ -152,9 +152,9 @@ const createClient = async (req, res, next) => {
         const clientAdd = await newClient.save();
 
         // Générez un token lors de l'inscription.
-        registrationToken = jwtUtils.generateAccessToken(newClient.id);
-        console.log("\nToken inscription : \n");
-        console.log(registrationToken+"\n");
+        // registrationToken = jwtUtils.generateAccessToken(newClient.id);
+        // console.log("\nToken inscription : \n");
+        // console.log(registrationToken+"\n");
         
         const emailContent = fs.readFileSync('./src/mail/createClient.mail.html', 'utf-8', { registrationToken });
 
@@ -323,16 +323,16 @@ const connectClient = async (req, res, next) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
         // On génère un token
-        // const token = jwtUtils.generateAccessToken(verif.id);
+        const token = jwtUtils.generateAccessToken(verif.id);
         // Vous pouvez maintenant renvoyer le token au client
     //     return res.status(200).json({ token: token });
     // } catch (e) {
     //     addLog("error", e, "client.controller.js");
     // }
-        console.log("Token connexion : \n");
-        console.log(registrationToken);
+        // console.log("Token connexion : \n");
+        // console.log(registrationToken);
         // Renvoi du token généré lors de l'inscription au client.
-        return res.status(200).json({ token: registrationToken });
+        return res.status(200).json({ token: token });
     } catch (e) {
     addLog("error", e, "client.controller.js");
     }
