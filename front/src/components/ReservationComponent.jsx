@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { reservationPopup } from './Popup';
 
 const MySwal = withReactContent(Swal);
 
@@ -109,12 +110,8 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
                 confirmButtonColor: '#4BAB77',
             })
             } else {
-              MySwal.fire({
-                icon: 'success',
-                title: 'Votre réservation a bien été prise en compte !',
-                showConfirmButton: true,
-                confirmButtonColor: '#4BAB77',
-              }).then((result) => {
+              reservationPopup()
+              .then((result) => {
                 if (result.isConfirmed) {
                   window.location.href = "/account";
                 }
