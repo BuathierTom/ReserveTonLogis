@@ -17,7 +17,7 @@ function CalendarReservation( {room, isOpen } ) {
 }
 , []);
 
-console.log(isOpen);
+console.log(dateReservation);
 
 
   function handleDateClick(date) {
@@ -38,12 +38,17 @@ console.log(isOpen);
     for (const reservation of dateReservation) {
       const arrival = new Date(reservation.date_arrive);
       const departure = new Date(reservation.date_depart);
-
-      if (date >= arrival && date <= departure) {
+  
+      // Convertir les dates en objets avec uniquement la date
+      const arrivalDateOnly = new Date(arrival.getFullYear(), arrival.getMonth(), arrival.getDate());
+      const departureDateOnly = new Date(departure.getFullYear(), departure.getMonth(), departure.getDate());
+      const currentDateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  
+      if (currentDateOnly >= arrivalDateOnly && currentDateOnly <= departureDateOnly) {
         return true;
       }
-
-      if (date < new Date()) {
+  
+      if (currentDateOnly < new Date()) {
         return true;
       }
     }
