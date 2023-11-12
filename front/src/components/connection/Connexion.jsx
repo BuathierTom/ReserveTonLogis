@@ -1,6 +1,11 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import {connectPopup, connectErrorPopup} from '../Popup.jsx';
+
+const MySwal = withReactContent(Swal);
 
 
 function Connexion() {
@@ -43,12 +48,14 @@ function Connexion() {
                 console.log(token);
                 setConnected(true);
                 localStorage.setItem("token", token); // Stockez le JWT dans localStorage
-                alert("Vous êtes connecté");
-                window.location.href = "/account";
+                connectPopup();
+                setTimeout(() => {
+                    window.location.href = "/account";
+                }, 3000);
 
             }
             else {
-                alert(data.Error);
+                connectErrorPopup();
             }
         }   
 

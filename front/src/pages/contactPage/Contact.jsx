@@ -11,6 +11,8 @@ import { useState } from "react";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
+import { contactPopup, contactErrorPopup } from "../../components/Popup";
+
 const MySwal = withReactContent(Swal);
 
 
@@ -66,24 +68,13 @@ function Contact () {
             });
 
             if (response.status === 200) {
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Votre message a bien été envoyé !',
-                    showConfirmButton: false,
-                    timer: 3000
-                })
+                contactPopup()
                 setTimeout(() => {
                     window.location.reload();
                 }, 3000);
             }
             else {
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Erreur...',
-                    text: 'Le message n\'a pas pu être envoyé',
-                    showConfirmButton: true,
-                    confirmButtonColor: '#4BAB77',
-                })
+                contactErrorPopup()
                 window.location.reload();
 
             }
@@ -130,7 +121,7 @@ function Contact () {
                                 <textarea className="contact__input-area" type="text" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} required />
                             </div>
                             <div className="contact__button">
-                                <button onClick={contactmessage}>Valider</button>
+                                <button onClick={contactmessage} className="contact__input-submit">Valider</button>
                             </div>
                         </form>
                     </div>

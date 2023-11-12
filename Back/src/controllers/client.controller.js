@@ -123,7 +123,7 @@ const createClient = async (req, res, next) => {
         }
 
         // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(password, process.env.SALAGE_HASH);
+        const hashedPassword = await bcrypt.hash(password, 10);
         // Crypter l'adresse
         const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
         // Crypter la ville
@@ -150,13 +150,8 @@ const createClient = async (req, res, next) => {
         });
 
         const clientAdd = await newClient.save();
-
-        // Générez un token lors de l'inscription.
-        registrationToken = jwtUtils.generateAccessToken(newClient.id);
-        console.log("\nToken inscription : \n");
-        console.log(registrationToken+"\n");
         
-        const emailContent = fs.readFileSync('./src/mail/createClient.mail.html', 'utf-8', { registrationToken });
+        const emailContent = fs.readFileSync('./src/mail/createClient.mail.html', 'utf-8');
 
         //Envoi de l'e-mail au client
         const mailOptions = {
@@ -263,7 +258,7 @@ const updateClient = async (req, res, next) => {
         }
         
         // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(password, process.env.SALAGE_HASH);
+        const hashedPassword = await bcrypt.hash(password, 10);
         // Crypter l'adresse
         const encryptedAdresse = crypto.AES.encrypt(adresse, process.env.CRYPTO_SECRET);
         // Crypter la ville
@@ -323,16 +318,9 @@ const connectClient = async (req, res, next) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
         // On génère un token
-        // const token = jwtUtils.generateAccessToken(verif.id);
-        // Vous pouvez maintenant renvoyer le token au client
-    //     return res.status(200).json({ token: token });
-    // } catch (e) {
-    //     addLog("error", e, "client.controller.js");
-    // }
-        console.log("Token connexion : \n");
-        console.log(registrationToken);
+        const token = jwtUtils.generateAccessToken(verif.id);
         // Renvoi du token généré lors de l'inscription au client.
-        return res.status(200).json({ token: registrationToken });
+        return res.status(200).json({ token: token });
     } catch (e) {
     addLog("error", e, "client.controller.js");
     }
@@ -434,7 +422,7 @@ const updatePassword = async (req, res) => {
             return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, process.env.SALAGE_HASH); 
+        const hashedPassword = await bcrypt.hash(newPassword, 10); 
 
         if (await bcrypt.compare(newPassword, verif.password)) {
             addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
@@ -511,6 +499,3 @@ module.exports = {
     updatePassword,
     clientContact,
 };
-
-
-

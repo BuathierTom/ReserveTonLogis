@@ -13,7 +13,7 @@ function Header () {
                     <h1 className="header__h1">Le Domaine Des 4 Saisons</h1>
                 </div>
                 <div className="header__a">
-                    <a href="#about">Réservez des maintenant</a>
+                    <a href="/#room">Réservez des maintenant</a>
                 </div>
             </div>
 

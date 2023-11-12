@@ -103,11 +103,43 @@ const createReservation = async (req, res) => {
             return res.status(404).send({Error: `Error, le client a deja une réservation en cours dans la meme chambre dans les memes dates`});
         }
 
-        // On verifie que dans toutes les reservations si a la meme date d'arrivée et de départ il n'y a pas deja une reservation dans la meme chambre par un autre client
-        const verifReservation2 = await Reservations.find({id_chambre: id_chambre, date_arrive: date_arrive, date_depart: date_depart})
-        if (verifReservation2.length !== 0) {
-            addLog("error", `Error, il y a deja une réservation dans la meme chambre dans les memes dates`, "reservation.controller.js");
-            return res.status(404).send({Error: `Error, il y a deja une réservation dans la meme chambre dans les memes dates`});
+        // On verifie que les dates données ne sont pas identiques
+        if (date_arrive === date_depart) {
+            addLog("error", `Error, la date d'arrivée est identique à la date de départ`, "reservation.controller.js");
+            return res.status(404).send({Error: `Error, la date d'arrivée est identique à la date de départ`});
+        }
+
+        // On récupere toutes les dates de reservations de la chambre
+        const datesData = await Reservations.find({id_chambre: id_chambre});
+
+        // On ne recupere de chaque resultats que les dates d'arrivée et de départ
+        let dateListe = [];
+        for (let j = 0; j < datesData.length; j++) {
+            dateListe.push({date_arrive: datesData[j].date_arrive, date_depart: datesData[j].date_depart})
+        }
+        
+        // On prend la date d'arrivée et de départ donnée et on créé un tableau avec toutes les dates entre ces deux dates en restant avec le format YYYY-MM-DDT00:00:00.000Z
+        let dateListeComplete = [];
+        let dateListeEntre = [];
+        let dateArrive = new Date(date_arrive);
+        let dateDepart = new Date(date_depart);
+        while (dateArrive < dateDepart) {
+            dateListeEntre.push(new Date(dateArrive));
+            dateArrive.setDate(dateArrive.getDate() + 1);
+        }
+        // On ajoute les dates entre la date d'arrivée et la date de départ dans le tableau dateListeComplete
+        dateListeComplete.push(dateListeEntre);
+
+        // On compare les dates du tableau dateListeComplete avec les dates du tableau dateListe
+        for (let i = 0; i < dateListe.length; i++) {
+            for (let j = 0; j < dateListeComplete.length; j++) {
+                for (let k = 0; k < dateListeComplete[j].length; k++) {
+                    if (dateListeComplete[j][k].toISOString() === dateListe[i].date_arrive.toISOString() || dateListeComplete[j][k].toISOString() === dateListe[i].date_depart.toISOString()) {
+                        addLog("error", `Error, La réservation se situe entre une autre reservation`, "reservation.controller.js");
+                        return res.status(404).send({Error: `Error, La réservation se situe entre une autre reservation`});
+                    }
+                }
+            }
         }
 
         // On verifie que les dates données sont bonnes

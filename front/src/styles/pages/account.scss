@@ -179,6 +179,17 @@
         }
     }
 
+    &__parametres-block{
+        display: flex;
+        justify-content: center;
+        &--button{
+            @include button;
+            margin-top: $xl-mg;
+            padding: $s-pd;
+            font-size: $xs-sz;
+        }
+    }
+
     &__connexion{
         display: flex;
         flex-direction: column;

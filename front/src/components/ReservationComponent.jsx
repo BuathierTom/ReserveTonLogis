@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { reservationPopup } from './Popup';
+
+const MySwal = withReactContent(Swal);
 
 function ReservationComponent( {room, arrivalDate, departureDate} ) {
   const [personnes, setPersonnes] = useState(1);
@@ -11,6 +16,7 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
   const differenceEnMilliseconds = endDate - startDate;
   const gap = Math.floor(differenceEnMilliseconds / (1000 * 60 * 60 * 24) );
   const total = room.prix * gap + fee + deposit;
+  const nom = room.nom;
 
   
 
@@ -73,23 +79,49 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
     if (storedToken) {
       const headers = {
           Authorization: `Bearer ${storedToken}`,
-      };
+    };
 
-    fetch("http://localhost:5000/reservations/create", {
-        headers,
-        method: "POST",
-        body: formData,
-    })
-
-    .then((response) => response.json())
-    .then((data) => {
-        console.log(data);
-        if (data.Error) {
-            alert(data.Error);
-        } else {
-            alert("Votre réservation a bien été créée");
-            window.location.href = "/account";
-        }
+    MySwal.fire({
+      icon: 'info',
+      title: 'Veuillez confirmer votre réservation',
+      text: 'Vous avez réserver la chambre ' + nom + ' du ' + startDate.toLocaleDateString() + ' au ' + endDate.toLocaleDateString() + ' pour ' + personnes + ' personne(s).',
+      showConfirmButton: true,
+      showCancelButton: true,
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Confirmer',
+      confirmButtonColor: '#4BAB77',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch("http://localhost:5000/reservations/create", {
+          headers,
+          method: "POST",
+          body: formData,
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            if (data.Error) {
+              MySwal.fire({
+                icon: 'error',
+                title: 'Erreur...',
+                text: data.Error,
+                showConfirmButton: true,
+                confirmButtonColor: '#4BAB77',
+            })
+            } else {
+              reservationPopup()
+              .then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = "/account";
+                }
+              })
+            }
+        })
+        .catch((error) => {
+            console.error("Erreur lors de la création d'une réservation", error);
+        });
+      }
     })
     .catch((error) => {
         console.error("Erreur lors de la création d'une réservation", error);

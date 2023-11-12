@@ -1,5 +1,10 @@
 import React from "react";
 import { useState } from "react";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { createAccountPopup, createAccountErrorPopup } from "../Popup";
+
+const MySwal = withReactContent(Swal);
 
 
 function Inscription () {
@@ -40,14 +45,15 @@ function Inscription () {
   
 
             if (response.status === 200) {
-                alert("Votre compte a bien été créé");
-                window.location.href = "/connexion";
+                createAccountPopup();
+                setTimeout(() => {
+                    window.location.href = "/connexion";
+                }, 3000);
             }
             else {
-                alert(data.Error);
+                createAccountErrorPopup();
             }
    
-            
         } 
         catch (error) {
             console.error(error);

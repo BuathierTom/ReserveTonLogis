@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { disconnectPopup, modifPasswordPopup, modifPasswordErrorPopup, deleteAccountPopup } from "../../components/Popup";
 
 const MySwal = withReactContent(Swal);
 
@@ -29,10 +30,12 @@ function Account() {
 
     const onClickDisconnect = () => {
         localStorage.clear();
-        window.location.href = "/connexion";
+        disconnectPopup()
+        setTimeout(() => {
+            window.location.href = "/connexion";
+        }, 3000);
     }
 
-    
 
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
@@ -96,26 +99,15 @@ function Account() {
             console.log(response.status);
 
             if (response.status === 200) {
-                MySwal.fire({
-                    icon: 'success',
-                    title: 'Votre mot de passe a bien été modifié !',
-                    showConfirmButton: false,
-                    timer: 3000
-                })
-                setTimeout(() => {
-                    window.location.reload();
-                }, 3000);
+                modifPasswordPopup();
             }
             else {
-                MySwal.fire({
-                    icon: 'error',
-                    title: 'Erreur...',
-                    text: 'Le nouveau mot de passe est identique à l\'ancien !',
-                    showConfirmButton: true,
-                    confirmButtonColor: '#4BAB77',
-                })
-                window.location.reload();
-
+                modifPasswordErrorPopup()
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    })
             }
         }   
         catch (error) {
@@ -125,81 +117,37 @@ function Account() {
 
     const deleteAccount = (e) => {
         e.preventDefault();
-    
+
         const storedToken = localStorage.getItem("token");
         if (storedToken) {
             const headers = {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${storedToken}`,
             };
-    
-            MySwal.fire({
-                title: 'Êtes-vous sûr(e) ?',
-                text: "Vous ne pourrez pas revenir en arrière !",
-                icon: 'question',
-                iconColor: '#4BAB77',
-                showCancelButton: true,
-                confirmButtonColor: '#4BAB77',
-                cancelButtonColor: '#d33',
-                cancelButtonText: 'Annuler',
-                confirmButtonText: 'Oui, supprimer mon compte !'
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    try {
-                        const response = await fetch('http://localhost:5000/clients/delete', {
-                            method: "POST",
-                            headers,
-                        });
-                        const data = await response.json();
-                        if (response.status === 200) {
-                            localStorage.clear();
-                            window.location.reload();
-                            window.location.href = "/connexion";
-
+            deleteAccountPopup()
+                .then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            const response = await fetch('http://localhost:5000/clients/delete', {
+                                method: "POST",
+                                headers,
+                            });
+                            const data = await response.json();
+                            if (response.status === 200) {
+                                localStorage.clear();
+                                window.location.reload();
+                                window.location.href = "/connexion";
+                            }
+                            else {
+                                alert(data.Error);
+                            }
+                        } catch (error) {
+                            console.error(error);
                         }
-                        else {
-                            alert(data.Error);
-                        }
-                    } catch (error) {
-                        console.error(error);
                     }
-                }
-            });
-        }
+                }); 
+        }           
     };
-    
-
-
-    const decoAccount = async (e) => {
-        e.preventDefault();
-
-        const storedToken = localStorage.getItem("token");
-        if (storedToken) {
-            const headers = {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${storedToken}`,
-            };
-        
-            try {
-                const response = await fetch('http://localhost:5000/clients/deconnexion', {
-                    method: "POST",
-                    headers,
-
-                });
-
-                if (response.status === 200) {
-                    alert("Vous êtes déconnecté");
-                    window.location.href = "/connexion";
-                }
-
-            }   
-            catch (error) {
-                console.error(error);
-            }
-        }
-    };
-
-
 
     
     return (
@@ -302,12 +250,12 @@ function Account() {
                             </div>
                             <div className="account__parametres">
                                 <div className="account__div">
-                                    <p className="account__title">Paramètres</p>
+                                    <p className="account__title">Se déconnecter</p>
                                     <button className="account__button" onClick={() => toggleBlockVisibility(2)}><img src={IconFleche} alt="fleche" className="account__button-img" /></button>
                                 </div>
                                     {blockVisibility[2] && (
                                     <div className="account__block account__parametres-block">
-                                        <button className="account__parametres-block--button" onClick={onClickDisconnect}>Se déconnecter</button>
+                                        <button className="account__parametres-block--button" onClick={onClickDisconnect}>Me déconnecter</button>
                                     </div>
                                     )}
                             </div>
@@ -345,4 +293,3 @@ function Account() {
 }
 
 export default Account;
-
