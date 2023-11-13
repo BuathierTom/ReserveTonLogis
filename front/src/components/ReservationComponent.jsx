@@ -9,7 +9,7 @@ import { BeatLoader } from 'react-spinners';
 
 const MySwal = withReactContent(Swal);
 
-function ReservationComponent( {room, arrivalDate, departureDate ,isDateReserved } ) {
+function ReservationComponent( {room, arrivalDate, departureDate } ) {
   const [personnes, setPersonnes] = useState(1);
   const [startDate, setStartDate] = useState(arrivalDate || new Date());
   const [endDate, setEndDate] = useState(departureDate || new Date());
@@ -144,7 +144,7 @@ function ReservationComponent( {room, arrivalDate, departureDate ,isDateReserved
             <div className="room__reservation-arrival">
             <span className="room__span">Arrivée</span>
             {window.innerWidth <= 767 ? (
-            <DatePicker className="room__date-display" selected={startDate} onChange={handleStartDateChange} name="startDate" dateFormat="dd/MM/yyyy" tileDisabled={({ date }) => isDateReserved(date)}/>
+            <DatePicker className="room__date-display" selected={startDate} onChange={handleStartDateChange} name="startDate" dateFormat="dd/MM/yyyy" />
 
 
             ) : (
@@ -155,7 +155,7 @@ function ReservationComponent( {room, arrivalDate, departureDate ,isDateReserved
             <span className="room__span">Départ</span>
             {window.innerWidth <= 767 ? (
               
-            <DatePicker className="room__date-display" selected={endDate} onChange={handleEndDateChange} name="endDate" dateFormat="dd/MM/yyyy" tileDisabled={({ date }) => isDateReserved(date)}/>
+            <DatePicker className="room__date-display" selected={endDate} onChange={handleEndDateChange} name="endDate" dateFormat="dd/MM/yyyy" />
 
             ) : (
             <p className='room__date-display' dateformat="dd/MM/yyyy" selected={endDate} onChange={handleEndDateChange} name="endDate">{endDate.toLocaleDateString()}</p>
