@@ -33,22 +33,31 @@ function CalendarReservation( {room, isOpen } ) {
     }
   }
   function isDateReserved(date) {
+
+    if (date < new Date()) {
+      return true;
+    }
+   
+    
     for (const reservation of dateReservation) {
+
+      if (date < new Date()) {
+        return true;
+      }
+     
       const arrival = new Date(reservation.date_arrive);
       const departure = new Date(reservation.date_depart);
   
       // Convertir les dates en objets avec uniquement la date
       const arrivalDateOnly = new Date(arrival.getFullYear(), arrival.getMonth(), arrival.getDate());
       const departureDateOnly = new Date(departure.getFullYear(), departure.getMonth(), departure.getDate());
-      const currentDateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const currentDateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate()) ;
   
       if (currentDateOnly >= arrivalDateOnly && currentDateOnly <= departureDateOnly) {
         return true;
       }
   
-      if (currentDateOnly < new Date()) {
-        return true;
-      }
+
     }
     return false;
   }
@@ -63,13 +72,13 @@ function CalendarReservation( {room, isOpen } ) {
     {window.innerWidth <= 767 ? ( // En version mobile
     isOpen && (
       <div className='room__reservation-fixed'>
-      <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} isDateReserved={isDateReserved} />
+      <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate}  />
 
   </div>
     )
 ) : ( // En version desktop
     <div className='room__reservation-fixed'>
-        <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} isDateReserved={isDateReserved} />
+        <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} />
 
     </div>
 )}
