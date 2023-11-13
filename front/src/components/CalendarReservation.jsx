@@ -17,8 +17,6 @@ function CalendarReservation( {room, isOpen } ) {
 }
 , []);
 
-console.log(dateReservation);
-
 
   function handleDateClick(date) {
     if (isSelectingArrival) {
@@ -65,12 +63,14 @@ console.log(dateReservation);
     {window.innerWidth <= 767 ? ( // En version mobile
     isOpen && (
       <div className='room__reservation-fixed'>
-      <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} />
+      <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} isDateReserved={isDateReserved} />
+
   </div>
     )
 ) : ( // En version desktop
     <div className='room__reservation-fixed'>
-        <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} />
+        <ReservationComponent room={room} arrivalDate={arrivalDate} departureDate={departureDate} isDateReserved={isDateReserved} />
+
     </div>
 )}
 
