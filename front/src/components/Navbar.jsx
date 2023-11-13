@@ -15,6 +15,27 @@ function NavBar () {
     }
     , []);
 
+    useEffect(() => {
+        const handleHashChange = () => {
+          if (window.location.hash === "#room") {
+            setTimeout(() => {
+              const roomSection = document.getElementById("room");
+              if (roomSection) {
+                roomSection.scrollIntoView({ behavior: "smooth" });
+              }
+            }, 0);
+          }
+        };
+      
+        handleHashChange();
+      
+        window.addEventListener("hashchange", handleHashChange);
+      
+        return () => {
+          window.removeEventListener("hashchange", handleHashChange);
+        };
+      }, []);
+
 
 
     useEffect(() => {
@@ -49,7 +70,7 @@ function NavBar () {
                 <div className="nav-bar__menu">
                     <ul className="nav-bar__ul">
                         <li className="nav-bar__li"><a className="nav-bar--color__link" href="/">Accueil</a></li>
-                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="/#room">Chambres d'hote</a></li>
+                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="/#room" onClick={() => { window.location.hash = "#room"; }}>Chambres d'hote</a></li>
                         <li className="nav-bar__li"><a className="nav-bar--color__link" href="/contact">Contact</a></li>
                         {connected === "true" ? ( 
                             <li className="nav-bar__li"><a className="nav-bar--color__link" href="/account">Mon compte</a></li>
@@ -67,7 +88,7 @@ function NavBar () {
 
                             <ul className="nav-bar__ul">
                             <li className="nav-bar__li"><a className="nav-bar__a-menu"  href="/">Accueil</a></li>
-                            <li className="nav-bar__li"><a className="nav-bar__a-menu"onClick={() => setIsMenuOpen(false)} href="#room">Chambres d'hote</a></li>
+                            <li className="nav-bar__li"><a className="nav-bar__a-menu"onClick={() => setIsMenuOpen(false)} href="/#room">Chambres d'hote</a></li>
                             <li className="nav-bar__li"><a className="nav-bar__a-menu" href="/contact">Contact</a></li>
                             {connected === "true" ? ( 
                                 <li className="nav-bar__li"><a className="nav-bar__a-menu" href="/account">Mon compte</a></li>
