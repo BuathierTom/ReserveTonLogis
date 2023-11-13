@@ -1,0 +1,194 @@
+.contact{
+    &__container{
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: $m-rad;
+        width: 80%;
+        height: 80%;
+        margin-top: 5%;
+
+        @include tablet{
+            width: 60%;
+        }
+
+        @include desktop{
+            display: flex;
+            width: 65%;
+            height: 40%;
+        }
+
+
+    }
+
+    &__picture{
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        display: none;
+        @include desktop{
+            width: 50%;
+            display: flex;
+        }
+
+    }
+
+    &__picture img{
+        width: 100%;
+    }
+
+    &__text {
+        display: none;
+
+        @include desktop {
+            display: flex;
+        }
+    }
+
+    &__content{
+        background-color: $tertiary;
+        padding: $xxl-pd;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        gap: 2rem;
+        @include desktop{
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            width: 50%;
+        }
+    }
+
+    &__form{
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        width: 100%;
+
+    }
+
+    &__input{
+        border-radius: $l-rad;
+        border-style: solid;
+        border-color: $senary;
+        padding: $xs-pd;
+        font-family: 'Crimsom Text', serif;
+        width: 100%;
+        @include tablet{
+            width: 80%;
+        }
+        @include desktop{
+            width: 100%;
+        }
+
+
+    }
+
+    &__input-submit{
+        @include button;
+    }
+
+    &__form-input{
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        display: flex;
+        justify-content: center;
+    }
+
+    &__button{
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    &__input-area{
+        border-radius: $m-rad;
+        border-color: $senary;
+        padding: $xs-pd;
+        padding-bottom: $xxxl-pd;
+        font-family: 'Crimsom Text', serif;
+        width: 100%;
+        border-width: 0.1rem;
+
+        @include tablet{
+            width: 80%;
+        }
+
+        @include desktop{
+            width: 100%;
+        }
+    }
+
+    &__title{
+        text-align: center;
+        padding: $l-pd;
+        color: $secondary;
+        font-weight: 400;
+        margin-top:  $xxxl-pd ;
+        font-size: $l-sz;
+        ::after{
+            @include stick;
+            margin-bottom: $xxxl-pd;
+            width: 75%;
+        }
+
+        @include desktop{
+            display: none;
+        }
+    }
+
+    &__span{
+        color: $secondary;
+        font-size: $l-sz;
+    }
+
+
+}
+
+.reseaux{
+    @include desktop{
+        margin-top: $xxxl-mg;
+    }
+    &__title{
+        text-align: center;
+        padding: $l-pd;
+        color: $secondary;
+        font-weight: 400;
+        margin-top:  $xxxl-pd ;
+        font-size: $l-sz;
+        ::after{
+            @include stick;
+        }
+    }
+
+    &__barre{
+        background-color: $secondary;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        height: 0.2rem;
+    }
+
+    &__container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+        @include tablet{
+            gap: $xxxl-mg;
+        }
+    }
+
+    &__icon {
+        width: 3rem;
+        height: 3rem;
+        margin: $l-pd;
+
+        @include tablet{
+            width: 4rem;
+            height: 4rem;
+        }
+    }
+}

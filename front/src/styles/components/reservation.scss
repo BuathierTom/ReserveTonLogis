@@ -1,0 +1,109 @@
+.room {
+    &__reservation {
+        width: 25rem;
+        padding: $l-pd; 
+        border: 0.15rem solid rgb(203, 203, 203);
+        border-radius: $xs-rad;
+        
+    }
+
+    &__reservation-fixed{
+        position: fixed;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(255 255 255 / 0.8);
+        backdrop-filter: blur(10px);
+        padding: 0 $l-pd;
+        @include desktop{
+            background-color: transparent;
+        }
+
+
+        @include desktop{
+            position: relative;
+            padding: 0;
+        }
+    }
+    &__calendar {
+        display: none;
+        @include desktop{
+        display: block;
+        }
+    }
+    &__reservation-flex {
+        display: flex;
+    }
+
+
+    &__reservation-arrival {
+        width: 50%;
+        border: 0.05rem solid rgb(203, 203, 203);
+        padding: $xxs-pd;
+        display: grid;
+    }
+
+    &__reservation-departure {
+        border: 0.05rem solid rgb(203, 203, 203);
+        width: 50%;
+        padding: $xxs-pd;
+        display: grid;
+    }
+
+    &__price-container {
+        margin-bottom: $xxl-mg;
+    }
+
+    &__reservation-price {
+        font-size: $m-sz;
+        font-weight: $bold;
+    }
+
+    &__reservation-text {
+        font-size: $s-sz;
+    }
+
+    &__reservation-peoples{
+        display: flex;
+    flex-direction: column;
+    border: 0.05rem solid rgb(203, 203, 203);
+    padding: $xxs-pd;
+
+    }
+
+    &__span {
+        padding-left: 0.3rem;
+    }
+
+    &__select {
+        border: none;
+    }
+
+    &__date-display {
+        background: transparent;
+        border: none;
+        width: 90px;
+        color: $secondary;
+        outline: none   ;
+        
+        padding-left: 0.3rem;        
+    }
+
+    &__reservation-button {
+        width: 100%;
+        height: 2rem;
+        margin: $xxl-mg 0;
+        
+    }
+
+    &__reservation-info{
+        display: flex;
+        justify-content: space-between;
+        margin: $xl-mg 0;
+    }
+
+    
+}

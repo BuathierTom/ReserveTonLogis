@@ -1,0 +1,1282 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Documentation API",
+    "version": "1.0.0",
+    "description": "API pour un site de gestion de reservations pour 3 chambres d'hôtes chez un particulier."
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+
+  "tags": [
+    {
+      "name": "Clients",
+      "description": "API pour les clients"
+    },
+    {
+      "name": "Reservations",
+      "description": "API pour les reservations"
+    },
+    {
+      "name": "Chambres",
+      "description": "API pour les chambres"
+    }
+  ],
+
+  "paths": {
+    "/clients/getAll": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "Récupère tous les clients de la base.",
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne la liste de tous les clients.",
+            "examples": {
+              "application/json": [
+                {
+                  "_id": "651d7ea02a10f6207ad47ef8",
+                  "id": 1,
+                  "nom": "Gambert",
+                  "prenom": "Adrien",
+                  "adresse": "12 rue les bains",
+                  "telephone": "0612345678",
+                  "email": "test@gmail.com",
+                  "password": "$2b$10$elC6nwU4Mg8TaJLrikrhI.TFR7Mwx0DxZ8wzw3LRS57OF0rJi",
+                  "__v": 0
+                },
+                {
+                  "_id": "651d7ea02a10f6207ad47ef8",
+                  "id": 34,
+                  "nom": "Buathier",
+                  "prenom": "Tom",
+                  "adresse": "12 rue les betes",
+                  "telephone": "0765436254",
+                  "email": "test.test@gmail.com",
+                  "password": "$2b$10$elC6nwU4Mg8TaJLrikrhI.TFR7Mwx0DxZ8wzw3LRS57OF0rJi",
+                  "__v": 0
+                }
+              ] 
+            },
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/clients/get": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "Récupère un client en fonction de son token",
+        "security": [
+          {
+            "Bearer": [] 
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne le client correspondant à l'ID.",
+            "examples": {
+              "application/json": [
+                {
+                  "_id": "651d7ea02a10f6207ad47ef8",
+                  "id": 45,
+                  "nom": "Gambert",
+                  "prenom": "Adrien",
+                  "adresse": "12 rue les bains",
+                  "telephone": "0612345678",
+                  "email": "test@gmail.com",
+                  "password": "$2b$10$elC6nwU4Mg8TaJLrikrhI.TFR7Mwx0DxZ8wzw3LRS57OF0rJi",
+                  "__v": 0
+                }
+              ] 
+            },
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+
+        }
+      }
+    },
+    "/clients/getReservation": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "Permet de récupérer une reservation en fonction de l'id du client",
+        "security": [
+          {
+            "Bearer": [] 
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne la reservation correspondant à l'ID",
+            "examples": {
+              "schema": {
+                "$ref": "#/definitions/Client"
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/clients/create": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "Crée un nouveau client",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "nom",
+            "type": "string",
+            "required": true,
+            "description": "Votre nom"
+          },
+          {
+            "in": "formData",
+            "name": "prenom",
+            "type": "string",
+            "required": true,
+            "description": "Votre prenom"
+          },
+          {
+            "in": "formData",
+            "name": "adresse",
+            "type": "string",
+            "required": true,
+            "description": "Votre adresse"
+          },
+          {
+            "in": "formData",
+            "name": "telephone",
+            "type": "string",
+            "required": true,
+            "description": "Votre telephone"
+          },
+          {
+            "in": "formData",
+            "name": "ville",
+            "type": "string",
+            "required": true,
+            "description": "Votre ville"
+          },
+          {
+            "in": "formData",
+            "name": "codePostal",
+            "type": "string",
+            "required": true,
+            "description": "Votre code postal"
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "required": true,
+            "description": "Votre email"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "required": true,
+            "description": "Votre mot de passe"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne le client créé.",
+            "examples": {
+              "application/json": [
+                {
+                  "id": 54,
+                  "nom": "U2FsdGVkX1+sbxYhz6J85FIgYOJI80uTYCrh5BnYer4=",
+                  "prenom": "U2FsdGVkX1+SJRXFR72iFEpg2CYvVOY8XwODbx4DTZY=",
+                  "adresse": "U2FsdGVkX19UkwxFmpPv4EG8sZuZlMt0IaBjaZec2eKbQ66OMx7pC9F/ebQfZBdg",
+                  "telephone": "U2FsdGVkX1+/ZxBkkur0NV69kp0M53CjiLWt493XOyE=",
+                  "ville": "U2FsdGVkX1+9/+5ojL4rRKx2dVwiJZLCoeXFuQZMKF0=",
+                  "codePostal": "U2FsdGVkX1+zm5ReV0iYmp3JKKCQcx1oQ5aq68ydbmM=",
+                  "email": "tom@gmail.com",
+                  "password": "$2b$10$gvRD1O03h5uX/u2qG8mJf.va.J/ZwTtITj6AsBgLU2ctaEoIMdGju",
+                  "_id": "654d0526cfee7152a302daa9",
+                  "__v": 0
+                }
+              ] 
+            },
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/clients/delete": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "Supprime un client en fonction de son token",
+        "security": [
+          {
+            "Bearer": [] 
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne le client supprimé.",
+            "examples": {
+              "application/json": [
+                {
+                  "acknowledged": true,
+                  "deletedCount": 1
+                }
+              ] 
+            },
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/clients/update": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "Modifie un client",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "nom",
+            "type": "string",
+            "required": false,
+            "description": "Votre nom"
+          },
+          {
+            "in": "formData",
+            "name": "prenom",
+            "type": "string",
+            "required": false,
+            "description": "Votre prenom"
+          },
+          {
+            "in": "formData",
+            "name": "adresse",
+            "type": "string",
+            "required": false,
+            "description": "Votre adresse"
+          },
+          {
+            "in": "formData",
+            "name": "telephone",
+            "type": "string",
+            "required": false,
+            "description": "Votre telephone"
+          },
+          {
+            "in": "formData",
+            "name": "ville",
+            "type": "string",
+            "required": false,
+            "description": "Votre ville"
+          },
+          {
+            "in": "formData",
+            "name": "codePostal",
+            "type": "string",
+            "required": false,
+            "description": "Votre code postal"
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "required": false,
+            "description": "Votre email"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "required": false,
+            "description": "Votre mot de passe"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne le client modifié",
+            "examples": {
+              "application/json": [
+                {
+                  "acknowledged": true,
+                  "modifiedCount": 1,
+                  "upsertedId": null,
+                  "upsertedCount": 0,
+                  "matchedCount": 1
+                }
+              ] 
+            },
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/clients/connect": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "Connectez-vous en utilisant un email et un mot de passe.",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "required": true,
+            "description": "Votre email"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "required": true,
+            "description": "Votre mot de passe"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne le token du client connecté.",
+            "examples": {
+              "application/json": [
+                {
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDUsImlhdCI6MTYxMjU0NjQ0OSwiZXhwIjoxNj" 
+                }
+              ] 
+            },
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/clients/updatePassword": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "Modifie le mot de passe d'un client",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "required": true,
+            "description": "Votre email"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "required": true,
+            "description": "Votre ancien mot de passe"
+          },
+          {
+            "in": "formData",
+            "name": "newPassword",
+            "type": "string",
+            "required": true,
+            "description": "Votre nouveau mot de passe"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne le client modifié",
+            "examples": {
+              "application/json": [
+                {
+                  "acknowledged": true,
+                  "modifiedCount": 1,
+                  "upsertedId": null,
+                  "upsertedCount": 0,
+                  "matchedCount": 1
+                }
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+
+        }
+      }
+    },
+    "/clients/clientContact": {
+      "post": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "Envoie un mail au propriétaire du site d'un formulaire de contact",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "nom",
+            "type": "string",
+            "required": true,
+            "description": "Votre nom"
+          },
+          {
+            "in": "formData",
+            "name": "prenom",
+            "type": "string",
+            "required": true,
+            "description": "Votre prenom"
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "required": true,
+            "description": "Votre email"
+          },
+          {
+            "in": "formData",
+            "name": "message",
+            "type": "string",
+            "required": true,
+            "description": "Votre message"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne le client modifié",
+            "examples": {
+              "application/string": ["Message envoyé"]
+            },
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+
+    "/reservations/getAll": {
+      "get": {
+        "tags": [
+          "Reservations"
+        ],
+        "summary": "Récupère toutes les reservations",
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne la liste de toutes les reservations.",
+            "examples":{
+              "application/json":[
+                {
+                  "_id": "654b40849e78dfac4274f722",
+                  "id_reservation": 10,
+                  "date_arrive": "2023-11-26T00:00:00.000Z",
+                  "date_depart": "2023-11-27T00:00:00.000Z",
+                  "nb_personnes": 2,
+                  "id_client": 45,
+                  "id_chambre": 3,
+                  "__v": 0
+                },
+                {
+                  "_id": "654b422b3286a8a6c8338fac",
+                  "id_reservation": 11,
+                  "date_arrive": "2023-11-26T00:00:00.000Z",
+                  "date_depart": "2023-11-27T00:00:00.000Z",
+                  "nb_personnes": 2,
+                  "id_client": 45,
+                  "id_chambre": 2,
+                  "__v": 0
+                }
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/Reservation"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/reservations/get": {
+      "get": {
+        "tags": [
+          "Reservations"
+        ],
+        "summary": "Récupère une reservation en fonction de son id",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "L'ID de la reservation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne la reservation correspondant à l'ID.",
+            "examples":{
+              "application/json":[
+                {
+                  "reservation": [
+                    {
+                      "_id": "654b40849e78dfac4274f722",
+                      "id_reservation": 10,
+                      "date_arrive": "2023-11-26T00:00:00.000Z",
+                      "date_depart": "2023-11-27T00:00:00.000Z",
+                      "nb_personnes": 2,
+                      "id_client": 45,
+                      "id_chambre": 3,
+                      "__v": 0
+                    }
+                  ],
+                  "client": [],
+                  "chambre": [
+                    {
+                      "avis": [],
+                      "equipements": [],
+                      "mots_cles": [],
+                      "_id": "651436ef3cb668c9062a509b",
+                      "image1": "picture-room3-principal",
+                      "image2": "picture-room3-second",
+                      "image3": "picture-room3-third",
+                      "image4": "picture-room3-quaternary",
+                      "capacite": 2,
+                      "description": "'Les Oyats' est une chambre qui incarne l'élégance classique. Lorsque vous entrez, le charme intemporel de cette chambre vous enveloppe. Le grand lit simple, habillé de draps en coton doux, est le point central de l'espace, invitant à des nuits de repos paisible. Un magnifique lustre en cristal suspendu au plafond crée une ambiance chaleureuse et raffinée, apportant une touche d'éclat à la pièce. A côté du lit, un tableau dépeint un gîte pittoresque, évoquant une sensation d'évasion et d'accueil. Une armoire blanche en bois trône fièrement dans un coin de la chambre, offrant un espace pour ranger vos effets personnels. Elle ajoute une touche de fraîcheur et de clarté à l'espace.",
+                      "id": 3,
+                      "nom": "Les Oyats",
+                      "prix": 102.95,
+                      "superficie": 19
+                    }
+                  ]
+                }
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/Reservation"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/reservations/create": {
+      "post": {
+        "tags": [
+          "Reservations"
+        ],
+        "summary": "Crée une nouvelle reservation",
+        "security": [
+          {
+            "Bearer": [] 
+          }
+        ],
+        "parameters": [ 
+          {
+            "in": "formData",
+            "name": "date_arrive",
+            "type": "string",
+            "required": true,
+            "description": "La date d'arrivée"
+          },
+          {
+            "in": "formData",
+            "name": "date_depart",
+            "type": "string",
+            "required": true,
+            "description": "La date de départ"
+          },
+          {
+            "in": "formData",
+            "name": "nb_personnes",
+            "type": "integer",
+            "required": true,
+            "description": "Le nombre de personnes"
+          },
+          {
+            "in": "formData",
+            "name": "id_chambre",
+            "type": "integer",
+            "required": true,
+            "description": "L'ID de la chambre"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne la reservation créée.",
+            "examples":{ 
+              "application/json":[ 
+                {
+                  "_id": "654b40849e78dfac4274f722",
+                  "id_reservation": 10,
+                  "date_arrive": "2023-11-26T00:00:00.000Z",
+                  "date_depart": "2023-11-27T00:00:00.000Z",
+                  "nb_personnes": 2,
+                  "id_client": 45,
+                  "id_chambre": 3,
+                  "__v": 0
+                }
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/Reservation"
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/reservations/update": {
+      "post": {
+        "tags": [
+          "Reservations"
+        ],
+        "summary": "Modifie une reservation",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "L'ID de la reservation"
+          },
+          {
+            "in": "formData",
+            "name": "date_arrive",
+            "type": "string",
+            "required": false,
+            "description": "La date d'arrivée"
+          },
+          {
+            "in": "formData",
+            "name": "date_depart",
+            "type": "string",
+            "required": false,
+            "description": "La date de départ"
+          },
+          {
+            "in": "formData",
+            "name": "prix_total",
+            "type": "integer",
+            "required": false,
+            "description": "Le prix total"
+          },
+          {
+            "in": "formData",
+            "name": "nb_personnes",
+            "type": "integer",
+            "required": false,
+            "description": "Le nombre de personnes"
+          },
+          {
+            "in": "formData",
+            "name": "id_chambre",
+            "type": "integer",
+            "required": false,
+            "description": "L'ID de la chambre"
+          },
+          {
+            "in": "formData",
+            "name": "id_client",
+            "type": "integer",
+            "required": false,
+            "description": "L'ID du client"
+          }
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne la reservation modifiée.",
+            "examples":{ 
+              "application/json":[ 
+                {
+                  "acknowledged": true,
+                  "modifiedCount": 1,
+                  "upsertedId": null,
+                  "upsertedCount": 0,
+                  "matchedCount": 1
+                }
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/Reservation"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/reservations/delete": {
+      "post": {
+        "tags": [
+          "Reservations"
+        ],
+        "summary": "Supprime une reservation",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "L'ID de la reservation"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne la reservation supprimée.",
+            "examples":{ 
+              "application/json": [ 
+                {
+                  "acknowledged": true,
+                  "deletedCount": 1
+                }
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/Reservation"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/reservations/getDatesReservations/{id}": {
+      "get": {
+        "tags": [
+          "Reservations"
+        ],
+        "summary": "Récupère les dates de réservation en fonction de l'ID de la chambre",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne les dates de réservation de la chambre.",
+            "examples":{ 
+              "application/json":[ 
+                {
+                  "date_arrive": "2023-11-26T00:00:00.000Z",
+                  "date_depart": "2023-11-27T00:00:00.000Z"
+                },
+                {
+                  "date_arrive": "2023-11-28T00:00:00.000Z",
+                  "date_depart": "2023-11-29T00:00:00.000Z"
+                }
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/Reservation"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+
+    "/chambres/getAll": {
+      "get": {
+        "tags": [
+          "Chambres"
+        ],
+        "summary": "Récupère toutes les chambres",
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne la liste de toutes les chambres.",
+            "examples":{
+              "application/json":[
+                {
+                  "_id": "651436ef3cb668c9062a509b",
+                  "image1": "picture-room3-principal",
+                  "image2": "picture-room3-second",
+                  "image3": "picture-room3-third",
+                  "image4": "picture-room3-quaternary",
+                  "capacite": 2,
+                  "description": "'Les Oyats' est une chambre qui incarne l'élégance classique. Lorsque vous entrez, le charme intemporel de cette chambre vous enveloppe. Le grand lit simple, habillé de draps en coton doux, est le point central de l'espace, invitant à des nuits de repos paisible. Un magnifique lustre en cristal suspendu au plafond crée une ambiance chaleureuse et raffinée, apportant une touche d'éclat à la pièce. A côté du lit, un tableau dépeint un gîte pittoresque, évoquant une sensation d'évasion et d'accueil. Une armoire blanche en bois trône fièrement dans un coin de la chambre, offrant un espace pour ranger vos effets personnels. Elle ajoute une touche de fraîcheur et de clarté à l'espace.",
+                  "id": 3,
+                  "nom": "Les Oyats",
+                  "prix": 102.95,
+                  "superficie": 19,
+                  "__v": 0
+                },
+                {
+                  "_id": "651436ef3cb668c9062a509a",
+                  "id": 2,
+                  "image1": "picture-room2-principal",
+                  "image2": "picture-room2-second",
+                  "image3": "picture-room2-third",
+                  "image4": "picture-room2-quaternary",
+                  "capacite": 2,
+                  "description": "'Les Primevères' vous enveloppent d'un charme printanier dans un décor moderne. La simplicité de cette chambre est apaisante. Les deux lits une place crée une atmosphère confortable, tandis que le lampadaire ajoute une touche de caractère. La salle de bains directement accessible depuis la chambre, est assez minimaliste avec un lavabo Grohe pour sa qualité et une douche à l'italienne pour plus de commodité. Une grande fenêtre inonde la chambre de lumière naturelle, offrant une vue sur notre jardin fleuri au printemps",
+                  "nom": "Les Primevères",
+                  "prix": 109.95,
+                  "superficie": 18
+                }
+
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/Chambre"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/chambres/get/{id}": {
+      "get": {
+        "tags": [
+          "Chambres"
+        ],
+        "summary": "Récupère une chambre en fonction de son id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne la chambre correspondant à l'ID.",
+            "examples":{
+              "application/json":[
+                {
+                  "_id": "651436ef3cb668c9062a509b",
+                  "image1": "picture-room3-principal",
+                  "image2": "picture-room3-second",
+                  "image3": "picture-room3-third",
+                  "image4": "picture-room3-quaternary",
+                  "capacite": 2,
+                  "description": "'Les Oyats' est une chambre qui incarne l'élégance classique. Lorsque vous entrez, le charme intemporel de cette chambre vous enveloppe. Le grand lit simple, habillé de draps en coton doux, est le point central de l'espace, invitant à des nuits de repos paisible. Un magnifique lustre en cristal suspendu au plafond crée une ambiance chaleureuse et raffinée, apportant une touche d'éclat à la pièce. A côté du lit, un tableau dépeint un gîte pittoresque, évoquant une sensation d'évasion et d'accueil. Une armoire blanche en bois trône fièrement dans un coin de la chambre, offrant un espace pour ranger vos effets personnels. Elle ajoute une touche de fraîcheur et de clarté à l'espace.",
+                  "id": 3,
+                  "nom": "Les Oyats",
+                  "prix": 102.95,
+                  "superficie": 19,
+                  "__v": 0
+                }
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/Chambre"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+
+        }
+      }
+    },
+    "/chambres/update/{id}": {
+      "post": {
+        "tags": [
+          "Chambres"
+        ],
+        "summary": "Modifie une chambre en fonction de son id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "image1",
+            "type": "string",
+            "required": false,
+            "description": "L'image principale"
+          },
+          {
+            "in": "formData",
+            "name": "image2",
+            "type": "string",
+            "required": false,
+            "description": "L'image secondaire"
+          },
+          {
+            "in": "formData",
+            "name": "image3",
+            "type": "string",
+            "required": false,
+            "description": "L'image tertiaire"
+          },
+          {
+            "in": "formData",
+            "name": "image4",
+            "type": "string",
+            "required": false,
+            "description": "L'image quaternaire"
+          },
+          {
+            "in": "formData",
+            "name": "capacite",
+            "type": "integer",
+            "required": false,
+            "description": "La capacité de la chambre"
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "type": "string",
+            "required": false,
+            "description": "La description de la chambre"
+          },
+          {
+            "in": "formData",
+            "name": "nom",
+            "type": "string",
+            "required": false,
+            "description": "Le nom de la chambre"
+          },
+          {
+            "in": "formData",
+            "name": "prix",
+            "type": "integer",
+            "required": false,
+            "description": "Le prix de la chambre"
+          },
+          {
+            "in": "formData",
+            "name": "superficie",
+            "type": "integer",
+            "required": false,
+            "description": "La superficie de la chambre"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne la chambre modifiée.",
+            "examples":{ 
+              "application/json":[ 
+                {
+                  "acknowledged": true,
+                  "modifiedCount": 1,
+                  "upsertedId": null,
+                  "upsertedCount": 0,
+                  "matchedCount": 1
+                }
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/Chambre"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/chambres/delete/{id}": {
+      "post": {
+        "tags": [
+          "Chambres"
+        ],
+        "summary": "Supprime une chambre en fonction de son id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Opération réussie. Retourne la chambre supprimée.",
+            "examples":{ 
+              "application/json":[ 
+                {
+                  "acknowledged": true,
+                  "deletedCount": 1
+                }
+              ]
+            },
+            "schema": {
+              "$ref": "#/definitions/Chambre"
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    }
+  },
+  
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+
+  "security": {
+    "Bearer": []
+  },
+
+  "components": {
+
+    "responses":{
+      "200":{
+        "description": "OK. La requête a abouti."
+      },
+      "401":{
+        "description": "Échec de l'authentification. Les informations d'identification sont incorrectes."
+      },
+      "404":{
+        "description": "Requête invalide. Les paramètres sont manquant/incorrects."
+      },
+      "500":{
+        "description": "Erreur serveur. Une erreur s'est produite lors de la récupération des clients."
+      }
+        
+    }
+
+  },
+
+  "definitions": {
+      "Client": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "prenom": {
+            "type": "string"
+          },
+          "adresse": {
+            "type": "string"
+          },
+          "telephone": {
+            "type": "string"
+          },
+          "ville": {
+            "type": "string"
+          },
+          "codePostal": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Reservation": {
+        "type": "object",
+        "properties": {
+          "id_reservation": {
+            "type": "integer"
+          },
+          "date_arrive": {
+            "type": "Date"
+          },
+          "date_depart": {
+            "type": "Date"
+          },
+          "prix_total": {
+            "type": "integer"
+          },
+          "nb_personnes": {
+            "type": "integer"
+          },
+          "id_chambre": {
+            "type": "integer"
+          },
+          "id_client": {
+            "type": "integer"
+          }
+        }
+      },
+      "Chambre": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "image1": {
+            "type": "string"
+          },
+          "image2": {
+            "type": "string"
+          },
+          "image3": {
+            "type": "string"
+          },
+          "image4": {
+            "type": "string"
+          },
+          "capacite": {
+            "type": "integer"
+          },
+          "prix": {
+            "type": "integer"
+          },
+          "superficie": {
+            "type": "integer"
+          }
+        }
+      },
+      "Saison": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "nom": {
+            "type": "string"
+          },
+          "promotion": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }

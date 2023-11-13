@@ -1,0 +1,132 @@
+:root {
+  --slider-height: 30rem;
+   @include tablet {
+    --slider-height: 35rem;
+    @include desktop {
+      --slider-height: 45rem;
+    }
+    @include big-desktop {
+      --slider-height: 55rem;
+    }
+   }
+}
+
+
+*:before {
+  transition-duration: 400ms;
+}
+
+*:after {
+  transition-duration: 400ms;
+}
+
+
+
+.sliderDiv {
+  display: flex;
+  width: 100%;
+  height: var(--slider-height);
+  position: relative;
+  transform-style: preserve-3d;
+  align-items: center;
+
+  
+}
+
+
+
+.leftArrow:hover {
+  background: white;
+  cursor: pointer;
+}
+
+.rightArrow:hover {
+  background: white;
+  cursor: pointer;
+}
+
+
+
+.mainSlide {
+  width: 60%;
+  height: 70%;
+  background: white;
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  border-radius: 3px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3), 0px 5px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.leftSlide {
+  width: 50%;
+  height: 60%;
+  background: white;
+  position: absolute;
+  top: 20%;
+  left: 15%;
+  border-radius: 3px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.8);
+  opacity: 0.5;
+}
+
+.rightSlide {
+  width: 50%;
+  height: 60%;
+  background: white;
+  position: absolute;
+  top: 20%;
+  left: 35%;
+  border-radius: 3px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.8);
+  opacity: 0.5;
+}
+
+.slide {
+  box-sizing: border-box;
+  padding: 0px;
+  transition-duration: 600ms;
+  text-align: center;
+  line-height: calc(var(--slider-height) * 0.7);
+  font-size: calc(var(--slider-height) * 0.09);
+  overflow: hidden;
+}
+
+.slide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide__arrow-position {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 2%;
+}
+
+.icon-right {
+  transform: rotate(180deg);
+  height: 2rem;
+}
+
+.icon {
+  height: 2rem;
+}
+
+.slider {
+  &::after {
+    content: '';
+    display: block;
+    margin: auto;
+    width: 60%;
+    height: 0.2rem;
+    background-color: $secondary;
+    grid-column: 1 / 3;
+
+    @include tablet {
+        width: 15rem;
+    }
+}
+}

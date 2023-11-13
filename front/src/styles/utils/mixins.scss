@@ -1,0 +1,50 @@
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin grid-center {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin little-title {
+    margin-bottom: $l-pd;
+    margin-top: $xl-pd;
+    color: $secondary;
+    font-size: $xl-sz;
+    padding-left: $l-pd;
+    @include desktop {
+        font-size: $xxl-sz;
+    }
+}
+
+@mixin stick {
+    content: '';
+    display: block;
+    margin: auto;
+    width: 60%;
+    height: 0.2rem;
+    background-color: $secondary;
+    margin-top: $xxl-pd;
+    grid-column: 1 / 3;
+
+    @include tablet {
+        width: 15rem;
+    }
+}
+
+@mixin button{
+    border-radius: $m-rad;
+    background-color: $senary;
+    color: $quaternary;
+    border: none;
+    padding: $xs-pd;
+    padding-left: $l-pd;
+    padding-right: $l-pd;
+    cursor: pointer;
+}
+
+

@@ -1,0 +1,116 @@
+.card {
+    color: black;
+    background: url('../../assets/img/img-room.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 15rem;
+    height: 20rem;
+    color: $quaternary;
+    position: relative;
+    overflow: hidden;
+    transition: transform 500ms ease;
+
+    @include desktop {
+        width: 25rem;
+        height: 30rem;
+    }
+
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    &-two {
+        background: url('../../assets/img/img-room2.jpg') no-repeat;
+        background-size: cover;
+        
+    }
+
+    &-three {
+        background: url('../../assets/img/img-room3.jpg') no-repeat;
+        background-size: cover;
+  
+    }
+
+    &__content {
+        position: relative;
+        top: 36%;
+        height: 220px;
+        text-align: center;
+        padding: 1rem;
+        padding-top: 0;
+        background:linear-gradient(
+            hsl(0 1% 0% / 0),
+            hsl(20 0% 0% / 0.5) 20%,
+            hsl(0 0% 0% / 8)
+        );
+        transform: translateY(65%);  
+        transition: transform 500ms ease;
+
+        @include desktop {
+            top: 57%;
+                }
+    }
+
+    &__title::after {
+        content: "";
+        position: absolute;
+        height: 5px;
+        width: 70%;
+        background-color:#069D6B;
+        left: 15%;
+        bottom: 65%;
+        transform:scaleX(0);
+        transition: transform 3500ms ease;
+    }
+} 
+
+
+.card:hover .card__content {
+    transform: translateY(0);
+    transition-delay: 500ms;
+
+}
+
+.card:hover .card__content > *:not(.card__title){
+    opacity: 1;
+    transition-delay: 500ms;
+
+}
+
+.card__content > * :not(.card__title){
+    opacity: 0;
+    transition: opacity 500ms linear;
+}
+
+
+
+
+.card:hover .card__title::after {
+
+    transform:scaleX(1);
+}
+
+.card__title {
+    padding-bottom: 40px;
+    padding-top: 30px;
+    font-size: 1.5rem;
+    margin: -0.9rem;
+    font-family: 'Jacques Francois', serif;}
+
+.card__p {
+    padding-bottom: 20px;
+    color: #eef4d4d5;
+    @include desktop {
+        padding-left: $xxxl-pd;
+        padding-right: $xxxl-pd;
+        }
+}
+
+.card a {
+    padding-bottom: 10px;
+    &:hover {
+        color: #069D6B;
+        transition: color 500ms ease;
+
+  }
+}

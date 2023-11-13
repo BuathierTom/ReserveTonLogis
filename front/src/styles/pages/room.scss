@@ -1,0 +1,232 @@
+.room {
+    color: $secondary;
+
+    &__container {
+        display: grid;
+        gap: 1rem;
+        padding:0 $l-pd;
+
+        @include desktop {
+            padding: 0 6rem;
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+    }
+    &__container-weather-content-imgtemp{
+        display: flex;
+        align-items: center;
+    }
+
+    &__container-weather-content {
+        line-height: 0.5;
+        background-color: $senary;
+        color: $primary;
+        padding: 1rem 0.6rem;
+        font-size: $xs-sz;
+    }
+
+    &__img-weather {
+        width: 3rem;
+        object-fit: cover;
+    }
+
+    &__container-fixed {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 1fr;
+        align-items: center;
+        @include desktop {
+            padding-top: $l-pd;
+        }
+    }
+    &__container-fixed-reservation {
+        width: 100%;
+        position: fixed;
+        background-color: $senary;
+        bottom: 0;
+        height: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50% 50% 0 0;
+        z-index: 1000;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+
+        @include desktop {
+            display: none;
+        }
+
+    }
+    &__container-weather {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &__content-info {
+        font-size: $xs-sz;
+        @include desktop {
+            display: flex   ;
+            justify-content: space-between;
+            font-size: $s-sz;
+            padding-top: $xs-pd;        }
+    }
+
+    &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.5s linear;
+
+        &:hover {
+            cursor: pointer;
+            transform: scale(1.03);
+        }
+
+        @include desktop {
+            height: 16rem;
+        }
+
+
+        @include big-desktop {
+            height: 20rem;
+        }
+    }
+
+    &__container-img {
+        display: grid;
+        grid-template-columns: 2fr repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        gap: 0.2rem;
+
+        @include desktop {
+            gap: 1rem;
+        }
+    }
+
+    &__img-first{
+        grid-area: 1 / 1 / 3 / 2;
+        @include desktop {
+            height: 100%;
+        }
+    }
+
+    &__img-quaternary{
+        grid-area: 2 / 2 / 2 / 4;
+    }
+
+    &__title {
+        @include  little-title;
+        padding: 0;
+        line-height: 1.5;
+        margin:  2rem 0;
+        @include desktop {
+            margin:  0;
+        }
+    }
+
+    &__icon {
+        width: 3rem;
+        @include desktop {
+            width: 5rem;
+        }
+    }
+
+    &__container-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $m-pd;
+        border: 1px solid rgb(170, 170, 170);
+    }
+
+    &__name {
+        font-size: $s-sz;
+        font-weight: 600;
+        @include desktop {
+            font-size: $l-sz;
+        }
+    }
+
+    &__grid-description {
+        
+        @include desktop {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            }
+    }
+
+    &__container-description-characteristics {
+        display: grid;
+        gap: 3rem;
+    }
+
+    &__container-description {
+        @include desktop {
+            grid-area: 2 / 1 / 3 / 2; 
+
+        }
+    }
+
+    &__description {
+        color: black;
+        font-size: $s-sz;
+        max-height: 15rem;
+        overflow: auto;
+        text-align: justify;
+        padding:0 1rem;
+        margin-top: 1rem;
+        @include desktop {
+            max-height: max-content;
+            font-size: 1.3rem;
+                }
+    }
+
+    &__button {
+        @include button;
+        font-size: $xs-sz;
+    }
+
+    &__characteristics {
+        @include desktop {
+            grid-area: 3 / 1 / 4 / 2;
+        }
+    }
+
+    &__characteristics-content {
+        width: 100%;
+        display:flex;
+        align-items: center;
+        gap: 1rem;
+        @include desktop {
+            gap: 2rem;
+        }     
+    }
+
+    &__characteristics-container {
+        display:grid;
+        gap: 1rem;
+        padding: $xxl-pd $l-pd;
+        @include desktop {
+            padding:0 $m-pd $xl-pd ;        }
+    }
+
+    &__characteristics-text {
+        @include desktop {
+            font-size: $s-sz;
+        }
+    }
+    &__characteristics-icon {
+        width: 3rem;
+        @include desktop {
+            width: 3.4rem;
+        }
+    }
+
+    &__select {
+        background-color: transparent;
+    }
+}

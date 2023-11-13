@@ -1,0 +1,92 @@
+.nav-bar {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: $m-pd;
+    @include desktop {
+        padding-left: $xxxl-pd;
+        padding-right: $xxxl-pd;
+        
+    }
+
+    &--color {
+        background-color: rgb(255 255 255 / 0.8);
+            backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid $secondary;
+
+        a{
+            color: $secondary;
+
+        }
+
+        
+    }
+
+    &__menu{
+        display: flex;
+        
+        &--open {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 100%;
+            z-index: 10;
+            padding: $xxl-pd;
+            overflow-y: hidden;
+            background-color: rgb(255 255 255 / 0.8);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.3);
+            
+        }
+    }
+
+    &__ul {
+        padding: 0;
+
+        @include tablet {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        gap: 2rem;
+        }
+    }
+
+    &__close-cross{
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: $xxl-pd;
+        width: 2rem;
+        height: 2rem;
+        cursor: pointer;
+        font-size: $xxl-sz;
+        color: $secondary;
+    }
+
+    &__li {
+        margin: 0;
+        padding: $s-pd;
+        font-size: $l-sz;
+        @include tablet {
+            font-size: $m-sz;
+        }
+    }
+
+    &__img {
+        width: 4rem;
+        height: 4rem;;
+    }
+
+    &__a-menu {
+        color: $secondary;
+    }
+}

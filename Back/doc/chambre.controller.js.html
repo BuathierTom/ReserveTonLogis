@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: chambre.controller.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: chambre.controller.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const Chambre = require('../models/chambre.model');
+const { addLog } = require("../services/logs/logs");
+
+/**
+ * Récupere toutes les chambres créées.
+ * 
+ * @function findchambreMany
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise&lt;Object>} - Un tableau JSON contenant toutes les chambres.
+ * @throws {Error} - Si il y a une erreur lors de la récupération des chambres.
+ */
+const findchambreMany = async (req, res) => {
+    try {
+        const getAll = await Chambre.find({});
+        addLog("info", `getAll des chambres`, "chambre.controller.js");
+        return res.status(200).send(getAll);    
+    } catch (e) {
+        addLog("error", e, "chambre.controller.js");
+    }
+};
+
+/**
+ * Récupere une chambre en fonction de l'id de la chambre.
+ * 
+ * @function findChambre
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise&lt;Object>} - Un tableau JSON contenant la chambre.
+ * @throws {Error} - Si il y a une erreur lors de la récupération de la chambre.
+ */
+const findChambre = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const getId = await Chambre.find({"id" : id})
+        addLog("info", `getId de la chambre ${id}`, "chambre.controller.js");
+        return res.status(200).send(getId)
+    } catch (e) {
+        addLog("error", e, "chambre.controller.js");
+    }
+};
+
+/**
+ * Met à jour une chambre en fonction de l'id.
+ * 
+ * @function updateChambre
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise&lt;Object>} - Un tableau JSON contenant la chambre.
+ * @throws {Error} - Si il y a une erreur lors de la mise à jour de la chambre.
+ * @throws {Error} - Si la chambre n'existe pas.
+ */
+const updateChambre = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const { nom, description, capacite, superficie, prix, disponibilite, avis, equipements, mots_cles, image1, image2, image3, image4} = req.body;
+        const verif = await Chambre.findOne({ "id": id })
+        if (!verif) {
+            addLog("error", `Error, la chambre ${id} n'existe pas`, "chambre.controller.js");
+            return res.status(404).send({ Error: `Error, la chambre n'existe pas` });
+        }
+        const chambreupdate = await Chambre.updateOne({ "id": id }, {
+            nom: nom,
+            description: description,
+            capacite: capacite,
+            superficie: superficie,
+            prix: prix,
+            disponibilite: disponibilite,
+            avis: avis,
+            equipements: equipements,
+            mots_cles: mots_cles,
+            image1: image1,
+            image2: image2,
+            image3: image3,
+            image4: image4
+        })
+        addLog("info", `updateChambre de la chambre ${id}`, "chambre.controller.js");
+        return res.status(200).send(chambreupdate)
+    } catch (e) {
+        addLog("error", e, "chambre.controller.js");
+    }
+};
+
+/**
+ * Supprime une chambre en fonction de l'id.
+ * 
+ * @function deleteChambre
+ * @param {Object} req - L'objet de requête.
+ * @param {Object} res - La réponse de la requête.
+ * @returns {Promise&lt;Object>} - Un tableau JSON contenant la chambre supprimée.
+ * @throws {Error} - Si il y a une erreur lors de la suppression de la chambre.
+ * @throws {Error} - Si la chambre n'existe pas.
+ */
+const deleteChambre = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const verif = await Chambre.findOne({ "id": id })
+        if (!verif) {
+            addLog("error", `Error, la chambre ${id} n'existe pas`, "chambre.controller.js");
+            return res.status(404).send({ Error: `Error, la chambre n'existe pas` });
+        }
+
+        const deletechambre = await Chambre.deleteOne ({ "id": id })
+        addLog("info", `deleteChambre de la chambre ${id}`, "chambre.controller.js");
+        return res.status(200).send(deletechambre)
+    } catch (e) {
+        addLog("error", e, "chambre.controller.js");
+    }
+};
+
+module.exports = {
+    findChambre,
+    findchambreMany,
+    updateChambre,
+    deleteChambre
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#clientContact">clientContact</a></li><li><a href="global.html#connectClient">connectClient</a></li><li><a href="global.html#createClient">createClient</a></li><li><a href="global.html#createReservation">createReservation</a></li><li><a href="global.html#createSaison">createSaison</a></li><li><a href="global.html#deleteChambre">deleteChambre</a></li><li><a href="global.html#deleteClient">deleteClient</a></li><li><a href="global.html#deleteReservation">deleteReservation</a></li><li><a href="global.html#deleteSaison">deleteSaison</a></li><li><a href="global.html#findChambre">findChambre</a></li><li><a href="global.html#findClients">findClients</a></li><li><a href="global.html#findDatesForChambres">findDatesForChambres</a></li><li><a href="global.html#findOneClients">findOneClients</a></li><li><a href="global.html#findSaison">findSaison</a></li><li><a href="global.html#findSaisonMany">findSaisonMany</a></li><li><a href="global.html#findchambreMany">findchambreMany</a></li><li><a href="global.html#getAllReservations">getAllReservations</a></li><li><a href="global.html#getClientReservationById">getClientReservationById</a></li><li><a href="global.html#getReservationById">getReservationById</a></li><li><a href="global.html#updateChambre">updateChambre</a></li><li><a href="global.html#updateClient">updateClient</a></li><li><a href="global.html#updatePassword">updatePassword</a></li><li><a href="global.html#updateReservation">updateReservation</a></li><li><a href="global.html#updateSaison">updateSaison</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Nov 10 2023 10:40:16 GMT+0100 (heure normale d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

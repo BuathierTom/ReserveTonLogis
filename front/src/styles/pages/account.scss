@@ -1,0 +1,347 @@
+.account-img{
+    background-image: url("../../assets/img/other-view-img.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    background-size: cover;
+
+    @include desktop{
+        background-size: cover;
+    }
+}
+
+.account{
+
+    &__img {
+        margin-top: $xxl-mg;
+        width: 10rem;
+        box-shadow: 0 0 0.5rem 0.2rem $secondary;
+
+        @include desktop{
+            margin-top: 0;
+        }
+    }
+    &__container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+
+        @include desktop{
+            margin: $xxl-mg;
+            margin-bottom: 0;
+        }
+
+    }
+
+    &__grid{
+        display: flex;
+        flex-direction: column;
+        margin-left: $xxxl-mg;
+        margin-right: $xxxl-mg;
+        gap: 2rem;
+        margin-bottom: $xxl-mg;
+        margin-top: $xxl-mg;
+        @include desktop{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            align-items: start;
+            gap: 8rem;
+
+        }
+    }
+
+    &__reservations{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: rgb(250, 248, 240,0.85);
+        padding: $xxl-pd;
+        max-height: 40rem;
+        overflow: hidden;
+        overflow-y: scroll;
+
+        @include desktop{
+            justify-content: center;
+        }
+
+    }
+
+    &__div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__button{
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        @include desktop{
+            font-size: $l-sz;
+        }
+
+    }
+
+    &__button-img{
+        width: 1.5rem;
+        height: 1.5rem;
+
+        @include desktop{
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+
+ 
+
+    &__reservations-block{
+        background-color: rgb(250, 248, 240,0.85);
+        padding: $l-pd;
+        margin-top: $l-mg;
+        max-height: 30rem;
+        overflow: hidden;
+        overflow-y: scroll;
+
+        &--reservation-title{
+            color: $senary;
+            font-size: $xs-sz;
+            font-weight: $bold;
+            text-align: center;
+            margin: $xxl-mg;
+            @include desktop {
+                font-size: $m-sz;
+            }
+
+        }
+
+        &--reservation-details{
+            display: flex;
+            flex-direction: column;
+            justify-content:center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            @include desktop{
+                flex-direction: row;
+                margin: $xxxl-mg;
+                justify-content: space-between;
+
+
+            }
+
+            &--info{
+                display: flex;
+                flex-direction: column;
+                margin-top: $l-mg;
+            }
+
+            &--info-p{
+                color: $quinary;
+                font-size: $xs-sz;
+                font-weight: $semi-bold;
+                @include desktop {
+                    font-size: $s-sz;
+                }
+            }
+        }
+
+        &--reservation-span{
+            @include stick;
+            height: 0.1rem;
+            width: 100%;
+        }
+
+        @include desktop{
+            flex-direction: row;
+        }
+
+
+    }
+
+    &__donnees{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: rgb(223, 254, 212,0.85);
+        padding: $xxl-pd;
+    }
+
+    &__parametres{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: rgb(250, 248, 240,0.85);
+        padding: $xxl-pd;
+
+        @include desktop{
+            background-color: rgb(223, 254, 212,0.85);
+        }
+    }
+
+    &__parametres-block{
+        display: flex;
+        justify-content: center;
+        &--button{
+            @include button;
+            margin-top: $xl-mg;
+            padding: $s-pd;
+            font-size: $xs-sz;
+        }
+    }
+
+    &__connexion{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: rgb(223, 254, 212,0.85);
+
+        @include desktop{
+            background-color: rgb(250, 248, 240,0.85);
+        }
+        padding: $xxl-pd;
+    }
+
+    &__title{
+        color: $secondary;
+        font-weight: $semi-bold;
+        font-size: $xs-sz;
+        @include desktop {
+            font-size: $l-sz;
+        }
+    }
+
+    &__donnees-block{
+        background-color: rgb(250, 248, 240,0.85);
+        padding: $l-pd;
+        margin-top: $l-mg;
+
+        &--info{
+            display: flex;
+            margin-top: $l-mg;
+            align-items: center;
+        }
+
+        &--info-title{
+            color: $senary;
+            font-size: $xs-sz;
+            font-weight: $bold;
+            margin-right: $s-mg;
+            @include desktop {
+                font-size: $s-sz;
+            }
+        }
+
+        &--info-content{
+            color: $quinary;
+            font-size: $xs-sz;
+            @include desktop {
+                font-size: $m-sz;
+            }
+        }
+
+        @include desktop{
+            flex-direction: row;
+        }
+    }
+
+    &__security-block{
+        background-color: rgb(250, 248, 240,0.85);
+        padding: $l-pd;
+        margin-top: $l-mg;
+
+        &--info-button{
+            @include button;
+            margin-top: $l-mg;
+            @include desktop{
+                margin-left: $l-mg;
+                margin-top: 0;
+            }
+        }
+
+        &--info-link{
+            color: $senary;
+            font-size: $xs-sz;
+            margin-right: $l-mg;
+            margin-top: $l-mg;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            @include desktop {
+                font-size: $s-sz;
+                display: flex;
+                flex-direction: row;
+            }
+        }
+
+        &--info-link-button{
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            color: $senary;
+            font-size: $xs-sz;
+            font-weight: $bold;
+            margin-right: $l-mg;
+
+            @include desktop {
+                font-size: $s-sz;
+            }
+
+        }
+
+        &--info-block-title{
+            color: $senary;
+            font-size: $xs-sz;
+            margin-top: $l-mg;
+            @include desktop {
+                font-size: $s-sz;
+            }
+        }
+
+        &--info-block{
+            margin-left: $s-mg;
+        }
+    }
+
+    &__delete{
+        display: flex;
+        justify-content: center;
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+    }
+
+    &__delete-button{
+        @include button;
+        background-color: rgb(254, 68, 68);
+        cursor: pointer;
+    }
+
+    &__client{
+        color:$primary;
+        margin-left: 2rem;
+        font-size: $m-sz;
+        font-weight: $semi-bold;
+    }
+
+    &__input{
+        border-radius: $l-rad;
+        border-style: solid;
+        border-color: $senary;
+        padding: $xs-pd;
+        font-family: 'Crimsom Text', serif;
+        width: 100%;
+
+        &:focus{
+            outline: none;
+        }
+
+        @include desktop{
+            display: flex;
+            width: 70%;
+        }
+    }
+
+
+
+}
