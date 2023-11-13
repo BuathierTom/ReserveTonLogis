@@ -23,6 +23,7 @@
     "react-modal-image": "^2.6.0",
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.8",
     "sass": "^1.66.1",
     "sweetalert2": "^11.9.0",
     "sweetalert2-react-content": "^5.0.7",
