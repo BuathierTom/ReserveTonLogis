@@ -12,7 +12,7 @@ import ImgActivity1 from "../../assets/img-activity/wine.png";
 import ImgActivity2 from "../../assets/img-activity/bike.png";
 import ImgActivity3 from "../../assets/img-activity/city.png";
 import ImgActivity4 from "../../assets/img-activity/visit.png";
-import { useEffect,useState, useRef } from "react";
+import { useEffect,useState } from "react";
 import Loader from "../loaderPage/Loader";
  
 
@@ -21,14 +21,20 @@ import Loader from "../loaderPage/Loader";
 function Home () {
     const giteLocation = [47.553903, 4.815041];
     const [isloading, setloading] = useState(true);
-    const clickableDivRef = useRef(null);
 
 
     useEffect(() => {
-      setTimeout(() => {
-        setloading(false);
-      }, 2500);
-    }, []);
+        const isLoaded = sessionStorage.getItem("isLoaded");
+    
+        if (!isLoaded) {
+          setTimeout(() => {
+            setloading(false);
+            sessionStorage.setItem("isLoaded", "true");
+          }, 2500);
+        } else {
+          setloading(false);
+        }
+      }, []);
 
       
     const handleCardClick = (event) => {
@@ -68,7 +74,7 @@ function Home () {
                         <div className="presentation__grid-icon">
                             <div className="presentation__icon-content">
                                 <img className="presentation__icon" src={IconWifi} alt="" />
-                                <p className="presentation__text" > Wifi Gratuit </p>
+                                <p className="presentation__text" > Wifi Gratuit, facile d'accès et rapide</p>
                             </div>
                             <div className="presentation__icon-content">
                                 <img className="presentation__icon" src={IconBed} alt="" />

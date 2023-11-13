@@ -4,13 +4,16 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { reservationPopup } from './Popup';
+import { BeatLoader } from 'react-spinners';
+
 
 const MySwal = withReactContent(Swal);
 
-function ReservationComponent( {room, arrivalDate, departureDate} ) {
+function ReservationComponent( {room, arrivalDate, departureDate ,isDateReserved } ) {
   const [personnes, setPersonnes] = useState(1);
   const [startDate, setStartDate] = useState(arrivalDate || new Date());
   const [endDate, setEndDate] = useState(departureDate || new Date());
+  const [loading, setLoading] = useState(false); // Ajout de l'état de chargement
   const fee = 20;
   const deposit = 25;
   const differenceEnMilliseconds = endDate - startDate;
@@ -18,7 +21,7 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
   const total = room.prix * gap + fee + deposit;
   const nom = room.nom;
 
-  
+
 
   // Utilisez useEffect pour mettre à jour le DatePicker lorsque les dates d'arrivée ou de départ changent
   useEffect(() => {
@@ -27,10 +30,6 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
 
   }, [arrivalDate, departureDate]);
   
-  console.log(startDate);
-
-  console.log(startDate.toLocaleDateString());
-  console.log(endDate.toLocaleDateString());
     
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -52,7 +51,6 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
 
 
   const onclickapi = () => {
-
     const formattedStartDate = new Date(
       startDate.getUTCFullYear(),
       startDate.getUTCMonth(),
@@ -65,8 +63,6 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
       endDate.getUTCDate() +2
     );
 
-    console.log(formattedStartDate);
-    console.log(formattedEndDate);
 
     const formData = new URLSearchParams();
     //ajouter une date en + pour la date de réservation
@@ -74,6 +70,7 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
     formData.append("date_depart", formattedEndDate.toISOString().split('T')[0]);
     formData.append("id_chambre", window.location.href.split("/")[4]);
     formData.append("nb_personnes", personnes);
+    formData.append("prix_total", total);
     const storedToken = localStorage.getItem("token");
 
     if (storedToken) {
@@ -93,6 +90,7 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.isConfirmed) {
+        setLoading(true);
         fetch("http://localhost:5000/reservations/create", {
           headers,
           method: "POST",
@@ -100,15 +98,14 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
             if (data.Error) {
               MySwal.fire({
                 icon: 'error',
                 title: 'Erreur...',
                 text: data.Error,
                 showConfirmButton: true,
-                confirmButtonColor: '#4BAB77',
-            })
+                confirmButtonColor: '#4BAB77'
+                          })
             } else {
               reservationPopup()
               .then((result) => {
@@ -117,14 +114,17 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
                 }
               })
             }
+            setLoading(false);
         })
         .catch((error) => {
             console.error("Erreur lors de la création d'une réservation", error);
+            setLoading(false);
         });
       }
     })
     .catch((error) => {
         console.error("Erreur lors de la création d'une réservation", error);
+        setLoading(false);
     });
   }
 }
@@ -144,7 +144,9 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
             <div className="room__reservation-arrival">
             <span className="room__span">Arrivée</span>
             {window.innerWidth <= 767 ? (
-            <DatePicker className="room__date-display" selected={startDate} onChange={handleStartDateChange} name="startDate" dateFormat="dd/MM/yyyy" />
+            <DatePicker className="room__date-display" selected={startDate} onChange={handleStartDateChange} name="startDate" dateFormat="dd/MM/yyyy" tileDisabled={({ date }) => isDateReserved(date)}/>
+
+
             ) : (
             <p className='room__date-display' dateformat="dd/MM/yyyy" selected={startDate} onChange={handleStartDateChange} name="startDate">{startDate.toLocaleDateString()}</p>
             )}
@@ -152,7 +154,9 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
         <div className="room__reservation-departure">
             <span className="room__span">Départ</span>
             {window.innerWidth <= 767 ? (
-            <DatePicker className="room__date-display" selected={endDate} onChange={handleEndDateChange} name="endDate" dateFormat="dd/MM/yyyy" />
+              
+            <DatePicker className="room__date-display" selected={endDate} onChange={handleEndDateChange} name="endDate" dateFormat="dd/MM/yyyy" tileDisabled={({ date }) => isDateReserved(date)}/>
+
             ) : (
             <p className='room__date-display' dateformat="dd/MM/yyyy" selected={endDate} onChange={handleEndDateChange} name="endDate">{endDate.toLocaleDateString()}</p>
             )}
@@ -169,8 +173,13 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
         </div>
 
 
-        <button className="room__reservation-button room__button" onClick={onclickapi}>Réserver</button>
-
+        <button className="room__reservation-button room__button" onClick={onclickapi}>
+        {loading ? (
+        <BeatLoader color="#ffffff" loading={loading} size={10} />
+        ) : (
+          'Réserver'
+        )}
+      </button>
         <div className="room__reservation-info">
             <span className="room__span"> {room.prix} x {gap}  nuit(s)</span>
             <span className="room__totalprice">{room.prix * gap}€</span>
@@ -191,6 +200,8 @@ function ReservationComponent( {room, arrivalDate, departureDate} ) {
         </div>
     </div>        
 </div>
+
+
 
 
 </div>

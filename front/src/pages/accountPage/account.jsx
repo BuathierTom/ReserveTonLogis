@@ -93,11 +93,7 @@ function Account() {
                 method: "POST",
                 body: formData,
             });
-
             const data = await response.json();
-
-            console.log(response.status);
-
             if (response.status === 200) {
                 modifPasswordPopup();
             }
@@ -189,6 +185,7 @@ function Account() {
                                                             <p className="account__reservations-block--reservation-details--info-p">Départ : {reservation.date_depart ? format(new Date(reservation.date_depart), 'dd/MM/yyyy') : ""}</p>
                                                             <p className="account__reservations-block--reservation-details--info-p">Prix : {reservation.chambre.prix} €</p>
                                                             <p className="account__reservations-block--reservation-details--info-p">Personnes : {reservation.nb_personnes}</p>
+                                                            <p className="account__reservations-block--reservation-details--info-p">Total : {reservation.prix_total} €</p>
                                                         </div>
                                                         <div className="account__img-container">
                                                         <img

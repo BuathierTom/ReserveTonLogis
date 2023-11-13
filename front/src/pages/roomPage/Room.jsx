@@ -9,75 +9,63 @@ import IconWifi from "../../assets/img/imgIcon/icons8-wifi-48.png";
 import iconDraps from "../../assets/img/imgIcon/draps.png";
 import iconCars from "../../assets/img/imgIcon/cars.png";
 import iconTv from "../../assets/img/imgIcon/tv.png";
-import ReservationComponent from "../../components/ReservationComponent";
-import DatePicker from "react-datepicker";
 import CalendarReservation from "../../components/CalendarReservation";
 import 'react-datepicker/dist/react-datepicker.css'; // Importez les styles par défaut
 import "react-calendar/dist/Calendar.css"; // Importez le CSS du composant Calendar
-import { is } from "date-fns/locale";
 
 
+function Room() {
+  const [room, setRoom] = useState([]);
+  const [weatherData, setWeatherData] = useState(null);
+  const giteLocation = [47.553903, 4.815041];
+  const [isOpen, setIsOpen] = useState(false);
+  const [isNavBarColored, setIsNavBarColored] = useState(window.innerWidth > 769);
 
-function Room( ) {
-    const [room, setRoom] = useState([]); 
-    const [weatherData, setWeatherData] = useState(null);
-    const giteLocation = [47.553903, 4.815041];
-    const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    ApiCall().then((data) => {
+      setRoom(data);
+    });
+  }, []);
 
+  useEffect(() => {
+    fetch(
+      `https://api.weatherapi.com/v1/current.json?key=7889403755cb4ebc976103914230510&q=${giteLocation[0]},${giteLocation[1]}&aqi=no`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setWeatherData(data);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des données météo", error);
+      });
+  }, []);
 
-    useEffect(() => {
-        ApiCall().then(data => {
-            setRoom(data);
-        })
+  useEffect(() => {
+    function handleResize() {
+      setIsNavBarColored(window.innerWidth > 769);
     }
-    , []);
-  
 
-    useEffect(() => {
-        fetch(`https://api.weatherapi.com/v1/current.json?key=7889403755cb4ebc976103914230510&q=${giteLocation[0]},${giteLocation[1]}&aqi=no`)
-        .then((response) => response.json())
-        .then((data) => {
-            setWeatherData(data);
-        })
-        .catch((error) => {
-            console.error('Erreur lors de la récupération des données météo', error);
-        });
-    }, []);
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
+  return (
+    <>
+      <div className={`nav-bar ${isNavBarColored ? 'nav-bar--color' : ''}`}>
+        <NavBar />
+      </div>
 
-    useEffect(() => {
-        function handleResize() {
-          const divElement = document.querySelector(".nav-bar");
-          if (window.innerWidth > 769) {
-            divElement.classList.add("nav-bar--color");
-          } else {
-            divElement.classList.remove("nav-bar--color");
-          }
-        }
-    
-        window.addEventListener("resize", handleResize);
-        handleResize();
-        return () => {
-          window.removeEventListener("resize", handleResize);
-        };
-      }, []);
-
-
-
-    return(
-        <>
-        <div className="nav-bar ">
-            <NavBar />
-        </div>
-
-        <div className="room">
-            <div className="room__container-fixed-reservation">
+      <div className="room">
+        <div className="room__container-fixed-reservation">
                 <div className="room__container-fixed-reservation--content--button">
                 <button className="room__button" onClick={() => setIsOpen(!isOpen)}>Réserver</button>
                 </div>
-            </div>
-            
-            {room.map( (room) => (
+        </div>
+
+        {room.map( (room) => (
                 <div className="room__container" key={room.id}>
 
                     <div className="room__container-fixed">
