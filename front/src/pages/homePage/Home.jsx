@@ -57,7 +57,7 @@ function Home () {
             <Header />    
             <section className="presentation" id="accueil">
                     <h2 className="presentation__title" >Bienvenue au Domaine Des 4 Saisons</h2>
-                    <h3 className="presentation__content-title">Presentation du Domaine</h3>
+                    <h3 className="presentation__content-title">Présentation du Domaine</h3>
 
                     <div className="presentation__container">
                         <div className="presentation__content">
@@ -103,7 +103,7 @@ function Home () {
                     <div className="card card-one" data-link="/room/1" onClick={handleCardClick}>
                         <div className="card__content">
                         <p className="card__title">Les Marguerites</p>
-                        <p className="card__p">Une chambre en toute quiétude aliant modernité et tradition dans un gîte merveilleux  </p>
+                        <p className="card__p">Une chambre en toute quiétude alliant modernité et tradition dans un gîte merveilleux  </p>
                         <a href="/room/1"  className="button">Réservez dès maintenant</a>
                         </div>
                     </div>
@@ -112,7 +112,7 @@ function Home () {
                     <div className="card card-two" data-link="/room/2" onClick={handleCardClick}>
                         <div className="card__content">
                         <p className="card__title">Les Primevères</p>
-                        <p className="card__p">Les Primevères est une chambre d'hôtes possédant deux lit simple et une salle de bain privative.</p>
+                        <p className="card__p">Les Primevères est une chambre d'hôtes possédants deux lits simples et une salle de bain privative.</p>
                         <a href="/room/2"  className="button"> Réservez dès maintenant</a>
                         </div>
                     </div>
