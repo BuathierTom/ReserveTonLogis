@@ -49,7 +49,7 @@ function NavBar () {
                 <div className="nav-bar__menu">
                     <ul className="nav-bar__ul">
                         <li className="nav-bar__li"><a className="nav-bar--color__link" href="/">Accueil</a></li>
-                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="/#room">Chambres d'hote</a></li>
+                        <li className="nav-bar__li"><a className="nav-bar--color__link" href="/#room">Chambres d'hôte</a></li>
                         <li className="nav-bar__li"><a className="nav-bar--color__link" href="/contact">Contact</a></li>
                         {connected === "true" ? ( 
                             <li className="nav-bar__li"><a className="nav-bar--color__link" href="/account">Mon compte</a></li>
