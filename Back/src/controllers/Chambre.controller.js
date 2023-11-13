@@ -56,8 +56,8 @@ const updateChambre = async (req, res) => {
         const { nom, description, capacite, superficie, prix, disponibilite, avis, equipements, mots_cles, image1, image2, image3, image4} = req.body;
         const verif = await Chambre.findOne({ "id": id })
         if (!verif) {
-            addLog("error", `Error, la chambre ${id} n'existe pas`, "chambre.controller.js");
-            return res.status(404).send({ Error: `Error, la chambre n'existe pas` });
+            addLog("error", `Erreur, la chambre ${id} n'existe pas`, "chambre.controller.js");
+            return res.status(404).send({ Error: `Erreur, la chambre n'existe pas` });
         }
         const chambreupdate = await Chambre.updateOne({ "id": id }, {
             nom: nom,
@@ -96,8 +96,8 @@ const deleteChambre = async (req, res) => {
         const id = req.params.id;
         const verif = await Chambre.findOne({ "id": id })
         if (!verif) {
-            addLog("error", `Error, la chambre ${id} n'existe pas`, "chambre.controller.js");
-            return res.status(404).send({ Error: `Error, la chambre n'existe pas` });
+            addLog("error", `Erreur, la chambre ${id} n'existe pas`, "chambre.controller.js");
+            return res.status(404).send({ Error: `Erreur, la chambre n'existe pas` });
         }
 
         const deletechambre = await Chambre.deleteOne ({ "id": id })
