@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { reservationPopup } from './Popup';
+import { reservationPopup, reservationConnectPopup } from './Popup';
 import { BeatLoader } from 'react-spinners';
 
 
@@ -126,6 +126,14 @@ function ReservationComponent( {room, arrivalDate, departureDate } ) {
         console.error("Erreur lors de la création d'une réservation", error);
         setLoading(false);
     });
+  }
+  else{
+    reservationConnectPopup()
+    .then((result) => {
+      if (result.isConfirmed) {
+          window.location.href = "/connexion";
+      }
+    })
   }
 }
 
