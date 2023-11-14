@@ -50,6 +50,9 @@ function ReservationComponent( {room, arrivalDate, departureDate } ) {
   };
 
 
+
+
+
   const onclickapi = () => {
     const formattedStartDate = new Date(
       startDate.getUTCFullYear(),
@@ -188,11 +191,21 @@ function ReservationComponent( {room, arrivalDate, departureDate } ) {
           'Réserver'
         )}
       </button>
-        <div className="room__reservation-info">
-            <span className="room__span"> {room.prix} x {gap}  nuit(s)</span>
-            <span className="room__totalprice">{room.prix * gap}€</span>
-        </div>
 
+      {room.prix * gap < 0 ? (
+        <div className="room__reservation-info">
+        <span className="room__span"> {room.prix} x {-gap}  nuit(s)</span>
+        <span className="room__totalprice"> Montant indisponible</span>
+    </div>
+      ) : (
+        <div className="room__reservation-info">
+        <span className="room__span"> {room.prix} x {gap}  nuit(s)</span>
+        <span className="room__totalprice">{room.prix * gap}€</span>
+    </div>
+      )
+
+        }
+       
         <div className="room__reservation-info">
             <span className="room__span"> Frais de ménage</span>
             <span className="room__totalprice"> {fee}€</span>
@@ -202,17 +215,24 @@ function ReservationComponent( {room, arrivalDate, departureDate } ) {
             <span className="room__span"> Caution</span>
             <span className="room__totalprice"> {deposit}€</span>
         </div>
-        <div className="room__reservation-info">
+          {total <0 ? (
+            <div className="room__reservation-info">
             <span className="room__span"> Total</span>
+            <span className="room__totalprice"> Montant indisponible</span>
+        </div>
+          ) : (
+            <div className="room__reservation-info">
+            <span className="room__span"> Caution</span>
             <span className="room__totalprice"> {total}€</span>
+        </div>
+          )
+
+            }
+            
         </div>
     </div>        
 </div>
 
-
-
-
-</div>
   );
 }
 
