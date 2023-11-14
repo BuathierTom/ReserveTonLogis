@@ -99,14 +99,14 @@ const createReservation = async (req, res) => {
         // On verifie que l'utilisateur n'a pas deja une réservation en cours dans la meme chambre dans les memes dates
         const verifReservation = await Reservations.find({id_client: id_client, id_chambre: id_chambre, date_arrive: date_arrive, date_depart: date_depart});
         if (verifReservation.length !== 0) {
-            addLog("error", `Error, le client avec l'id : ${id_client} a deja une réservation en cours dans la meme chambre dans les memes dates`, "reservation.controller.js");
-            return res.status(404).send({Error: `Error, le client a deja une réservation en cours dans la meme chambre dans les memes dates`});
+            addLog("error", `Erreur, le client avec l'id : ${id_client} a deja une réservation en cours dans la meme chambre dans les memes dates`, "reservation.controller.js");
+            return res.status(404).send({Error: `Erreur, le client a deja une réservation en cours dans la meme chambre et dans les memes dates`});
         }
 
         // On verifie que les dates données ne sont pas identiques
         if (date_arrive === date_depart) {
-            addLog("error", `Error, la date d'arrivée est identique à la date de départ`, "reservation.controller.js");
-            return res.status(404).send({Error: `Error, la date d'arrivée est identique à la date de départ`});
+            addLog("error", `Erreur, la date d'arrivée est identique à la date de départ`, "reservation.controller.js");
+            return res.status(404).send({Error: `Erreur, la date d'arrivée est identique à la date de départ`});
         }
 
         // On récupere toutes les dates de reservations de la chambre
@@ -135,8 +135,8 @@ const createReservation = async (req, res) => {
             for (let j = 0; j < dateListeComplete.length; j++) {
                 for (let k = 0; k < dateListeComplete[j].length; k++) {
                     if (dateListeComplete[j][k].toISOString() === dateListe[i].date_arrive.toISOString() || dateListeComplete[j][k].toISOString() === dateListe[i].date_depart.toISOString()) {
-                        addLog("error", `Error, La réservation se situe entre une autre reservation`, "reservation.controller.js");
-                        return res.status(404).send({Error: `Error, La réservation se situe entre une autre reservation`});
+                        addLog("error", `Erreur, Une réservation existe déjà entre ces deux dates`, "reservation.controller.js");
+                        return res.status(404).send({Error: `Erreur, Une réservation existe déjà entre ces deux dates`});
                     }
                 }
             }
@@ -144,8 +144,8 @@ const createReservation = async (req, res) => {
 
         // On verifie que les dates données sont bonnes
         if (date_arrive > date_depart) {
-            addLog("error", `Error, la date d'arrivée est supérieur à la date de départ`, "reservation.controller.js");
-            return res.status(404).send({Error: `Error, la date d'arrivée est supérieur à la date de départ`});
+            addLog("error", `Erreur, la date d'arrivée est supérieur à la date de départ`, "reservation.controller.js");
+            return res.status(404).send({Error: `Erreur, la date d'arrivée est supérieur à la date de départ`});
         }
 
         const clientData = await Client.find({id: id_client});
@@ -213,8 +213,8 @@ const updateReservation = async (req, res) => {
         // On verifie si la reservation existe
         const verif = await Reservations.findOne({id_reservation: id})
         if (!verif) {
-            addLog("error", `Error, la reservation avec l'id : ${id} n'existe pas`, "reservation.controller.js");
-            return res.status(404).send({Error: `Error, la reservation n'existe pas`});
+            addLog("error", `Erreur, la reservation avec l'id : ${id} n'existe pas`, "reservation.controller.js");
+            return res.status(404).send({Error: `Erreur, la reservation n'existe pas`});
         }
 
         const updateReservation = await Reservations.updateOne({id_reservation: id}, {
@@ -252,8 +252,8 @@ const deleteReservation = async (req, res) => {
         // On verifie si la reservation existe
         const verif = await Reservations.findOne({id_reservation: id})
         if (!verif) {
-            addLog("error", `Error, la reservation avec l'id : ${id} n'existe pas`, "reservation.controller.js");
-            return res.status(404).send({Error: `Error, la reservation n'existe pas`});
+            addLog("error", `Erreur, la reservation avec l'id : ${id} n'existe pas`, "reservation.controller.js");
+            return res.status(404).send({Error: `Erreur, la reservation n'existe pas`});
         }
 
         // On récupere l'email du client avec l'id_client qu'il y a dans reservation
