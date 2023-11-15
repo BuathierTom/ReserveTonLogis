@@ -35,7 +35,7 @@ function Map({ giteLocation }) {
   useEffect(() => {
     if (userLocation) {
       const map = L.map("map");
-      map.setView(userLocation, 14);
+      map.setView(userLocation, 2);
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
@@ -47,6 +47,8 @@ function Map({ giteLocation }) {
           L.latLng(userLocation),
           L.latLng(giteLocation[0], giteLocation[1]),
         ],
+        language: 'fr', // Spécifie la langue française
+
       }).addTo(map);
 
       L.marker(userLocation).addTo(map).bindPopup("Votre emplacement");

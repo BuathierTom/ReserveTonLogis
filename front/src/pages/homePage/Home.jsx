@@ -19,7 +19,7 @@ import Loader from "../loaderPage/Loader";
 
 
 function Home () {
-    const giteLocation = [47.553903, 4.815041];
+    const giteLocation = [47.407599, 0.714761 ];
     const [isloading, setloading] = useState(true);
 
 
