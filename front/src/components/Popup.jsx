@@ -123,5 +123,15 @@ export function contactErrorPopup(){
     })
 }
 
+export function reservationConnectPopup(){
+    return MySwal.fire({
+        icon: 'error',
+        title: 'Erreur...',
+        text: 'Vous devez être connecté pour réserver une chambre',
+        showConfirmButton: true,
+        confirmButtonColor: '#4BAB77'
+    })
+}
+
 
 

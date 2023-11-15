@@ -1,0 +1,32 @@
+/* Pour WebKit (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 12px; /* Largeur de la scrollbar */
+    height: 12px; /* Hauteur de la scrollbar */
+}
+  
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+  
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #8F7666; /* Couleur de la poignée de la scrollbar */
+}
+
+/* Pour edge */
+::-ms-scrollbar {
+    width: 12px; /* Largeur de la scrollbar */
+    height: 12px; /* Hauteur de la scrollbar */
+}
+
+::-ms-scrollbar-track {
+    background-color: transparent;
+}
+
+::-ms-scrollbar-thumb {
+    border-radius: 10px;
+    background: #8F7666; /* Couleur de la poignée de la scrollbar */
+}
+
+  
+  

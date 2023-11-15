@@ -3,13 +3,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { reservationPopup } from './Popup';
+import { reservationPopup, reservationConnectPopup } from './Popup';
 import { BeatLoader } from 'react-spinners';
 
 
 const MySwal = withReactContent(Swal);
 
-function ReservationComponent( {room, arrivalDate, departureDate ,isDateReserved } ) {
+function ReservationComponent( {room, arrivalDate, departureDate } ) {
   const [personnes, setPersonnes] = useState(1);
   const [startDate, setStartDate] = useState(arrivalDate || new Date());
   const [endDate, setEndDate] = useState(departureDate || new Date());
@@ -42,12 +42,14 @@ function ReservationComponent( {room, arrivalDate, departureDate ,isDateReserved
       // Affichez un message d'erreur ou effectuez une action pour gérer la date invalide
       // Vous pouvez également réinitialiser la date de départ si la date de départ est invalide
       console.error("La date de départ ne peut pas être antérieure à la date d'arrivée.");
-      console.log("La date de départ a été réinitialisée à la date d'arrivée.");
     }
   };
   const handleChange = (e) => {
     setPersonnes(e.target.value);
   };
+
+
+
 
 
   const onclickapi = () => {
@@ -127,6 +129,14 @@ function ReservationComponent( {room, arrivalDate, departureDate ,isDateReserved
         setLoading(false);
     });
   }
+  else{
+    reservationConnectPopup()
+    .then((result) => {
+      if (result.isConfirmed) {
+          window.location.href = "/connexion";
+      }
+    })
+  }
 }
 
 
@@ -144,7 +154,7 @@ function ReservationComponent( {room, arrivalDate, departureDate ,isDateReserved
             <div className="room__reservation-arrival">
             <span className="room__span">Arrivée</span>
             {window.innerWidth <= 767 ? (
-            <DatePicker className="room__date-display" selected={startDate} onChange={handleStartDateChange} name="startDate" dateFormat="dd/MM/yyyy" tileDisabled={({ date }) => isDateReserved(date)}/>
+            <DatePicker className="room__date-display" selected={startDate} onChange={handleStartDateChange} name="startDate" dateFormat="dd/MM/yyyy" />
 
 
             ) : (
@@ -155,7 +165,7 @@ function ReservationComponent( {room, arrivalDate, departureDate ,isDateReserved
             <span className="room__span">Départ</span>
             {window.innerWidth <= 767 ? (
               
-            <DatePicker className="room__date-display" selected={endDate} onChange={handleEndDateChange} name="endDate" dateFormat="dd/MM/yyyy" tileDisabled={({ date }) => isDateReserved(date)}/>
+            <DatePicker className="room__date-display" selected={endDate} onChange={handleEndDateChange} name="endDate" dateFormat="dd/MM/yyyy" />
 
             ) : (
             <p className='room__date-display' dateformat="dd/MM/yyyy" selected={endDate} onChange={handleEndDateChange} name="endDate">{endDate.toLocaleDateString()}</p>
@@ -180,11 +190,21 @@ function ReservationComponent( {room, arrivalDate, departureDate ,isDateReserved
           'Réserver'
         )}
       </button>
-        <div className="room__reservation-info">
-            <span className="room__span"> {room.prix} x {gap}  nuit(s)</span>
-            <span className="room__totalprice">{room.prix * gap}€</span>
-        </div>
 
+      {room.prix * gap < 0 ? (
+        <div className="room__reservation-info">
+        <span className="room__span"> {room.prix} x {-gap}  nuit(s)</span>
+        <span className="room__totalprice"> Montant indisponible</span>
+    </div>
+      ) : (
+        <div className="room__reservation-info">
+        <span className="room__span"> {room.prix} x {gap}  nuit(s)</span>
+        <span className="room__totalprice">{room.prix * gap}€</span>
+    </div>
+      )
+
+        }
+       
         <div className="room__reservation-info">
             <span className="room__span"> Frais de ménage</span>
             <span className="room__totalprice"> {fee}€</span>
@@ -194,17 +214,24 @@ function ReservationComponent( {room, arrivalDate, departureDate ,isDateReserved
             <span className="room__span"> Caution</span>
             <span className="room__totalprice"> {deposit}€</span>
         </div>
-        <div className="room__reservation-info">
+          {total <0 ? (
+            <div className="room__reservation-info">
+            <span className="room__span"> Total</span>
+            <span className="room__totalprice"> Montant indisponible</span>
+        </div>
+          ) : (
+            <div className="room__reservation-info">
             <span className="room__span"> Total</span>
             <span className="room__totalprice"> {total}€</span>
+        </div>
+          )
+
+            }
+            
         </div>
     </div>        
 </div>
 
-
-
-
-</div>
   );
 }
 

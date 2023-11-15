@@ -102,7 +102,7 @@ const findOneClients = async (req, res) => {
  * @throws {Error} - Si le client existe déjà.
  * @throws {Error} - Si il y a une erreur lors de l'envoi du mail de confirmation de création.
  */
-const createClient = async (req, res, next) => {
+const createClient = async (req, res) => {
     try {
         // On récupère les données
         const { nom, prenom, adresse, telephone, ville, codePostal, email, password } = req.body;
@@ -189,7 +189,7 @@ const createClient = async (req, res, next) => {
  * @throws {Error} - Si il y a une erreur lors de l'envoi du mail de confirmation de suppression.
  * @throws {Error} - Si le token JWT est manquant dans l'en-tête Authorization.
  */
-const deleteClient = async (req, res, next) => {
+const deleteClient = async (req, res) => {
     try {
         // on recupere le jsonwebtoken du client    
         const token = req.header('Authorization');
@@ -247,14 +247,14 @@ const deleteClient = async (req, res, next) => {
  * @throws {Error} - Si il y a une erreur lors de la mise à jour du client.
  * @throws {Error} - Si le client n'existe pas.
  */
-const updateClient = async (req, res, next) => {
+const updateClient = async (req, res) => {
     try {
         const { nom, prenom, adresse, telephone, ville, codePostal, email, password } = req.body;
         // On verifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
         if (!verif) {
-            addLog("error", `Error, l'utilisateur avec l'id : ${email} n'existe pas`, "client.controller.js");
-            return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
+            addLog("error", `Erreur, l'utilisateur avec l'id : ${email} n'existe pas`, "client.controller.js");
+            return res.status(404).send({ Error: `Erreur, l'utilisateur n'existe pas` });
         }
         
         // Hacher le mot de passe
@@ -301,21 +301,21 @@ const updateClient = async (req, res, next) => {
  * @throws {Error} - Si le client n'existe pas.
  * @throws {Error} - Si le mot de passe est incorrect.
 */
-const connectClient = async (req, res, next) => {
+const connectClient = async (req, res) => {
     try {
         const { email, password } = req.body;
         // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
         if (!verif) {
-            addLog("error", `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
-            return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
+            addLog("error", `Erreur, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
+            return res.status(404).send({ Error: `Erreur, l'utilisateur n'existe pas` });
         }
 
         // On vérifie si le mot de passe est correct
         const verifPassword = await bcrypt.compare(password, verif.password);
         if (!verifPassword) {
-            addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
-            return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
+            addLog("error", `Erreur, le mot de passe est incorrect`, "client.controller.js");
+            return res.status(404).send({ Error: `Erreur, le mot de passe est incorrect` });
         }
         // On génère un token
         const token = jwtUtils.generateAccessToken(verif.id);
@@ -413,20 +413,20 @@ const updatePassword = async (req, res) => {
         // On vérifie si l'utilisateur existe
         const verif = await Client.findOne({ "email": email })
         if (!verif) {
-            addLog("error", `Error, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
-            return res.status(404).send({ Error: `Error, l'utilisateur n'existe pas` });
+            addLog("error", `Erreur, l'utilisateur avec l'adresse mail : ${email} n'existe pas`, "client.controller.js");
+            return res.status(404).send({ Error: `Erreur, l'utilisateur n'existe pas` });
         }
         
         if (password !=verif.password) {
-            addLog("error", `Error, le mot de passe est incorrect`, "client.controller.js");
-            return res.status(404).send({ Error: `Error, le mot de passe est incorrect` });
+            addLog("error", `Erreur, le mot de passe est incorrect`, "client.controller.js");
+            return res.status(404).send({ Error: `Erreur, le mot de passe est incorrect` });
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10); 
 
         if (await bcrypt.compare(newPassword, verif.password)) {
-            addLog("error", `Error, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
-            return res.status(404).send({ Error: `Error, le nouveau mot de passe est identique à l'ancien` });
+            addLog("error", `Erreur, le nouveau mot de passe est identique à l'ancien`, "client.controller.js");
+            return res.status(404).send({ Error: `Erreur, le nouveau mot de passe est identique à l'ancien` });
         }
 
         const updateClient = await Client.updateOne({ "email": email }, {
@@ -457,8 +457,8 @@ const clientContact = async (req, res) => {
 
         // On verifie que les champs ne sont pas vide
         if (!nom || !prenom || !email || !message) {
-            addLog("error", `Error, un ou plusieurs champs sont vides`, "client.controller.js");
-            return res.status(404).send({ Error: `Error, un ou plusieurs champs sont vides` });
+            addLog("error", `Erreur, un ou plusieurs champs sont vides`, "client.controller.js");
+            return res.status(404).send({ Error: `Erreur, un ou plusieurs champs sont vides` });
         }
 
         // On ajoute dans le message l'email du client
@@ -475,6 +475,24 @@ const clientContact = async (req, res) => {
         try {
             addLog("info", `Mail de contact envoyé par le client :${email}`, "client.controller.js");
             await transporter.sendMail(mailOptions);
+
+        } catch (error) {
+            addLog("error", error, "client.controller.js");
+        }
+
+        // On envoie un mail de confirmation de contact
+        const emailContent = fs.readFileSync('./src/mail/contactClient.mail.html', 'utf-8');
+        //Envoi de l'e-mail au client
+        const mailOptionsClient = {
+            from: process.env.MAIL_USER,
+            to: email,
+            subject: 'Confirmation de contact',
+            html: emailContent,
+        };
+
+        try {
+            addLog("info", `Mail de confirmation de suppression du compte envoyé à ${email}`, "client.controller.js");
+            await transporter.sendMail(mailOptionsClient);
         } catch (error) {
             addLog("error", error, "client.controller.js");
         }

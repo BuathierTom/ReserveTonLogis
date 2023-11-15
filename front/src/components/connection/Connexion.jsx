@@ -86,8 +86,8 @@ function Connexion() {
                                     <input className="connexion-inscription__input-submit" type="submit" value="Se connecter" />
                                 </div>
                                 <div className="connexion-inscription__link">
-                                    <a className="connexion-inscription__link" href="/">Mot de passe oublié ?</a>
-                                    <a className="connexion-inscription__link" href="/">Besoin d'aide</a>
+                                    <a className="connexion-inscription__link" href="/contact">Mot de passe oublié ?</a>
+                                    <a className="connexion-inscription__link" href="/contact">Besoin d'aide</a>
                                 </div>
                             </form>
                         </div>

@@ -17,9 +17,11 @@ import "react-calendar/dist/Calendar.css"; // Importez le CSS du composant Calen
 function Room() {
   const [room, setRoom] = useState([]);
   const [weatherData, setWeatherData] = useState(null);
-  const giteLocation = [47.553903, 4.815041];
+  const giteLocation = [47.393952, 0.686253 ];
   const [isOpen, setIsOpen] = useState(false);
   const [isNavBarColored, setIsNavBarColored] = useState(window.innerWidth > 769);
+  const [formattedDate, setFormattedDate] = useState(null);
+
 
   useEffect(() => {
     ApiCall().then((data) => {
@@ -38,7 +40,22 @@ function Room() {
       .catch((error) => {
         console.error("Erreur lors de la récupération des données météo", error);
       });
-  }, []);
+  }, [ ]);
+
+  useEffect(() => {
+    const rawDate = weatherData?.location.localtime;
+
+    if (rawDate) {
+      const dateObj = new Date(rawDate);
+      const day = dateObj.getDate();
+      const month = dateObj.getMonth() + 1;
+      const year = dateObj.getFullYear() % 100;
+
+      const formattedDate = `${day}/${month}/${year}`;
+      setFormattedDate(formattedDate);
+    }
+  }, [weatherData]);
+
 
   useEffect(() => {
     function handleResize() {
@@ -76,7 +93,8 @@ function Room() {
                     <div className="room__container-weather">
                         <div className="room__container-weather-content">
                             <div className="room__container-weather-content-location">
-                                <span className="room__text-weather">{weatherData?.location.name} </span>
+                                <span className="room__text-weather">{weatherData?.location.name}, {weatherData?.location.country} </span>
+
                             </div>
                             <div className="room__container-weather-content-imgtemp">
                                 <img className="room__img-weather" src={weatherData?.current.condition.icon} alt="" />
@@ -85,7 +103,8 @@ function Room() {
 
                            
                             <div className="room__container-weather-content-date">
-                                <span className="room__text-weather">{weatherData?.location.localtime}</span>
+                                <span className="room__text-weather">{weatherData?.location.localtime.split(' ')[1]} </span>
+                                <span>{formattedDate}</span>
                             </div>
                         </div>
                     </div>

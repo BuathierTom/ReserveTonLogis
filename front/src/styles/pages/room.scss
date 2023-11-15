@@ -24,11 +24,18 @@
         color: $primary;
         padding: 1rem 0.6rem;
         font-size: $xs-sz;
+        width: 8rem;
     }
 
     &__img-weather {
         width: 3rem;
         object-fit: cover;
+    }
+
+    &__container-weather-content-date {
+        display: flex;
+        justify-content: space-around;
+
     }
 
     &__container-fixed {
@@ -69,7 +76,8 @@
             display: flex   ;
             justify-content: space-between;
             font-size: $s-sz;
-            padding-top: $xs-pd;        }
+            padding-top: $xs-pd;
+                }
     }
 
     &__img {
