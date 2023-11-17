@@ -52,7 +52,6 @@ function Account() {
             .then((response) => response.json())
             .then((data) => {
                 setAccount(data);
-                console.log(data); 
             })
             .catch((error) => {
                 console.error("Erreur lors de la récupération des données du client", error);
@@ -66,8 +65,7 @@ function Account() {
             .then((response) => response.json())
             .then((data) => {
                 setReservation(data.reservationsAvecChambres);
-                console.log(data);
-                console.log(data.reservationsAvecChambres);
+           
             })
             .catch((error) => {
                 console.error("Erreur lors de la récupération des données de réservation", error);
@@ -78,9 +76,7 @@ function Account() {
     const passwordChange = async (e) => {
         e.preventDefault();
 
-        console.log(email);
-        console.log(password);
-        console.log(newPassword);
+
 
         const formData = new URLSearchParams();
         formData.append("email", email);

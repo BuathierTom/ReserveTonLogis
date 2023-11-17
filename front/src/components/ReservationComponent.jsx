@@ -42,7 +42,6 @@ function ReservationComponent( {room, arrivalDate, departureDate } ) {
       // Affichez un message d'erreur ou effectuez une action pour gérer la date invalide
       // Vous pouvez également réinitialiser la date de départ si la date de départ est invalide
       console.error("La date de départ ne peut pas être antérieure à la date d'arrivée.");
-      console.log("La date de départ a été réinitialisée à la date d'arrivée.");
     }
   };
   const handleChange = (e) => {
@@ -222,7 +221,7 @@ function ReservationComponent( {room, arrivalDate, departureDate } ) {
         </div>
           ) : (
             <div className="room__reservation-info">
-            <span className="room__span"> Caution</span>
+            <span className="room__span"> Total</span>
             <span className="room__totalprice"> {total}€</span>
         </div>
           )

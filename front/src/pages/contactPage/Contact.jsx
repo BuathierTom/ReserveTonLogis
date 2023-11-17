@@ -8,12 +8,9 @@ import Footer from "../../layout/Footer";
 
 import { useEffect } from "react";
 import { useState } from "react";
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
 
 import { contactPopup, contactErrorPopup } from "../../components/Popup";
 
-const MySwal = withReactContent(Swal);
 
 
 
@@ -56,11 +53,7 @@ function Contact () {
         formData.append("email", email);
         formData.append("message", message);
 
-        console.log(nom)
-        console.log(prenom)
-        console.log(email)
-        console.log(message)
-
+    
         try{
             const response = await fetch("http://localhost:5000/clients/clientContact", {
                 method: "POST",
@@ -80,7 +73,7 @@ function Contact () {
             }
         }
         catch (error) {
-            console.log(error);
+            return console.error("Erreur lors de la création d'un message", error);
         }
     };
 
