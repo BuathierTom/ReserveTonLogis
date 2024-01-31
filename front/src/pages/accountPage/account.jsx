@@ -35,8 +35,7 @@ function Account() {
             window.location.href = "/connexion";
         }, 3000);
     }
-
-
+    
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
         if (storedToken) {

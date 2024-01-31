@@ -433,6 +433,23 @@ const updatePassword = async (req, res) => {
             password: hashedPassword,
         })
 
+        // On envoie un mail de confirmation de modification de mot de passe
+        const emailContent = fs.readFileSync('./src/mail/updatePasswordClient.mail.html', 'utf-8');
+        //Envoi de l'e-mail au client
+        const mailOptionsClient = {
+            from: process.env.MAIL_USER,
+            to: email,
+            subject: 'Confirmation de modification du mot de passe',
+            html: emailContent,
+        };
+
+        try {
+            addLog("info", `Mail de confirmation de modification du mot de passe du compte envoyé à ${email}`, "client.controller.js");
+            await transporter.sendMail(mailOptionsClient);
+        } catch (error) {
+            addLog("error", error, "client.controller.js");
+        }
+
         addLog("info", `updatePassword du client ${email}`, "client.controller.js");
         return res.status(200).send(updateClient)
 
