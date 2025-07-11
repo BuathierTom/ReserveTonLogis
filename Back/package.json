@@ -25,10 +25,10 @@
   "name": "sae_bdd",
   "version": "1.0.0",
   "description": "Construction de la bdd : reserve ton logis",
-  "main": "App.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node App.js",
-    "dev": "nodemon App.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "typeorm": "typeorm-ts-node-commonjs",
     "swagger": "node ./src/services/swagger/swagger.js"
   },
