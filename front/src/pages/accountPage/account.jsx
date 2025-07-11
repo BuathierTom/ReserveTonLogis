@@ -45,7 +45,7 @@ function Account() {
             };
     
             // Récupération des données du client
-            fetch('http://localhost:5000/clients/get', {
+            fetch('https://reservetonlogis.onrender.com/clients/get', {
                 method: "GET",
                 headers,
             })
@@ -58,7 +58,7 @@ function Account() {
             });
     
             // Récupération des données de réservation
-            fetch('http://localhost:5000/clients/getReservation', {
+            fetch('https://reservetonlogis.onrender.com/clients/getReservation', {
                 method: "GET",
                 headers,
             })
@@ -84,7 +84,7 @@ function Account() {
         formData.append("newPassword", newPassword);
 
         try {
-            const response = await fetch('http://localhost:5000/clients/updatePassword', {
+            const response = await fetch('https://reservetonlogis.onrender.com/clients/updatePassword', {
                 method: "POST",
                 body: formData,
             });
@@ -119,7 +119,7 @@ function Account() {
                 .then(async (result) => {
                     if (result.isConfirmed) {
                         try {
-                            const response = await fetch('http://localhost:5000/clients/delete', {
+                            const response = await fetch('https://reservetonlogis.onrender.com/clients/delete', {
                                 method: "POST",
                                 headers,
                             });

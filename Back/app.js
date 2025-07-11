@@ -35,6 +35,6 @@ const startServer = async () => {
     app.use("/chambres", chambres);
     app.use("/reservations", reservations);
     app.use("/saison", saison);
-    app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+    // app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 }
 startServer();

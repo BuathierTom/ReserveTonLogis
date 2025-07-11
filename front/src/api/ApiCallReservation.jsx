@@ -1,5 +1,5 @@
 const ApiCallReservation = () => {
-    return fetch('http://localhost:5000/clients/getReservation')
+    return fetch('https://reservetonlogis.onrender.com/clients/getReservation')
         .then(response => response.json())
         
 };

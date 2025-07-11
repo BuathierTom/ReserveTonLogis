@@ -37,7 +37,7 @@ function Inscription () {
         
         // fetch request to the server
         try {
-          const response = await fetch('http://localhost:5000/clients/create', {
+          const response = await fetch('https://reservetonlogis.onrender.com/clients/create', {
             method: "POST",
             body: formData,
           });

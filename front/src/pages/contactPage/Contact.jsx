@@ -55,7 +55,7 @@ function Contact () {
 
     
         try{
-            const response = await fetch("http://localhost:5000/clients/clientContact", {
+            const response = await fetch("https://reservetonlogis.onrender.com/clients/clientContact", {
                 method: "POST",
                 body: formData,
             });

@@ -93,7 +93,7 @@ function ReservationComponent( {room, arrivalDate, departureDate } ) {
     }).then((result) => {
       if (result.isConfirmed) {
         setLoading(true);
-        fetch("http://localhost:5000/reservations/create", {
+        fetch("https://reservetonlogis.onrender.com/reservations/create", {
           headers,
           method: "POST",
           body: formData,

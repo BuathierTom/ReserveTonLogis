@@ -24,7 +24,7 @@ it('devrait appeler fetch avec l\'URL appropriée', async () => {
   ApiCall();
 
   // Attendez que fetch soit appelé
-  await waitFor(() => expect(mockFetch).toHaveBeenCalledWith("http://localhost:5000/chambres/get/undefined")); // Remplacez "1" par l'ID attendu
+  await waitFor(() => expect(mockFetch).toHaveBeenCalledWith("https://reservetonlogis.onrender.com/chambres/get/undefined")); // Remplacez "1" par l'ID attendu
 
   // Attendez que la réponse soit résolue
   await waitFor(() => expect(mockResponse.json).toHaveBeenCalled());
