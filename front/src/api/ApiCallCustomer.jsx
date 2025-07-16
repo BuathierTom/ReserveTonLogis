@@ -1,5 +1,5 @@
 const ApiCallCustomer = () => {
-    return fetch('https://reservetonlogis.onrender.com/clients/get/')
+    return fetch('https://api.reservetonlogis.buathier-tom.fr/clients/get/')
         .then(response => response.json())
         
 };

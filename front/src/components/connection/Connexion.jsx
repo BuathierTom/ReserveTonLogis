@@ -37,7 +37,7 @@ function Connexion() {
         formData.append("password", password);
 
         try {
-            const response = await fetch('https://reservetonlogis.onrender.com/clients/connect', {
+            const response = await fetch('https://api.reservetonlogis.buathier-tom.fr/clients/connect', {
                 method: "POST",
                 body: formData,
             });

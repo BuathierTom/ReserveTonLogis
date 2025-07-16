@@ -37,7 +37,7 @@ function Inscription () {
         
         // fetch request to the server
         try {
-          const response = await fetch('https://reservetonlogis.onrender.com/clients/create', {
+          const response = await fetch('https://api.reservetonlogis.buathier-tom.fr/clients/create', {
             method: "POST",
             body: formData,
           });

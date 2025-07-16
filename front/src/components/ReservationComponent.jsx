@@ -93,7 +93,7 @@ function ReservationComponent( {room, arrivalDate, departureDate } ) {
     }).then((result) => {
       if (result.isConfirmed) {
         setLoading(true);
-        fetch("https://reservetonlogis.onrender.com/reservations/create", {
+        fetch("https://api.reservetonlogis.buathier-tom.fr/reservations/create", {
           headers,
           method: "POST",
           body: formData,

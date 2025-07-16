@@ -55,7 +55,7 @@ function Contact () {
 
     
         try{
-            const response = await fetch("https://reservetonlogis.onrender.com/clients/clientContact", {
+            const response = await fetch("https://api.reservetonlogis.buathier-tom.fr/clients/clientContact", {
                 method: "POST",
                 body: formData,
             });

@@ -45,7 +45,7 @@ function Account() {
             };
     
             // Récupération des données du client
-            fetch('https://reservetonlogis.onrender.com/clients/get', {
+            fetch('https://api.reservetonlogis.buathier-tom.fr/clients/get', {
                 method: "GET",
                 headers,
             })
@@ -58,7 +58,7 @@ function Account() {
             });
     
             // Récupération des données de réservation
-            fetch('https://reservetonlogis.onrender.com/clients/getReservation', {
+            fetch('https://api.reservetonlogis.buathier-tom.fr/clients/getReservation', {
                 method: "GET",
                 headers,
             })
@@ -84,7 +84,7 @@ function Account() {
         formData.append("newPassword", newPassword);
 
         try {
-            const response = await fetch('https://reservetonlogis.onrender.com/clients/updatePassword', {
+            const response = await fetch('https://api.reservetonlogis.buathier-tom.fr/clients/updatePassword', {
                 method: "POST",
                 body: formData,
             });
@@ -119,7 +119,7 @@ function Account() {
                 .then(async (result) => {
                     if (result.isConfirmed) {
                         try {
-                            const response = await fetch('https://reservetonlogis.onrender.com/clients/delete', {
+                            const response = await fetch('https://api.reservetonlogis.buathier-tom.fr/clients/delete', {
                                 method: "POST",
                                 headers,
                             });

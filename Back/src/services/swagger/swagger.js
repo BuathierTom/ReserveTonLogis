@@ -6,7 +6,7 @@ const doc = {
     version: '1.0.0',
     description: `API pour un site de gestion de reservations pour 3 chambres d'hôtes chez un particulier.`,
   },
-  host: 'https://reservetonlogis.onrender.com'
+  host: 'https://api.reservetonlogis.buathier-tom.fr'
 };
 
 const outputFile = './swagger.json';

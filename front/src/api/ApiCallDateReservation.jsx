@@ -1,5 +1,5 @@
 const ApiCallDateReservation = () => {
-    return fetch('https://reservetonlogis.onrender.com/reservations/getDatesReservations/' + window.location.pathname.split('/')[2])
+    return fetch('https://api.reservetonlogis.buathier-tom.fr/reservations/getDatesReservations/' + window.location.pathname.split('/')[2])
         .then(response => response.json())
         
 };
